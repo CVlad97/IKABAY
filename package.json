@@ -1,0 +1,13 @@
+{
+  "name": "ikabaky-store",
+  "version": "1.0.0",
+  "description": "Marketplace caribéenne : sourcing, logistique, crypto, formation",
+  "scripts": {
+    "start": "serve public",
+    "build": "cp -R src public && echo 'Built'",
+    "vercel-build": "npm run build"
+  },
+  "dependencies": {
+    "serve": "^14.0.1"
+  }
+}
