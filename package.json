@@ -1,13 +1,22 @@
 {
-  "name": "ikabaky-store",
-  "version": "1.0.0",
-  "description": "Marketplace caribéenne : sourcing, logistique, crypto, formation",
+  "name": "ikabay-local-mvp",
+  "version": "0.1.0",
+  "private": true,
+  "description": "IKABAY Local MVP — annuaire local Martinique / Caraïbe connecté à Supabase",
+  "type": "module",
   "scripts": {
-    "start": "serve public",
-    "build": "cp -R src public && echo 'Built'",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
     "vercel-build": "npm run build"
   },
   "dependencies": {
-    "serve": "^14.0.1"
-  }
+    "@vitejs/plugin-react": "latest",
+    "vite": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "@supabase/supabase-js": "latest",
+    "lucide-react": "latest"
+  },
+  "devDependencies": {}
 }
