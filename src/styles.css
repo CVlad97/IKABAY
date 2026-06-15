@@ -262,6 +262,17 @@ h3 { margin: 0; font-size: 20px; line-height: 1.15; }
   line-height: 1.5;
 }
 
+.cardGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  min-height: 50px; border-radius: 16px; padding: 12px 18px; font-weight: 800;
+  font-size: 14px; border: 0; cursor: pointer; text-decoration: none;
+  background: #fff; color: #102022;
+  border: 1px solid rgba(16,32,34,.12);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.btnPrimary { background: #0f766e; color: #fff; border: none; box-shadow: 0 12px 32px rgba(15,118,110,.28); }
+
 .placeholderContent {
   margin-top: 32px;
   padding: 48px 24px;
@@ -566,4 +577,101 @@ h3 { margin: 0; font-size: 20px; line-height: 1.15; }
 
 .sectionTitle p {
   font-size: clamp(15px, 1.6vw, 18px);
+}
+
+/* ═══════════════════════════════════
+   RFQ PAGE — BUTTONS & FORM ELEMENTS
+   ═══════════════════════════════════ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 46px;
+  border-radius: 14px;
+  padding: 10px 18px;
+  font-weight: 800;
+  font-size: 14px;
+  border: 0;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btnPrimary {
+  background: #0f766e;
+  color: white;
+}
+.btnPrimary:hover {
+  background: #0a5a54;
+}
+.btnSecondary {
+  background: white;
+  color: #435956;
+  border: 1px solid rgba(16, 32, 34, 0.13);
+}
+.btnSecondary:hover {
+  background: #f4f7f5;
+}
+
+/* ── CARD GRID ── */
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 16px;
+}
+
+/* ── FORM GROUP ── */
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+.formGroup label {
+  font-weight: 700;
+  font-size: 13px;
+  color: #435956;
+}
+
+.input {
+  border: 1px solid rgba(16, 32, 34, 0.13);
+  border-radius: 14px;
+  padding: 0 14px;
+  min-height: 48px;
+  background: white;
+  outline: none;
+  font-weight: 600;
+  font-size: 14px;
+  width: 100%;
+  transition: border-color 0.2s;
+}
+.input:focus {
+  border-color: #0f766e;
+  box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.1);
+}
+
+.textArea {
+  border: 1px solid rgba(16, 32, 34, 0.13);
+  border-radius: 14px;
+  padding: 14px;
+  background: white;
+  outline: none;
+  font-weight: 500;
+  font-size: 14px;
+  width: 100%;
+  min-height: 120px;
+  font-family: inherit;
+  line-height: 1.5;
+  resize: vertical;
+  transition: border-color 0.2s;
+}
+.textArea:focus {
+  border-color: #0f766e;
+  box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.1);
+}
+
+/* ── RESPONSIVE TWEAKS ── */
+@media (max-width: 640px) {
+  .cardGrid {
+    grid-template-columns: 1fr;
+  }
 }

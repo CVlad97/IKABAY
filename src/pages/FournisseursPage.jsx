@@ -45,6 +45,7 @@ const OFFERS = [
   { produit: 'Bouée de sauvetage', prixAchat: 12, transport: 3, delai: '10 jours', MOQ: 50, garantie: '2 ans', fournisseur: 'MarineTech SARL' },
   { produit: 'Feu tribord vert', prixAchat: 15, transport: 4, delai: '14 jours', MOQ: 100, garantie: '1 an', fournisseur: 'NauticParts GmbH' },
   { produit: 'Charnière inox', prixAchat: 8, transport: 2, delai: '7 jours', MOQ: 200, garantie: '2 ans', fournisseur: 'BoatSupply Italia' },
+  { produit: 'Projecteur LED', prixAchat: 22, transport: 5, delai: '12 jours', MOQ: 75, garantie: '3 ans', fournisseur: 'SeaPro BV' },
 ];
 
 export function FournisseursPage() {
@@ -107,7 +108,7 @@ export function FournisseursPage() {
         </button>
       </div>
       <p style={{ color: '#516866', margin: '4px 0 24px' }}>
-        Gérez vos fournisseurs partenaires et comparez leurs offres.
+        Gérez vos fournisseurs partenaires et comparez leurs offres. Contact : <strong>sourcing@ikabay.store</strong>
       </p>
 
       {/* ─── ADD SUPPLIER FORM ─── */}
@@ -184,7 +185,7 @@ export function FournisseursPage() {
       </div>
 
       {/* ─── SUPPLIER CARDS GRID ─── */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 16, marginBottom: 32 }}>
+      <div className="cardGrid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 16, marginBottom: 32 }}>
         {filtered.map(s => {
           const badge = badgeInfo(s.total);
           return (
@@ -263,12 +264,12 @@ export function FournisseursPage() {
       </div>
 
       {/* ─── COMPARATEUR D'OFFRES ─── */}
-      <h2 style={{ fontSize: 'clamp(24px, 3vw, 34px)', margin: '0 0 6px' }}>
+      <h2 className="sectionTitle" style={{ fontSize: 'clamp(24px, 3vw, 34px)', margin: '0 0 6px' }}>
         <TrendingUp size={28} style={{ color: '#0f766e', verticalAlign: 'middle', marginRight: 10 }} />
-        Comparateur d'offres
+        Tableau comparatif des offres
       </h2>
       <p style={{ color: '#516866', margin: '0 0 18px' }}>
-        Comparez les offres fournisseurs pour chaque produit.
+        Comparez les offres fournisseurs pour chaque produit. Contact sourcing : <strong>sourcing@ikabay.store</strong>
       </p>
 
       <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
@@ -276,7 +277,7 @@ export function FournisseursPage() {
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14, minWidth: 700 }}>
             <thead>
               <tr style={{ borderBottom: '1px solid rgba(16,32,34,0.06)', background: '#f4f9f7' }}>
-                {['Produit', 'Fournisseur', 'Prix achat', 'Transport', 'Délai', 'MOQ', 'Garantie', 'Score', 'Marge est.', 'Recommandation'].map(h => (
+                {['Produit', 'Prix achat', 'Frais transport', 'Délai', 'Minimum commande', 'Garantie', 'Score fournisseur', 'Marge estimée', 'Recommandation'].map(h => (
                   <th key={h} style={{ textAlign: 'left', padding: '12px 10px', fontWeight: 800, color: '#435956', fontSize: 11, textTransform: 'uppercase', whiteSpace: 'nowrap' }}>{h}</th>
                 ))}
               </tr>
@@ -290,7 +291,6 @@ export function FournisseursPage() {
                 return (
                   <tr key={i} style={{ borderBottom: '1px solid rgba(16,32,34,0.04)' }}>
                     <td style={{ padding: '12px 10px', fontWeight: 700, color: '#0a4a5c' }}>{offer.produit}</td>
-                    <td style={{ padding: '12px 10px', fontWeight: 600 }}>{offer.fournisseur}</td>
                     <td style={{ padding: '12px 10px', fontWeight: 700 }}>{offer.prixAchat} €</td>
                     <td style={{ padding: '12px 10px' }}>{offer.transport} €</td>
                     <td style={{ padding: '12px 10px' }}>{offer.delai}</td>

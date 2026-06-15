@@ -58,6 +58,9 @@ export function DestockagePage() {
       <p style={{ marginBottom: 24 }}>
         Consultez les lots disponibles à prix coûtant. {filtered.length} produit{filtered.length !== 1 ? 's' : ''} trouvé{filtered.length !== 1 ? 's' : ''}.
       </p>
+      <p style={{ fontSize: 13, color: '#60716f', marginBottom: 24 }}>
+        Contact : <a href="mailto:sourcing@ikabay.store" style={{ color: '#0f766e', fontWeight: 600, textDecoration: 'none' }}>sourcing@ikabay.store</a>
+      </p>
 
       {/* ─── FILTERS BAR ─── */}
       <div style={{
@@ -157,7 +160,7 @@ export function DestockagePage() {
           {filtered.map(p => {
             const status = statusConfig[p.status] || statusConfig['disponible'];
             const qty = quantities[p.id] || 0;
-            const isPerMeter = p.unit === 'mètre';
+            const isPerMeter = p.isPricePerMeter || p.unit === 'mètre';
 
             return (
               <div key={p.id} className="card" style={{
@@ -187,7 +190,7 @@ export function DestockagePage() {
                     </span>
                     {isPerMeter && (
                       <span style={{
-                        background: '#fef3c7', color: '#92400e', borderRadius: 999,
+                        background: '#ede9fe', color: '#6d28d9', borderRadius: 999,
                         padding: '4px 10px', fontSize: 11, fontWeight: 800
                       }}>
                         Prix au mètre

@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import {
   User, Clock, FileText, MessageCircle, Truck, CheckCircle,
-  Circle, Plus, Send, BarChart3
+  Circle, Plus, Send, BarChart3,
+  Star, Package
 } from 'lucide-react';
 import { waMessage } from '../utils/constants';
 
@@ -13,9 +14,10 @@ const STAGES = [
 ];
 
 const DUMMY_PRODUCTS = [
-  { ref: 'P-BUOY-01', name: 'Bouée de sauvetage', qte: 10, pu: 15, dispo: 'Disponible' },
-  { ref: 'P-LIGHT-03', name: 'Feu tribord vert', qte: 5, pu: 18, dispo: 'Disponible' },
-  { ref: 'P-INOX-07', name: 'Charnière inox', qte: 20, pu: 0, dispo: 'À confirmer' },
+  { ref: 'P-BUOY-01', name: 'Bouée de sauvetage', qte: 10, pu: 15.00, pa: 9.50, marge: '36.7%', total: 150.00, dispo: 'Disponible', comment: 'Livraison 48h' },
+  { ref: 'P-LIGHT-03', name: 'Feu tribord vert LED', qte: 5, pu: 18.00, pa: 12.00, marge: '33.3%', total: 90.00, dispo: 'Disponible', comment: 'Certifié CE' },
+  { ref: 'P-INOX-07', name: 'Charnière inox 316L', qte: 20, pu: 0, pa: 0, marge: '—', total: 0, dispo: 'À confirmer', comment: 'Attente devis fournisseur' },
+  { ref: 'P-ANCR-02', name: 'Ancre type Danforth', qte: 3, pu: 82.00, pa: 51.00, marge: '37.8%', total: 246.00, dispo: 'Disponible', comment: 'Stock Marseille' },
 ];
 
 export function DossierJulesPage() {
@@ -48,7 +50,7 @@ export function DossierJulesPage() {
         <h1 style={{ margin: 0, fontSize: 'clamp(28px, 4vw, 44px)' }}>Jules Defel</h1>
       </div>
       <p style={{ color: '#60716f', fontWeight: 600, margin: '0 0 28px 68px' }}>
-        Dossier suivi par Ikabay Sourcing
+        Dossier suivi par Ikabay Sourcing &mdash; <a href="mailto:sourcing@ikabay.store" style={{ color: '#0f766e', fontWeight: 800, textDecoration: 'none' }}>sourcing@ikabay.store</a>
       </p>
 
       {/* ─── TIMELINE ─── */}
@@ -120,76 +122,81 @@ export function DossierJulesPage() {
         ))}
       </div>
 
-      {/* ─── QUICK ACTIONS ─── */}
-      <div style={{
-        display: 'flex', flexWrap: 'wrap', gap: 10, marginBottom: 24,
-        background: 'rgba(255,255,255,0.85)', borderRadius: 20, padding: 14,
-        border: '1px solid rgba(16,32,34,0.1)'
-      }}>
-        {[
-          { icon: <Plus size={16} />, label: 'Ajouter produit', bg: '#0f766e', color: 'white' },
-          { icon: <FileText size={16} />, label: 'Créer devis', bg: '#0f766e', color: 'white' },
-          { icon: <Send size={16} />, label: 'Envoyer RFQ', bg: '#f97316', color: 'white' },
-          { icon: <Truck size={16} />, label: 'Planifier transport', bg: '#0a4a5c', color: 'white' },
-          { icon: <MessageCircle size={16} />, label: 'WhatsApp client', bg: '#25d366', color: 'white', onClick: handleWhatsApp },
-        ].map(btn => (
-          <button
-            key={btn.label}
-            onClick={btn.onClick}
-            style={{
-              display: 'inline-flex', alignItems: 'center', gap: 6,
-              background: btn.bg, color: btn.color, border: 0,
-              borderRadius: 14, padding: '10px 16px', fontWeight: 800,
-              fontSize: 13, cursor: 'pointer', minHeight: 42
-            }}
-          >
-            {btn.icon} {btn.label}
-          </button>
-        ))}
+      {/* ─── ACTIONS RAPIDES ─── */}
+      <div className="card" style={{ padding: 16, marginBottom: 24 }}>
+        <h3 className="sectionTitle" style={{ fontSize: 16, margin: '0 0 14px 0', display: 'flex', alignItems: 'center', gap: 8 }}>
+          <BarChart3 size={18} color="#0f766e" /> Actions rapides
+        </h3>
+        <div className="cardGrid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: 10, display: 'grid' }}>
+          {[
+            { icon: <Package size={16} />, label: 'Ajouter produit du déstockage', variant: 'primary' },
+            { icon: <FileText size={16} />, label: 'Créer devis', variant: 'primary' },
+            { icon: <Send size={16} />, label: 'Envoyer RFQ fournisseur', variant: 'primary' },
+            { icon: <Star size={16} />, label: 'Évaluer fournisseur', variant: 'secondary' },
+            { icon: <Truck size={16} />, label: 'Planifier transport', variant: 'primary' },
+            { icon: <MessageCircle size={16} />, label: 'Envoyer WhatsApp', variant: 'secondary', onClick: handleWhatsApp },
+            { icon: <CheckCircle size={16} />, label: 'Marquer comme validé', variant: 'secondary' },
+          ].map(btn => {
+            const cls = btn.variant === 'primary' ? 'btn btnPrimary' : 'btn btnSecondary';
+            return (
+              <button
+                key={btn.label}
+                className={cls}
+                onClick={btn.onClick}
+                title={btn.label}
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '10px 14px', fontSize: 13, minHeight: 42 }}
+              >
+                {btn.icon} <span style={{ whiteSpace: 'nowrap' }}>{btn.label}</span>
+              </button>
+            );
+          })}
+        </div>
       </div>
 
-      {/* ─── PRODUCTS TABLE ─── */}
+      {/* ─── PRODUITS PROPOSÉS ─── */}
       <div className="card" style={{ padding: 0, overflow: 'hidden', marginBottom: 24 }}>
         <div style={{ padding: '18px 20px', borderBottom: '1px solid rgba(16,32,34,0.08)' }}>
-          <h3 style={{ fontSize: 17, display: 'flex', alignItems: 'center', gap: 8 }}>
-            <BarChart3 size={18} color="#0f766e" /> Produits du dossier
+          <h3 className="sectionTitle" style={{ fontSize: 17, margin: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
+            <BarChart3 size={18} color="#0f766e" /> Produits proposés
           </h3>
         </div>
         <div style={{ overflowX: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
             <thead>
               <tr style={{ borderBottom: '1px solid rgba(16,32,34,0.06)', background: '#f4f9f7' }}>
-                {['Réf', 'Nom', 'Qté', 'Prix unitaire', 'Disponibilité', 'Actions'].map(h => (
-                  <th key={h} style={{ textAlign: 'left', padding: '12px 14px', fontWeight: 800, color: '#435956', fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{h}</th>
+                {['Référence', 'Nom produit', 'Quantité', 'Prix unitaire', 'Prix achat estimé', 'Marge', 'Total', 'Disponibilité', 'Commentaire'].map(h => (
+                  <th key={h} style={{ textAlign: 'left', padding: '12px 10px', fontWeight: 800, color: '#435956', fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.04em', whiteSpace: 'nowrap' }}>{h}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
-              {DUMMY_PRODUCTS.map((p, i) => (
+              {DUMMY_PRODUCTS.map(p => (
                 <tr key={p.ref} style={{ borderBottom: '1px solid rgba(16,32,34,0.04)' }}>
-                  <td style={{ padding: '12px 14px', fontWeight: 700, color: '#0a4a5c' }}>{p.ref}</td>
-                  <td style={{ padding: '12px 14px' }}>{p.name}</td>
-                  <td style={{ padding: '12px 14px' }}>{p.qte}</td>
-                  <td style={{ padding: '12px 14px', fontWeight: 700 }}>{p.pu > 0 ? `${p.pu} €` : 'Nous contacter'}</td>
-                  <td style={{ padding: '12px 14px' }}>
+                  <td style={{ padding: '12px 10px', fontWeight: 700, color: '#0a4a5c', whiteSpace: 'nowrap' }}>{p.ref}</td>
+                  <td style={{ padding: '12px 10px', whiteSpace: 'nowrap' }}>{p.name}</td>
+                  <td style={{ padding: '12px 10px', fontWeight: 700 }}>{p.qte}</td>
+                  <td style={{ padding: '12px 10px', fontWeight: 700, whiteSpace: 'nowrap' }}>{p.pu > 0 ? `${p.pu.toFixed(2)} €` : 'Nous contacter'}</td>
+                  <td style={{ padding: '12px 10px', whiteSpace: 'nowrap' }}>{p.pa > 0 ? `${p.pa.toFixed(2)} €` : '—'}</td>
+                  <td style={{ padding: '12px 10px', fontWeight: 700 }}>{p.marge}</td>
+                  <td style={{ padding: '12px 10px', fontWeight: 700, whiteSpace: 'nowrap' }}>{p.total > 0 ? `${p.total.toFixed(2)} €` : '—'}</td>
+                  <td style={{ padding: '12px 10px' }}>
                     <span style={{
                       display: 'inline-flex', alignItems: 'center', gap: 4,
                       background: p.dispo === 'Disponible' ? '#dcfce7' : '#fff7ed',
                       color: p.dispo === 'Disponible' ? '#16a34a' : '#ea580c',
-                      borderRadius: 999, padding: '3px 10px', fontSize: 12, fontWeight: 800
+                      borderRadius: 999, padding: '3px 10px', fontSize: 11, fontWeight: 800, whiteSpace: 'nowrap'
                     }}>
                       {p.dispo}
                     </span>
                   </td>
-                  <td style={{ padding: '12px 14px' }}>
-                    <button style={{ background: 'none', border: '1px solid rgba(16,32,34,0.13)', borderRadius: 10, padding: '6px 10px', cursor: 'pointer', fontWeight: 700, fontSize: 12, color: '#435956' }}>
-                      Détails
-                    </button>
-                  </td>
+                  <td style={{ padding: '12px 10px', color: '#60716f', fontSize: 12, maxWidth: 140 }}>{p.comment}</td>
                 </tr>
               ))}
             </tbody>
           </table>
+        </div>
+        <div style={{ padding: '12px 20px', borderTop: '1px solid rgba(16,32,34,0.06)', fontSize: 12, color: '#60716f', textAlign: 'right' }}>
+          Contact fournisseur : <a href="mailto:sourcing@ikabay.store" style={{ color: '#0f766e', fontWeight: 700, textDecoration: 'none' }}>sourcing@ikabay.store</a>
         </div>
       </div>
 

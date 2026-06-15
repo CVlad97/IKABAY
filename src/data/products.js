@@ -54,8 +54,8 @@ export const products = [
   { id: 'p26', nameFr: 'Roue jockey télescopique', nameEn: 'Telescopic jockey wheel', price: 35, category: 'remorque', status: 'disponible', image: null, unit: 'pc', comment: '' },
 
   // === PLOMBERIE MARINE ===
-  { id: 'p27', nameFr: 'Tuyau marin PVC renforcé 38mm', nameEn: 'Marine PVC hose 38mm', price: 0, category: 'plomberie', status: 'disponible', image: null, unit: 'mètre', comment: 'Prix au mètre — nous contacter' },
-  { id: 'p28', nameFr: 'Aussière d\'amarrage', nameEn: 'Mooring line', price: 0, category: 'plomberie', status: 'disponible', image: null, unit: 'mètre', comment: 'Prix au mètre — nous contacter' },
+  { id: 'p27', nameFr: 'Tuyau marin PVC renforcé 38mm', nameEn: 'Marine PVC hose 38mm', price: 0, category: 'plomberie', status: 'disponible', image: null, unit: 'mètre', isPricePerMeter: true, comment: 'Prix au mètre — nous contacter' },
+  { id: 'p28', nameFr: 'Aussière d\'amarrage', nameEn: 'Mooring line', price: 0, category: 'plomberie', status: 'disponible', image: null, unit: 'mètre', isPricePerMeter: true, comment: 'Prix au mètre — nous contacter' },
   { id: 'p29', nameFr: 'Réservoir souple 100L', nameEn: 'Flexible tank 100L', price: 50, category: 'plomberie', status: 'disponible', image: null, unit: 'pc', comment: '' },
   { id: 'p30', nameFr: 'Réservoir souple 150L', nameEn: 'Flexible tank 150L', price: 50, category: 'plomberie', status: 'disponible', image: null, unit: 'pc', comment: '' },
 

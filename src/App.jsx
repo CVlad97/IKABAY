@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import React, { Suspense, useState } from 'react';
-import { Ship, MessageCircle, Menu, X, Mail, Phone } from 'lucide-react';
+import { Ship, MessageCircle, Menu, X, Mail, Phone, FileText, ClipboardList, LayoutDashboard, Truck } from 'lucide-react';
 import { WHATSAPP_URL, APP_NAME, APP_EMAIL } from './utils/constants';
 import './styles.css';
 
@@ -11,9 +11,10 @@ const SourcingPage = React.lazy(() => import('./pages/SourcingPage'));
 const DossierJulesPage = React.lazy(() => import('./pages/DossierJulesPage'));
 const FournisseursPage = React.lazy(() => import('./pages/FournisseursPage'));
 const DevisPage = React.lazy(() => import('./pages/DevisPage'));
+const RfqPage = React.lazy(() => import('./pages/RfqPage'));
 const TransportPage = React.lazy(() => import('./pages/TransportPage'));
-const ContactPage = React.lazy(() => import('./pages/ContactPage'));
 const AdminPage = React.lazy(() => import('./pages/AdminPage'));
+const ContactPage = React.lazy(() => import('./pages/ContactPage'));
 
 function Layout({ children }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -22,8 +23,12 @@ function Layout({ children }) {
     { to: '/', label: 'Accueil' },
     { to: '/destockage', label: 'Déstockage' },
     { to: '/sourcing', label: 'Sourcing' },
+    { to: '/dossier-jules-defel', label: 'Dossier client' },
+    { to: '/devis', label: 'Devis' },
     { to: '/fournisseurs', label: 'Fournisseurs' },
+    { to: '/rfq', label: 'RFQ' },
     { to: '/transport', label: 'Transport' },
+    { to: '/admin', label: 'Admin' },
     { to: '/contact', label: 'Contact' },
   ];
 
@@ -125,6 +130,7 @@ export default function App() {
             <Route path="/dossier-jules-defel" element={<DossierJulesPage />} />
             <Route path="/fournisseurs" element={<FournisseursPage />} />
             <Route path="/devis" element={<DevisPage />} />
+            <Route path="/rfq" element={<RfqPage />} />
             <Route path="/transport" element={<TransportPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/admin" element={<AdminPage />} />

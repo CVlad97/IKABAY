@@ -1,0 +1,40 @@
+# IKABAY Sourcing — Supabase configuration
+# Généré par : supabase init
+# Docs : https://supabase.com/docs/reference/cli/config
+
+[AUTH]
+enabled = false
+
+[API]
+enabled = true
+port = 54321
+# Les schémas exposés via l'API REST
+schemas = ["public"]
+extra_search_path = ["public"]
+
+[DB]
+# Port de la base de données locale
+port = 54322
+# Mot de passe du superadmin (ne JAMAIS commit en clair en prod)
+password = "postgres"
+
+[STUDIO]
+enabled = true
+port = 54323
+
+[EMAIL]
+enabled = false
+
+[INABA]
+enabled = false
+
+[STORAGE]
+enabled = false
+
+# ─── Migration et seed ─────────────────────────────────────
+[migrations]
+directory = "./supabase/migrations"
+
+[seed]
+# Fichier seed exécuté après les migrations
+sql_path = "./supabase/seed.sql"
