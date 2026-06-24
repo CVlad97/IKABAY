@@ -122,7 +122,7 @@ export { Layout };
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/IKABAY">
       <Layout>
         <Suspense fallback={<LoadingFallback />}>
           <Routes>
