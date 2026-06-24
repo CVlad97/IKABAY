@@ -278,14 +278,13 @@ Ikabay Sourcing` },
 ];
 
 const rfqExample = {
-  subject: 'Demande de prix — Ikabay Sourcing — Projet Joel Dufeal (5 bateaux)',
+  subject: 'Demande de prix — Ikabay Sourcing — Equipement nautique',
   body: `Bonjour,
 
-Nous preparons l'equipement complet de 5 bateaux neufs destines a la Martinique et souhaitons obtenir vos meilleurs tarifs pour les fournitures nautiques suivantes.`
-
+Nous preparons l'equipement nautique pour la Martinique et souhaitons obtenir vos meilleurs tarifs.`
 };
 
-const vignettesMessage = `BONJOUR JOEL,
+const vignettesMessage = `BONJOUR,
 
 Voici le recapitulatif complet du sourcing pour vos 5 bateaux.
 
@@ -366,12 +365,11 @@ export function RfqPage() {
     }
   }, []);
 
-  const isProjectTemplate = (id) => id.startsWith('ikabay-');
   const filteredTemplates = activeProject === 'all'
     ? templates
     : activeProject === 'ikabay'
-      ? templates.filter(t => !isProjectTemplate(t.id))
-      : templates.filter(t => isProjectTemplate(t.id));
+      ? templates.filter(t => !t.id.startsWith('ikabay-'))
+      : templates.filter(t => t.id.startsWith('ikabay-'));
 
   return (
     <section className="pageSection">
@@ -389,7 +387,7 @@ export function RfqPage() {
         {[
           { id: 'all', label: 'Tous les templates' },
           { id: 'ikabay', label: 'IKABAY Standard' },
-          { id: 'joel', label: 'Projet Joel Dufeal' },
+          { id: 'ikabay-sourcing', label: 'Sourcing Nautique' },
         ].map(p => (
           <button
             key={p.id}
@@ -453,10 +451,10 @@ export function RfqPage() {
           <div style={{ background: 'linear-gradient(135deg, #075e54, #128C7E)', padding: '20px 24px', color: 'white' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}>
               <MessageCircle size={20} />
-              <h3 style={{ fontSize: 18, color: 'white', margin: 0 }}>Vignettes WhatsApp — Client Joel</h3>
+              <h3 style={{ fontSize: 18, color: 'white', margin: 0 }}>Vignettes WhatsApp</h3>
             </div>
             <p style={{ margin: '4px 0 0', fontSize: 13, opacity: 0.85 }}>
-              Message pret a envoyer sur WhatsApp. Copie et colle dans la conversation Joel.
+              Message pret a envoyer au client. Copie et colle dans la conversation WhatsApp.
             </p>
           </div>
           <div style={{ padding: 24 }}>
