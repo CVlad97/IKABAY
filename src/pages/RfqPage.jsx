@@ -151,133 +151,130 @@ Merci de nous faire parvenir votre meilleure offre.
 Cordialement,
 Ikabay Sourcing` },
 
-  // ─── PROJET JOEL DUFEAL — 8 RFQ SOURCING NAUTIQUE ───
-  {
-    id: 'jd-xvision',
-    title: 'JD01 - X-Vision Marine (Bolsters)',
-    subject: 'DEMANDE DE DEVIS URGENTE - 5 bolsters doubles + sellerie - Livraison Martinique',
-    body: `Bonjour,
+  // PROJET IKABAY — 8 RFQ SOURCING NAUTIQUE (generiques, sans client)
+    {
+      id: 'ikabay-xvision',
+      title: 'X-Vision Marine — Bolsters doubles',
+      subject: 'DEMANDE DE PRIX — Bolsters doubles marine — Catalogue IKABAY Sourcing',
+      body: `Bonjour,
 
-Dans le cadre d'un projet d'equipement de 5 bateaux neufs destines a la Martinique, je sollicite un devis :
+  IKABAY Sourcing, specialiste en approvisionnement nautique pour la Martinique, constitue son catalogue et souhaite vos tarifs pour :
 
-1. BOLSTER DOUBLE (siege baquet double) x 5 unites
-   - Sellerie cuir synthetique marine grade (UV stabilise, anti-moisissure)
-   - Coloris : bleu/gris + gris premium
-   - Pietement aluminium marine grade
+  Bolster double (baquet) — cuir synthetique marine grade UV, anti-moisissure
+  Coloris : bleu/gris + gris premium
+  Pietement aluminium marine grade
+  Option glaciere integree OUI/NON
 
-MERCI DE PRECISER : prix HT, delai, options (glaciere, porte-gobelet), poids colis, livraison DOM possible, nuancier.
+  Merci de preciser : prix HT, delai, options, poids colis, livraison DOM.
 
-Commande ferme 5 bateaux, livraison septembre 2026.
+  Cordialement,
+  IKABAY Sourcing` },
+    {
+      id: 'ikabay-osculati',
+      title: 'Osculati — Catalogue general',
+      subject: 'DEMANDE DE PRIX — Equipements nautiques — IKABAY Sourcing',
+      body: `Bonjour,
 
-Cordialement,
-Ikabay Sourcing` },
-  {
-    id: 'jd-osculati',
-    title: 'JD02 - Osculati (Catalogue general)',
-    subject: 'RFQ - Equipements nautiques Osculati - 5 bateaux - Martinique',
-    body: `Bonjour,
+  IKABAY Sourcing sollicite vos tarifs pour (equipement bateaux, livraison Martinique) :
 
-Merci de me transmettre un devis pour 5 bateaux a livrer en Martinique :
+  - 66m Liston PVC preperce marine (barres 6m)
+  - 100m Liseret compatible
+  - 10 Hublots inox/alu ~150x365mm
+  - 10 Echelle inox 4 marches larg. 30cm
+  - 35 Taquets inox 316 - 200mm
+  - 20+15 Loquets inox (2 modeles)
+  - 20 Porte-gobelets inox
 
-- 66m Liston PVC preperce marine (barres 6m)
-- 100m Liseret compatible liston
-- 10 Hublots inox/alu 150x365mm
-- 10 Echelle inox 4 marches larg. 30cm
-- 35 Taquets inox 316 - 200mm
-- 20 Loquets inox (2 modeles)
-- 20 Porte-gobelets inox
+  Merci d'indiquer prix HT, disponibilite, remise.
 
-Merci d'indiquer prix HT, disponibilite, remise quantite et livraison DOM.
+  Cordialement,
+  IKABAY Sourcing` },
+    {
+      id: 'ikabay-adnautic',
+      title: 'AD Nautic — Compas + quincaillerie',
+      subject: 'DEMANDE DE PRIX — Compas et quincaillerie — IKABAY Sourcing',
+      body: `Bonjour,
 
-Cordialement,
-Ikabay Sourcing` },
-  {
-    id: 'jd-adnautic',
-    title: 'JD03 - AD Nautic (Compas + quincaillerie)',
-    subject: 'DEVIS - Compas Plastimo + quincaillerie lot - 5 bateaux Martinique',
-    body: `Bonjour,
+  IKABAY Sourcing recherche pour son catalogue :
 
-Projet d'equipement de 5 bateaux lives en Martinique :
+  1. Compas magnetique Plastimo Contest 150 ou Neptune 135 — 5 pcs
+  2. Lot quincaillerie bateau complet (visserie inox 316, charnieres, poignees, passe-coque, vannes) — pour 5 bateaux
 
-1. COMPAS MAGNETIQUE x 5 (Plastimo Contest 150 ou Neptune 135)
-2. QUINCAILLERIE LOT x 5 bateaux (visserie inox 316, charnieres, poignees, passe-coque, vannes)
+  Merci d'indiquer prix, delais, transport DOM.
 
-Merci d'indiquer prix, delais et transport Martinique.
+  Cordialement,
+  IKABAY Sourcing` },
+    {
+      id: 'ikabay-quick',
+      title: 'Quick — Daviers ancre',
+      subject: 'DEMANDE DE PRIX — Daviers ancre inox — IKABAY Sourcing',
+      body: `Bonjour,
 
-Cordialement,
-Ikabay Sourcing` },
-  {
-    id: 'jd-quick',
-    title: 'JD04 - Quick (Daviers ancre)',
-    subject: 'RFQ - Daviers ancre inox 316 x 5 - Martinique',
-    body: `Bonjour,
+  IKABAY Sourcing recherche des daviers (bow roller) pour ancre 8 kg (support max 10 kg) — 5 pcs.
 
-Je recherche 5 daviers (bow roller) pour ancre 8 kg (support max 10 kg) pour 5 bateaux.
+  Merci de transmettre : modeles compatibles (gamme Nemo), prix HT, delai, dimensions, poids, certificat inox 316.
 
-Merci de transmettre : modeles compatibles, prix HT, delai, dimensions, poids, fiche technique, certificat inox 316.
+  Cordialement,
+  IKABAY Sourcing` },
+    {
+      id: 'ikabay-alastin',
+      title: 'Qingdao Alastin — Taquets + porte-gobelets',
+      subject: 'PRICE REQUEST — Marine SS fittings — IKABAY Sourcing catalog',
+      body: `Dear Alastin Team,
 
-Destination : Martinique.
+  IKABAY Sourcing is building its marine catalog for Caribbean market. Request your best pricing:
 
-Cordialement,
-Ikabay Sourcing` },
-  {
-    id: 'jd-alastin',
-    title: 'JD05 - Qingdao Alastin (Taquets + porte-gobelets)',
-    subject: 'RFQ - Marine SS cleats 200mm & cup holders - Martinique project',
-    body: `Dear Alastin Team,
+  1. Marine cleat 316 SS — 200mm — 35 pcs
+  2. SS cup holder marine grade — 20 pcs
 
-We request quotation for 5 new boats for Martinique (French Caribbean):
+  Please quote FOB Qingdao: unit price, MOQ, lead time, packing, 316 cert, payment terms.
 
-1. Marine cleat 316 SS - 200mm x 35 pcs
-2. SS cup holder - marine grade x 20 pcs
+  We use GEODIS for shipping.
 
-Please quote FOB Qingdao: unit price, MOQ, lead time, packing, 316 cert, payment terms.
+  Best regards,
+  IKABAY Sourcing` },
+    {
+      id: 'ikabay-wudi',
+      title: 'Wudi Xinxiangju — Loquets',
+      subject: 'PRICE REQUEST — Marine SS latches — IKABAY Sourcing',
+      body: `Dear Wudi Xinxiangju Team,
 
-We use GEODIS for shipping.
+  IKABAY Sourcing requests quotation for marine SS latches for our catalog:
 
-Best regards,
-Ikabay Sourcing` },
-  {
-    id: 'jd-wudi',
-    title: 'JD06 - Wudi Xinxiangju (Loquets)',
-    subject: 'RFQ - Marine SS latches 2 models - Martinique project',
-    body: `Dear Wudi Xinxiangju Team,
+  - Latch Model A (simple) — 20 pcs
+  - Latch Model B (key-locking) — 15 pcs
 
-Quotation for marine SS latches - 5-boat project Martinique:
-- Latch Model A (simple turn latch) x 20
-- Latch Model B (key-locking) x 15
+  Please quote FOB: unit price per model, MOQ, lead time, packing, 316 cert.
 
-Please quote FOB: unit price per model, MOQ, lead time, packing, catalog, 316 cert.
+  Best regards,
+  IKABAY Sourcing` },
+    {
+      id: 'ikabay-shenghui',
+      title: 'Shenxian Shenghui — Echelles',
+      subject: 'PRICE REQUEST — Marine SS ladder — IKABAY Sourcing',
+      body: `Dear Shenxian Shenghui Team,
 
-Best regards,
-Ikabay Sourcing` },
-  {
-    id: 'jd-shenghui',
-    title: 'JD07 - Shenxian Shenghui (Echelles)',
-    subject: 'RFQ - Marine SS ladder 4 steps x10 - Martinique',
-    body: `Dear Shenxian Shenghui Team,
+  IKABAY Sourcing requests quotation for marine SS ladder, 4 steps, 30cm width — 10 pcs.
 
-Quotation for marine SS ladder 4 steps, 30cm width x 10 pcs for Martinique.
+  Please quote FOB: unit price, MOQ, models, lead time, packing, 316 cert.
 
-Please quote FOB: unit price, MOQ, models (hinged/rigid), lead time, packing, 316 cert.
+  Best regards,
+  IKABAY Sourcing` },
+    {
+      id: 'ikabay-geodis',
+      title: 'GEODIS — Transport logistique',
+      subject: 'DEMANDE DE TARIF — Transport LCL France + Chine vers Martinique',
+      body: `Bonjour,
 
-Best regards,
-Ikabay Sourcing` },
-  {
-    id: 'jd-geodis',
-    title: 'JD08 - GEODIS (Transport logistique)',
-    subject: 'DEMANDE DE TARIF - Transport LCL France + Chine vers Martinique',
-    body: `Bonjour,
+  IKABAY Sourcing prepare des expeditions regulieres vers Fort-de-France (Martinique) :
 
-2 expeditions vers Fort-de-France (Martinique) :
+  A - FRANCE (Le Havre/Marseille) : equipement nautique, 3-4m3, 300-500kg, LCL
+  B - CHINE (Qingdao/Ningbo) : quincaillerie inox, 1-2m3, 100-200kg, LCL (option)
 
-A - FRANCE (Le Havre/Marseille) : equipement nautique, 3-4m3, 300-500kg, LCL
-B - CHINE (Qingdao/Ningbo) : quincaillerie inox, 1-2m3, 100-200kg, LCL (option)
+  Merci d'indiquer prix par route, delai, prestations incluses (dedouanement, assurance). Possibilite consolider ?
 
-Merci d'indiquer prix, delai, prestations (dedouanement, assurance) pour chaque route. Possibilite de consolider ?
-
-Cordialement,
-Ikabay Sourcing` },
+  Cordialement,
+  IKABAY Sourcing` },
 ];
 
 const rfqExample = {
@@ -369,7 +366,7 @@ export function RfqPage() {
     }
   }, []);
 
-  const isProjectTemplate = (id) => id.startsWith('jd-');
+  const isProjectTemplate = (id) => id.startsWith('ikabay-');
   const filteredTemplates = activeProject === 'all'
     ? templates
     : activeProject === 'ikabay'
