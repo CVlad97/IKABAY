@@ -1,10 +1,10 @@
 import { useState, useCallback } from 'react';
 import {
   Send, FileText, Copy, Mail, Settings, Clock,
-  CheckCircle, AlertCircle, Archive
+  CheckCircle, AlertCircle, Archive, MessageCircle
 } from 'lucide-react';
 
-const SOURCING_EMAIL = 'sourcing@ikabay.store';
+const SOURCING_EMAIL = 'contactcvs@ikabay.store';
 
 const statusList = [
   { id: 'brouillon', label: 'Brouillon', icon: Clock, color: '#92400e', bg: '#fef3c7' },
@@ -16,179 +16,322 @@ const statusList = [
 ];
 
 const templates = [
+  // ─── TEMPLATES STANDARDS IKABAY ───
   {
     id: 'prix-fournisseur',
     title: 'Demande de prix fournisseur',
     subject: 'Demande de prix — Ikabay Sourcing — [Produit/Référence]',
     body: `Bonjour,
 
-Nous sommes Ikabay Sourcing, spécialiste en approvisionnement et sourcing de produits nautiques et accessoires maritimes.
+Nous sommes Ikabay Sourcing, specialiste en approvisionnement et sourcing de produits nautiques et accessoires maritimes.
 
 Nous souhaitons obtenir votre meilleur tarif pour les produits suivants :
 
-1. [Produit 1] — Quantité : [XX]
-2. [Produit 2] — Quantité : [XX]
-3. [Produit 3] — Quantité : [XX]
+1. [Produit 1] — Quantite : [XX]
+2. [Produit 2] — Quantite : [XX]
+3. [Produit 3] — Quantite : [XX]
 
 Merci de nous communiquer :
 - Prix unitaire HT
-- Délais de livraison
+- Delais de livraison
 - Conditions de paiement
-- Disponibilité
+- Disponibilite
 
-Dans l'attente de votre retour, cordialement.`,
-  },
+Dans l'attente de votre retour, cordialement.` },
   {
     id: 'relance-fournisseur',
     title: 'Relance fournisseur',
     subject: 'Relance — Demande de prix — Ikabay Sourcing',
     body: `Bonjour,
 
-Je me permets de faire suite à ma précédente demande de prix du [Date].
+Je me permets de faire suite a ma precedente demande de prix du [Date].
 
-Avez-vous eu l'occasion de l'étudier ? Nous sommes toujours intéressés par vos produits et prêts à passer commande.
+Avez-vous eu l'occasion de l'etudier ? Nous sommes toujours interesses par vos produits et prets a passer commande.
 
-Merci de me tenir informé dès que possible.
+Merci de me tenir informe des que possible.
 
-Cordialement.`,
-  },
+Cordialement.` },
   {
     id: 'devis-client',
     title: 'Envoi devis client',
     subject: 'Devis — Ikabay Sourcing — [Produit]',
     body: `Bonjour [Client],
 
-Nous vous remercions de votre intérêt pour nos produits.
+Nous vous remercions de votre interet pour nos produits.
 
-Suite à votre demande, veuillez trouver ci-joint notre devis pour :
+Suite a votre demande, veuillez trouver ci-joint notre devis pour :
 
 [Description des articles / prestations]
 
 Total HT : [Montant]
-Délai de livraison estimé : [Date]
-Validité de l'offre : 15 jours
+Delai de livraison estime : [Date]
+Validite de l'offre : 15 jours
 
-Restant à votre disposition pour toute question.
+Restant a votre disposition pour toute question.
 
 Cordialement,
-Ikabay Sourcing`,
-  },
+Ikabay Sourcing` },
   {
     id: 'confirmation-commande',
     title: 'Confirmation commande',
-    subject: 'Confirmation de commande — Ikabay Sourcing — [Réf Commande]',
+    subject: 'Confirmation de commande — Ikabay Sourcing — [Ref Commande]',
     body: `Bonjour [Client],
 
-Nous avons le plaisir de vous confirmer votre commande n°[Réf Commande].
+Nous avons le plaisir de vous confirmer votre commande n°[Ref Commande].
 
-Récapitulatif :
-- [Article 1] — Qté : [X] — [Prix]
-- [Article 2] — Qté : [X] — [Prix]
+Recapitulatif :
+- [Article 1] — Qte : [X] — [Prix]
+- [Article 2] — Qte : [X] — [Prix]
 
 Total TTC : [Montant]
-Livraison prévue le : [Date]
+Livraison prevue le : [Date]
 
-Vous recevrez un email de suivi dès l'expédition.
+Vous recevrez un email de suivi des l'expedition.
 
 Merci de votre confiance !
 Cordialement,
-Ikabay Sourcing`,
-  },
+Ikabay Sourcing` },
   {
     id: 'suivi-transport',
     title: 'Suivi transport',
-    subject: 'Suivi d\'expédition — Ikabay Sourcing — [Réf Commande]',
+    subject: "Suivi d'expedition — Ikabay Sourcing — [Ref Commande]",
     body: `Bonjour [Client],
 
-Votre commande a bien été expédiée !
+Votre commande a bien ete expediee !
 
 Transporteur : [Nom du transporteur]
-Numéro de suivi : [Tracking Number]
-Date d'expédition : [Date]
-Livraison estimée : [Date]
+Numero de suivi : [Tracking Number]
+Date d'expedition : [Date]
+Livraison estimee : [Date]
 
 Lien de suivi : [URL de suivi]
 
-N'hésitez pas à nous contacter pour toute question.
+N'hesitez pas a nous contacter pour toute question.
 
 Cordialement,
-Ikabay Sourcing`,
-  },
+Ikabay Sourcing` },
   {
     id: 'disponibilite-produit',
-    title: 'Demande disponibilité produit',
-    subject: 'Disponibilité produit — Ikabay Sourcing — [Produit/Référence]',
+    title: 'Demande disponibilite produit',
+    subject: 'Disponibilite produit — Ikabay Sourcing — [Produit/Reference]',
     body: `Bonjour,
 
-Nous sommes intéressés par le(s) produit(s) suivant(s) et souhaiterions connaître leur disponibilité actuelle :
+Nous sommes interesses par le(s) produit(s) suivant(s) et souhaiterions connaitre leur disponibilite actuelle :
 
-1. [Référence 1] — [Désignation] — Qté souhaitée : [XX]
-2. [Référence 2] — [Désignation] — Qté souhaitée : [XX]
+1. [Reference 1] — [Designation] — Qte souhaitee : [XX]
+2. [Reference 2] — [Designation] — Qte souhaitee : [XX]
 
 Merci de nous indiquer :
 - Stock disponible
-- Délai de réapprovisionnement si rupture
+- Delai de reapprovisionnement si rupture
 - Prix unitaire
 
 Dans l'attente de votre retour.
 
 Cordialement,
-Ikabay Sourcing`,
-  },
+Ikabay Sourcing` },
   {
     id: 'tarif-transport',
     title: 'Demande tarif transport',
     subject: 'Demande de tarif transport — Ikabay Sourcing',
     body: `Bonjour,
 
-Nous souhaiterions obtenir un devis pour l'expédition suivante :
+Nous souhaiterions obtenir un devis pour l'expedition suivante :
 
 Origine : [Ville, Pays]
 Destination : [Ville, Pays]
-Type de marchandise : [Accessoires nautiques / Équipements maritimes]
-Poids estimé : [XX] kg
-Volume : [XX] m³
-Mode de transport souhaité : [Mer / Air / Route]
-Délai souhaité : [Date]
+Type de marchandise : [Accessoires nautiques / Equipements maritimes]
+Poids estime : [XX] kg
+Volume : [XX] m3
+Mode de transport souhaite : [Mer / Air / Route]
+Delai souhaite : [Date]
 
 Merci de nous faire parvenir votre meilleure offre.
 
 Cordialement,
-Ikabay Sourcing`,
-  },
+Ikabay Sourcing` },
+
+  // ─── PROJET JOEL DUFEAL — 8 RFQ SOURCING NAUTIQUE ───
+  {
+    id: 'jd-xvision',
+    title: 'JD01 - X-Vision Marine (Bolsters)',
+    subject: 'DEMANDE DE DEVIS URGENTE - 5 bolsters doubles + sellerie - Livraison Martinique',
+    body: `Bonjour,
+
+Dans le cadre d'un projet d'equipement de 5 bateaux neufs destines a la Martinique, je sollicite un devis :
+
+1. BOLSTER DOUBLE (siege baquet double) x 5 unites
+   - Sellerie cuir synthetique marine grade (UV stabilise, anti-moisissure)
+   - Coloris : bleu/gris + gris premium
+   - Pietement aluminium marine grade
+
+MERCI DE PRECISER : prix HT, delai, options (glaciere, porte-gobelet), poids colis, livraison DOM possible, nuancier.
+
+Commande ferme 5 bateaux, livraison septembre 2026.
+
+Cordialement,
+Ikabay Sourcing` },
+  {
+    id: 'jd-osculati',
+    title: 'JD02 - Osculati (Catalogue general)',
+    subject: 'RFQ - Equipements nautiques Osculati - 5 bateaux - Martinique',
+    body: `Bonjour,
+
+Merci de me transmettre un devis pour 5 bateaux a livrer en Martinique :
+
+- 66m Liston PVC preperce marine (barres 6m)
+- 100m Liseret compatible liston
+- 10 Hublots inox/alu 150x365mm
+- 10 Echelle inox 4 marches larg. 30cm
+- 35 Taquets inox 316 - 200mm
+- 20 Loquets inox (2 modeles)
+- 20 Porte-gobelets inox
+
+Merci d'indiquer prix HT, disponibilite, remise quantite et livraison DOM.
+
+Cordialement,
+Ikabay Sourcing` },
+  {
+    id: 'jd-adnautic',
+    title: 'JD03 - AD Nautic (Compas + quincaillerie)',
+    subject: 'DEVIS - Compas Plastimo + quincaillerie lot - 5 bateaux Martinique',
+    body: `Bonjour,
+
+Projet d'equipement de 5 bateaux lives en Martinique :
+
+1. COMPAS MAGNETIQUE x 5 (Plastimo Contest 150 ou Neptune 135)
+2. QUINCAILLERIE LOT x 5 bateaux (visserie inox 316, charnieres, poignees, passe-coque, vannes)
+
+Merci d'indiquer prix, delais et transport Martinique.
+
+Cordialement,
+Ikabay Sourcing` },
+  {
+    id: 'jd-quick',
+    title: 'JD04 - Quick (Daviers ancre)',
+    subject: 'RFQ - Daviers ancre inox 316 x 5 - Martinique',
+    body: `Bonjour,
+
+Je recherche 5 daviers (bow roller) pour ancre 8 kg (support max 10 kg) pour 5 bateaux.
+
+Merci de transmettre : modeles compatibles, prix HT, delai, dimensions, poids, fiche technique, certificat inox 316.
+
+Destination : Martinique.
+
+Cordialement,
+Ikabay Sourcing` },
+  {
+    id: 'jd-alastin',
+    title: 'JD05 - Qingdao Alastin (Taquets + porte-gobelets)',
+    subject: 'RFQ - Marine SS cleats 200mm & cup holders - Martinique project',
+    body: `Dear Alastin Team,
+
+We request quotation for 5 new boats for Martinique (French Caribbean):
+
+1. Marine cleat 316 SS - 200mm x 35 pcs
+2. SS cup holder - marine grade x 20 pcs
+
+Please quote FOB Qingdao: unit price, MOQ, lead time, packing, 316 cert, payment terms.
+
+We use GEODIS for shipping.
+
+Best regards,
+Ikabay Sourcing` },
+  {
+    id: 'jd-wudi',
+    title: 'JD06 - Wudi Xinxiangju (Loquets)',
+    subject: 'RFQ - Marine SS latches 2 models - Martinique project',
+    body: `Dear Wudi Xinxiangju Team,
+
+Quotation for marine SS latches - 5-boat project Martinique:
+- Latch Model A (simple turn latch) x 20
+- Latch Model B (key-locking) x 15
+
+Please quote FOB: unit price per model, MOQ, lead time, packing, catalog, 316 cert.
+
+Best regards,
+Ikabay Sourcing` },
+  {
+    id: 'jd-shenghui',
+    title: 'JD07 - Shenxian Shenghui (Echelles)',
+    subject: 'RFQ - Marine SS ladder 4 steps x10 - Martinique',
+    body: `Dear Shenxian Shenghui Team,
+
+Quotation for marine SS ladder 4 steps, 30cm width x 10 pcs for Martinique.
+
+Please quote FOB: unit price, MOQ, models (hinged/rigid), lead time, packing, 316 cert.
+
+Best regards,
+Ikabay Sourcing` },
+  {
+    id: 'jd-geodis',
+    title: 'JD08 - GEODIS (Transport logistique)',
+    subject: 'DEMANDE DE TARIF - Transport LCL France + Chine vers Martinique',
+    body: `Bonjour,
+
+2 expeditions vers Fort-de-France (Martinique) :
+
+A - FRANCE (Le Havre/Marseille) : equipement nautique, 3-4m3, 300-500kg, LCL
+B - CHINE (Qingdao/Ningbo) : quincaillerie inox, 1-2m3, 100-200kg, LCL (option)
+
+Merci d'indiquer prix, delai, prestations (dedouanement, assurance) pour chaque route. Possibilite de consolider ?
+
+Cordialement,
+Ikabay Sourcing` },
 ];
 
 const rfqExample = {
-  subject: 'Demande de prix — Ikabay Sourcing — Accessoires nautiques',
+  subject: 'Demande de prix — Ikabay Sourcing — Projet Joel Dufeal (5 bateaux)',
   body: `Bonjour,
 
-Je vous contacte pour une demande de prix concernant des accessoires nautiques pour notre activité de sourcing et d'approvisionnement.
+Nous preparons l'equipement complet de 5 bateaux neufs destines a la Martinique et souhaitons obtenir vos meilleurs tarifs pour les fournitures nautiques suivantes.`
 
-Nous recherchons des fournisseurs fiables pour les catégories suivantes :
-- Accastillage et quincaillerie marine
-- Équipements de sécurité (gilets, fusées)
-- Cordages et amarres
-- Pièces détachées moteurs hors-bord
-
-Pourriez-vous nous faire parvenir votre catalogue et vos tarifs détaillés ? Nous sommes également intéressés par vos conditions générales de vente et délais de livraison.
-
-Dans l'attente de votre retour, nous vous remercions par avance.
-
-Cordialement,`,
-  signature: 'Ikabay Sourcing / sourcing@ikabay.store',
 };
+
+const vignettesMessage = `BONJOUR JOEL,
+
+Voici le recapitulatif complet du sourcing pour vos 5 bateaux.
+
+RECAPITULATIF PRODUITS & PRIX
+- Compas magnetique 150mm x5 : ~900 EUR (Plastimo / AD Nautic)
+- Liston PVC preperce 66m : ~700 EUR (Osculati)
+- Liseret compatible 100m : ~450 EUR (Osculati)
+- Hublots 150x365mm x10 : ~1 200 EUR (Osculati)
+- Bolsters doubles + sellerie x5 : ~8 500 EUR (X-Vision Marine)
+- Daviers ancre 8kg x5 : ~600 EUR (Quick)
+- Echelles inox 4 marches x10 : ~1 200 EUR (Osculati)
+- Taquets inox 200mm x35 : ~100 EUR (Alastin Chine)
+- Loquets inox x30 : ~90 EUR (Wudi Chine)
+- Porte-gobelets inox x20 : ~65 EUR (Alastin Chine)
+- Quincaillerie lot : ~800 EUR (AD Nautic)
+- Transport GEODIS : ~970 EUR
+- Assurance + douane : ~290 EUR
+
+TOTAL ESTIME RENDU MARTINIQUE : ~14 810 EUR
+
+3 SCENARIOS :
+1. ECONOMIQUE ~8 700 EUR (10-14 sem, risque eleve)
+2. EQUILIBRE ~14 800 EUR (7-9 sem, risque faible) - RECOMMANDE
+3. RAPIDE ~22 100 EUR (5-7 sem, risque tres faible)
+
+FOURNISSEURS : X-Vision Marine (bolsters FR), Osculati (catalogue IT), Plastimo/AD Nautic (compas FR), Quick (daviers IT), Qingdao Alastin (taquets CN), Wudi Xinxiangju (loquets CN), GEODIS (transport).
+
+PROCHAINES ETAPES :
+1. Valider le scenario (EQUILIBRE recommande)
+2. Lancer les commandes
+3. X-Vision livre sous 4-6 sem (chemin critique)
+4. GEODIS reserve le groupage Le Havre vers Fort-de-France
+5. Livraison prevue : 7 a 9 semaines
+
+Rapport complet disponible.`;
 
 export function RfqPage() {
   const [activeStatus, setActiveStatus] = useState('all');
+  const [activeProject, setActiveProject] = useState('all');
   const [copyId, setCopyId] = useState(null);
 
   const getFullEmail = useCallback((tpl) => {
-    return `Objet : ${tpl.subject}
-
-${tpl.body}
-
---
-${rfqExample.signature}`;
+    return `Objet : ${tpl.subject}\n\n${tpl.body}\n\n--\n${SOURCING_EMAIL}`;
   }, []);
 
   const handleCopy = useCallback(async (tpl) => {
@@ -198,7 +341,6 @@ ${rfqExample.signature}`;
       setCopyId(tpl.id);
       setTimeout(() => setCopyId(null), 2000);
     } catch {
-      // fallback for older browsers
       const ta = document.createElement('textarea');
       ta.value = text;
       document.body.appendChild(ta);
@@ -210,305 +352,160 @@ ${rfqExample.signature}`;
     }
   }, [getFullEmail]);
 
-  const handleCopyExample = useCallback(async () => {
-    const text = `Objet : ${rfqExample.subject}
-
-${rfqExample.body}
-
---
-${rfqExample.signature}`;
+  const handleCopyVignettes = useCallback(async () => {
     try {
-      await navigator.clipboard.writeText(text);
-      setCopyId('example');
+      await navigator.clipboard.writeText(vignettesMessage);
+      setCopyId('vignettes');
       setTimeout(() => setCopyId(null), 2000);
     } catch {
       const ta = document.createElement('textarea');
-      ta.value = text;
+      ta.value = vignettesMessage;
       document.body.appendChild(ta);
       ta.select();
       document.execCommand('copy');
       document.body.removeChild(ta);
-      setCopyId('example');
+      setCopyId('vignettes');
       setTimeout(() => setCopyId(null), 2000);
     }
   }, []);
 
+  const isProjectTemplate = (id) => id.startsWith('jd-');
+  const filteredTemplates = activeProject === 'all'
+    ? templates
+    : activeProject === 'ikabay'
+      ? templates.filter(t => !isProjectTemplate(t.id))
+      : templates.filter(t => isProjectTemplate(t.id));
+
   return (
     <section className="pageSection">
-      {/* BADGE + TITLE */}
       <div className="badge" style={{ marginBottom: 12 }}>
         <Mail size={14} style={{ marginRight: 6 }} />
         RFQ &amp; Emails
       </div>
       <h1>Demandes de prix &amp; Emails</h1>
       <p style={{ marginBottom: 28 }}>
-        Templates email prêts à copier pour vos échanges fournisseurs et clients.
-        Expéditeur unique : {SOURCING_EMAIL}
+        Templates email prets a copier. Expediteur : {SOURCING_EMAIL}
       </p>
 
-      {/* ── STATUS FILTERS ── */}
-      <div
-        style={{
-          display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 28,
-        }}
-      >
-        <button
-          onClick={() => setActiveStatus('all')}
-          className={activeStatus === 'all' ? 'btn btnPrimary' : 'btn btnSecondary'}
-          style={{
-            display: 'inline-flex', alignItems: 'center', gap: 6,
-            minHeight: 42, borderRadius: 14, padding: '10px 16px',
-            fontWeight: 800, fontSize: 13, border: 0, cursor: 'pointer',
-            background: activeStatus === 'all' ? '#0f766e' : 'white',
-            color: activeStatus === 'all' ? 'white' : '#435956',
-            border: activeStatus === 'all' ? 'none' : '1px solid rgba(16,32,34,0.13)',
-          }}
-        >
-          <Mail size={14} /> Tous
-        </button>
-        {statusList.map((s) => {
-          const Icon = s.icon;
-          const isActive = activeStatus === s.id;
-          return (
-            <button
-              key={s.id}
-              onClick={() => setActiveStatus(s.id)}
-              style={{
-                display: 'inline-flex', alignItems: 'center', gap: 6,
-                minHeight: 42, borderRadius: 14, padding: '10px 16px',
-                fontWeight: 800, fontSize: 13, border: 0, cursor: 'pointer',
-                background: isActive ? s.color : s.bg,
-                color: isActive ? 'white' : s.color,
-                border: isActive ? 'none' : '1px solid rgba(16,32,34,0.08)',
-              }}
-            >
-              <Icon size={14} /> {s.label}
-            </button>
-          );
-        })}
+      {/* ── FILTRES PROJET ── */}
+      <div style={{ display: 'flex', gap: 8, marginBottom: 20, flexWrap: 'wrap' }}>
+        {[
+          { id: 'all', label: 'Tous les templates' },
+          { id: 'ikabay', label: 'IKABAY Standard' },
+          { id: 'joel', label: 'Projet Joel Dufeal' },
+        ].map(p => (
+          <button
+            key={p.id}
+            onClick={() => setActiveProject(p.id)}
+            style={{
+              padding: '10px 20px', borderRadius: 10, border: 'none', cursor: 'pointer',
+              background: activeProject === p.id ? '#0f766e' : '#e8f0ee',
+              color: activeProject === p.id ? 'white' : '#1a2e2b',
+              fontWeight: 700, fontSize: 14, transition: 'all 0.2s'
+            }}
+          >
+            {p.label} {p.id === 'all' ? `(${templates.length})` : p.id === 'joel' ? '(8)' : '(7)'}
+          </button>
+        ))}
       </div>
 
       {/* ── TEMPLATES GRID ── */}
-      <div
-        className="cardGrid"
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))',
-          gap: 16,
-          marginBottom: 48,
-        }}
-      >
-        {templates.map((tpl) => {
-          const iconColor = '#0f766e';
-          return (
-            <div key={tpl.id} className="card" style={{ display: 'flex', flexDirection: 'column' }}>
-              <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start', marginBottom: 14 }}>
-                <div
-                  style={{
-                    width: 44, height: 44, borderRadius: 14,
-                    background: '#e7fbf7', display: 'grid',
-                    placeItems: 'center', color: iconColor, flexShrink: 0,
-                  }}
-                >
-                  <Mail size={22} />
-                </div>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <h3 style={{ fontSize: 17, marginBottom: 4, lineHeight: 1.2 }}>
-                    {tpl.title}
-                  </h3>
-                  <p
-                    style={{
-                      fontSize: 12, color: '#516866', margin: 0,
-                      overflow: 'hidden', textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap',
-                    }}
-                  >
-                    {tpl.subject}
-                  </p>
-                </div>
+      <div className="cardGrid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: 16, marginBottom: 48 }}>
+        {filteredTemplates.map((tpl) => (
+          <div key={tpl.id} className="card" style={{ display: 'flex', flexDirection: 'column' }}>
+            <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start', marginBottom: 14 }}>
+              <div style={{ width: 44, height: 44, borderRadius: 14, background: '#e7fbf7', display: 'grid', placeItems: 'center', color: '#0f766e', flexShrink: 0 }}>
+                <Mail size={22} />
               </div>
-
-              {/* Email preview */}
-              <div
-                style={{
-                  background: '#f8faf9', borderRadius: 12, padding: 14,
-                  flex: 1, marginBottom: 14,
-                }}
-              >
-                <p style={{ fontSize: 12, fontWeight: 700, color: '#435956', margin: '0 0 6px' }}>
-                  <FileText size={12} style={{ marginRight: 4, verticalAlign: 'middle' }} />
-                  Aperçu
-                </p>
-                <p
-                  style={{
-                    fontSize: 13, color: '#34514f', lineHeight: 1.5, margin: 0,
-                    display: '-webkit-box', WebkitLineClamp: 5, WebkitBoxOrient: 'vertical',
-                    overflow: 'hidden',
-                  }}
-                >
-                  {tpl.body}
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <h3 style={{ fontSize: 17, marginBottom: 4, lineHeight: 1.2 }}>{tpl.title}</h3>
+                <p style={{ fontSize: 12, color: '#516866', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  {tpl.subject}
                 </p>
               </div>
-
-              {/* Copy button */}
-              <button
-                onClick={() => handleCopy(tpl)}
-                style={{
-                  display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                  gap: 8, width: '100%', minHeight: 46, borderRadius: 14,
-                  fontWeight: 800, fontSize: 14, border: 0, cursor: 'pointer',
-                  background: copyId === tpl.id ? '#dcfce7' : '#0f766e',
-                  color: copyId === tpl.id ? '#166534' : 'white',
-                  transition: 'all 0.2s',
-                }}
-              >
-                {copyId === tpl.id ? (
-                  <><CheckCircle size={18} /> Copié !</>
-                ) : (
-                  <><Copy size={18} /> Copier l'email</>
-                )}
-              </button>
             </div>
-          );
-        })}
-      </div>
-
-      {/* ── RFQ EXAMPLE ── */}
-      <div
-        className="card"
-        style={{
-          marginBottom: 48, padding: 0, overflow: 'hidden',
-        }}
-      >
-        <div
-          style={{
-            background: 'linear-gradient(135deg, #0a4a5c, #0f766e)',
-            padding: '20px 24px', color: 'white',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}>
-            <FileText size={20} />
-            <h3 style={{ fontSize: 18, color: 'white' }}>Exemple RFQ complet</h3>
-          </div>
-          <p style={{ margin: 0, fontSize: 13, opacity: 0.85 }}>
-            Modèle prêt à envoyer — expéditeur : {SOURCING_EMAIL}
-          </p>
-        </div>
-
-        <div style={{ padding: 24 }}>
-          <div style={{ marginBottom: 16 }}>
-            <span style={{ fontWeight: 700, fontSize: 13, color: '#60716f' }}>Objet :</span>
-            <p style={{ fontSize: 15, fontWeight: 600, margin: '4px 0 0', color: '#102022' }}>
-              {rfqExample.subject}
-            </p>
-          </div>
-
-          <div
-            style={{
-              background: '#f8faf9', borderRadius: 12, padding: 16, marginBottom: 16,
-            }}
-          >
-            <pre
+            <div style={{ background: '#f8faf9', borderRadius: 12, padding: 14, flex: 1, marginBottom: 14 }}>
+              <p style={{ fontSize: 12, fontWeight: 700, color: '#435956', margin: '0 0 6px' }}>
+                <FileText size={12} style={{ marginRight: 4, verticalAlign: 'middle' }} />
+                Apercu
+              </p>
+              <p style={{ fontSize: 13, color: '#34514f', lineHeight: 1.5, margin: 0, display: '-webkit-box', WebkitLineClamp: 5, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                {tpl.body}
+              </p>
+            </div>
+            <button
+              onClick={() => handleCopy(tpl)}
               style={{
-                fontFamily: 'inherit', fontSize: 14, lineHeight: 1.6,
-                color: '#34514f', margin: 0, whiteSpace: 'pre-wrap',
+                display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                width: '100%', minHeight: 46, borderRadius: 14, fontWeight: 800, fontSize: 14,
+                border: 0, cursor: 'pointer',
+                background: copyId === tpl.id ? '#dcfce7' : '#0f766e',
+                color: copyId === tpl.id ? '#166534' : 'white',
+                transition: 'all 0.2s',
               }}
             >
-              {rfqExample.body}
-            </pre>
+              {copyId === tpl.id ? <><CheckCircle size={18} /> Copie !</> : <><Copy size={18} /> Copier l'email</>}
+            </button>
           </div>
+        ))}
+      </div>
 
-          <div
-            style={{
-              borderTop: '1px solid rgba(16,32,34,0.08)', paddingTop: 14, marginBottom: 18,
-            }}
-          >
-            <p style={{ fontSize: 14, color: '#516866', margin: 0 }}>
-              --<br />
-              {rfqExample.signature}
+      {/* ── VIGNETTES WHATSAPP POUR JOEL ── */}
+      {activeProject !== 'ikabay' && (
+        <div className="card" style={{ marginBottom: 48, padding: 0, overflow: 'hidden' }}>
+          <div style={{ background: 'linear-gradient(135deg, #075e54, #128C7E)', padding: '20px 24px', color: 'white' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}>
+              <MessageCircle size={20} />
+              <h3 style={{ fontSize: 18, color: 'white', margin: 0 }}>Vignettes WhatsApp — Client Joel</h3>
+            </div>
+            <p style={{ margin: '4px 0 0', fontSize: 13, opacity: 0.85 }}>
+              Message pret a envoyer sur WhatsApp. Copie et colle dans la conversation Joel.
             </p>
           </div>
-
-          <button
-            onClick={handleCopyExample}
-            style={{
-              display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-              gap: 8, minHeight: 46, borderRadius: 14, padding: '12px 24px',
-              fontWeight: 800, fontSize: 14, border: 0, cursor: 'pointer',
-              background: copyId === 'example' ? '#dcfce7' : '#0f766e',
-              color: copyId === 'example' ? '#166534' : 'white',
-              transition: 'all 0.2s',
-            }}
-          >
-            {copyId === 'example' ? (
-              <><CheckCircle size={18} /> Copié !</>
-            ) : (
-              <><Copy size={18} /> Copier l'exemple RFQ</>
-            )}
-          </button>
+          <div style={{ padding: 24 }}>
+            <div style={{ background: '#dcf8c6', borderRadius: 12, padding: 16, marginBottom: 16, maxHeight: 300, overflow: 'auto' }}>
+              <pre style={{ fontFamily: 'inherit', fontSize: 13, lineHeight: 1.6, color: '#303030', margin: 0, whiteSpace: 'pre-wrap' }}>
+                {vignettesMessage}
+              </pre>
+            </div>
+            <button
+              onClick={handleCopyVignettes}
+              style={{
+                display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                minHeight: 46, borderRadius: 14, padding: '12px 24px', fontWeight: 800, fontSize: 14,
+                border: 0, cursor: 'pointer',
+                background: copyId === 'vignettes' ? '#dcfce7' : '#128C7E',
+                color: copyId === 'vignettes' ? '#166534' : 'white',
+                transition: 'all 0.2s',
+              }}
+            >
+              {copyId === 'vignettes' ? <><CheckCircle size={18} /> Copie !</> : <><MessageCircle size={18} /> Copier le message WhatsApp</>}
+            </button>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* ── SMTP CONFIG ── */}
       <div className="card" style={{ marginBottom: 48 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 18 }}>
-          <div
-            style={{
-              width: 44, height: 44, borderRadius: 14,
-              background: '#e7fbf7', display: 'grid',
-              placeItems: 'center', color: '#0f766e',
-            }}
-          >
+          <div style={{ width: 44, height: 44, borderRadius: 14, background: '#e7fbf7', display: 'grid', placeItems: 'center', color: '#0f766e' }}>
             <Settings size={22} />
           </div>
           <h3 style={{ fontSize: 18 }}>Configuration SMTP</h3>
         </div>
-
         <p style={{ fontSize: 14, color: '#516866', marginBottom: 16, lineHeight: 1.5 }}>
-          Ces variables d'environnement sont utilisées pour l'envoi des emails depuis
-          l'application. Aucun mot de passe n'est affiché ici pour des raisons de sécurité.
+          Ces variables sont utilisees pour l'envoi des emails. Aucun mot de passe n'est affiche.
         </p>
-
-        <div
-          style={{
-            background: '#1e293b', borderRadius: 12, padding: 16,
-            fontFamily: "'Fira Code', 'JetBrains Mono', 'Consolas', monospace",
-            fontSize: 13, lineHeight: 1.8, color: '#e2e8f0',
-          }}
-        >
-          <div>
-            <span style={{ color: '#94a3b8' }}>IKABAY_EMAIL_USER</span>
-            <span style={{ color: '#64748b' }}>=</span>
-            <span style={{ color: '#a5f3fc' }}>{SOURCING_EMAIL}</span>
-          </div>
-          <div>
-            <span style={{ color: '#94a3b8' }}>IKABAY_SMTP_HOST</span>
-            <span style={{ color: '#64748b' }}>=</span>
-            <span style={{ color: '#a5f3fc' }}>smtp.hostinger.com</span>
-          </div>
-          <div>
-            <span style={{ color: '#94a3b8' }}>IKABAY_EMAIL_PASSWORD</span>
-            <span style={{ color: '#64748b' }}>=</span>
-            <span style={{ color: '#fbbf24' }}>&nbsp;(à configurer dans .env)</span>
-          </div>
-          <div>
-            <span style={{ color: '#94a3b8' }}>IKABAY_SMTP_PORT</span>
-            <span style={{ color: '#64748b' }}>=</span>
-            <span style={{ color: '#a5f3fc' }}>465</span>
-          </div>
+        <div style={{ background: '#1e293b', borderRadius: 12, padding: 16, fontFamily: "'Fira Code', 'JetBrains Mono', monospace", fontSize: 13, lineHeight: 1.8, color: '#e2e8f0' }}>
+          <div><span style={{ color: '#94a3b8' }}>IKABAY_EMAIL_USER</span><span style={{ color: '#64748b' }}>=</span><span style={{ color: '#a5f3fc' }}>{SOURCING_EMAIL}</span></div>
+          <div><span style={{ color: '#94a3b8' }}>IKABAY_SMTP_HOST</span><span style={{ color: '#64748b' }}>=</span><span style={{ color: '#a5f3fc' }}>smtp.hostinger.com</span></div>
+          <div><span style={{ color: '#94a3b8' }}>IKABAY_EMAIL_PASSWORD</span><span style={{ color: '#64748b' }}>=</span><span style={{ color: '#fbbf24' }}>&nbsp;(a configurer dans .env)</span></div>
+          <div><span style={{ color: '#94a3b8' }}>IKABAY_SMTP_PORT</span><span style={{ color: '#64748b' }}>=</span><span style={{ color: '#a5f3fc' }}>465</span></div>
         </div>
-
-        <div
-          style={{
-            marginTop: 14, padding: 12, borderRadius: 12,
-            background: '#fef3c7', display: 'flex', alignItems: 'flex-start', gap: 10,
-          }}
-        >
+        <div style={{ marginTop: 14, padding: 12, borderRadius: 12, background: '#fef3c7', display: 'flex', alignItems: 'flex-start', gap: 10 }}>
           <AlertCircle size={18} color="#92400e" style={{ flexShrink: 0, marginTop: 2 }} />
           <p style={{ margin: 0, fontSize: 13, color: '#92400e', lineHeight: 1.4 }}>
-            <strong>Sécurité :</strong> Le mot de passe SMTP n'est <strong>jamais</strong> stocké
-            dans le code source. Configurez-le uniquement dans le fichier <code>.env</code> à la
-            racine du projet.
+            <strong>Securite :</strong> Le mot de passe SMTP n'est <strong>jamais</strong> stocke dans le code source. Configurez-le uniquement dans le fichier <code>.env</code>.
           </p>
         </div>
       </div>
