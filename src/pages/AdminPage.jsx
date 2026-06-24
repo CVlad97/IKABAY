@@ -1,6 +1,6 @@
 import {
   BarChart3, Package, FileText, Users, Truck,
-  UserCheck, Activity, Settings, Mail, Clock, ArrowRight
+  UserCheck, Activity, Settings, Mail, Clock, ArrowRight, Store, ShoppingCart
 } from 'lucide-react';
 import { APP_EMAIL } from '../utils/constants';
 
@@ -10,8 +10,8 @@ const stats = [
   { label: 'Demandes sourcing',     value: 7,  icon: FileText, color: '#f97316' },
   { label: 'Devis en cours',        value: 3,  icon: BarChart3, color: '#2563eb' },
   { label: 'Fournisseurs',          value: 12, icon: Users, color: '#7c3aed' },
-  { label: 'Expéditions en transit', value: 2, icon: Truck, color: '#0891b2' },
-  { label: 'Clients actifs',        value: 8,  icon: UserCheck, color: '#16a34a' },
+  { label: 'Dropshipping sources',  value: 6,  icon: Store, color: '#0d9488' },
+  { label: 'Produits dropshipping', value: 7,  icon: ShoppingCart, color: '#ea580c' },
 ];
 
 const quickActions = [
@@ -19,6 +19,8 @@ const quickActions = [
   { label: 'Nouveau fournisseur',  icon: Users,    href: '#nouveau-fournisseur',primary: false },
   { label: 'Voir les logs email',  icon: Mail,     href: '#logs-email',         primary: false },
   { label: 'Configurer email',     icon: Settings, href: '#config-email',       primary: false },
+  { label: 'Sync catalogue DS',    icon: Store,    href: '/dropshipping',       primary: false },
+  { label: 'Nouveau partenaire',   icon: ShoppingCart, href: '/dropshipping',   primary: false },
 ];
 
 const recentActivities = [
@@ -26,9 +28,9 @@ const recentActivities = [
   { action: 'Demande sourcing créée',   detail: 'Pièces détachées moto – 15 réf.', time: 'Il y a 35 min', user: 'Sophie' },
   { action: 'Devis envoyé',             detail: 'Climatisation industrielle – 3 unités', time: 'Il y a 2 h', user: 'Jules' },
   { action: 'Nouveau fournisseur',      detail: 'TechSupply SARL – Électronique', time: 'Il y a 4 h',    user: 'Marie' },
-  { action: 'Expédition en transit',    detail: 'Colis EXP-2026-042 – Port de Fort-de-France', time: 'Hier', user: 'Système' },
+  { action: 'Sync dropshipping CJ OK',  detail: '7 produits mis à jour – CJ Dropshipping', time: 'Il y a 5 h', user: 'Bot' },
   { action: 'Client inscrit',           detail: 'BTP Caraïbes – Fort-de-France', time: 'Hier',  user: 'Sophie' },
-  { action: 'Email automatique envoyé', detail: `Confirmation devis → ${APP_EMAIL}`, time: 'Hier', user: 'Système' },
+  { action: 'Nouvelle source DS ajoutée', detail: 'AliExpress FR – 15j délai, marge 20%', time: 'Hier', user: 'Système' },
 ];
 
 export function AdminPage() {
