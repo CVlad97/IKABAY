@@ -4,15 +4,6 @@ import { Ship, MessageCircle, Menu, X, Mail, Phone, FileText, ClipboardList, Lay
 import { WHATSAPP_URL, APP_NAME, APP_EMAIL } from './utils/constants';
 import './styles.css';
 
-// GitHub Pages SPA support: récupère la route depuis le paramètre ?redirect=
-(function() {
-  const params = new URLSearchParams(window.location.search);
-  const redirect = params.get('redirect');
-  if (redirect && window.history && window.history.replaceState) {
-    window.history.replaceState({}, '', '/IKABAY/' + redirect);
-  }
-})();
-
 // React.lazy page imports
 const HomePage = React.lazy(() => import('./pages/HomePage'));
 const DestockagePage = React.lazy(() => import('./pages/DestockagePage'));

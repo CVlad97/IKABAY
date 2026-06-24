@@ -9,7 +9,18 @@
     <meta property="og:type" content="website" />
     <title>Ikabay Sourcing</title>
     <link rel="icon" type="image/png" href="/favicon.png" />
-    <script type="module" crossorigin src="./assets/index-B3wWaUfh.js"></script>
+    <script>
+      // ===== SPA REDIRECT pour GitHub Pages =====
+      // Execute AVANT React pour que React Router voie la bonne URL
+      (function() {
+        var params = new URLSearchParams(window.location.search);
+        var redirect = params.get('redirect');
+        if (redirect && window.history && window.history.replaceState) {
+          window.history.replaceState({}, '', '/IKABAY/' + redirect);
+        }
+      })();
+    </script>
+    <script type="module" crossorigin src="./assets/index-DAhgSduM.js"></script>
     <link rel="stylesheet" crossorigin href="./assets/index-D92A5Reg.css">
   </head>
   <body>
