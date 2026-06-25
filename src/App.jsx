@@ -14,6 +14,7 @@ const DevisPage = React.lazy(() => import('./pages/DevisPage'));
 const RfqPage = React.lazy(() => import('./pages/RfqPage'));
 const TransportPage = React.lazy(() => import('./pages/TransportPage'));
 const DropshippingPage = React.lazy(() => import('./pages/DropshippingPage'));
+const WhatsAppPage = React.lazy(() => import('./pages/WhatsAppPage'));
 const AdminPage = React.lazy(() => import('./pages/AdminPage'));
 const ContactPage = React.lazy(() => import('./pages/ContactPage'));
 
@@ -30,6 +31,7 @@ function Layout({ children }) {
     { to: '/rfq', label: 'RFQ' },
     { to: '/transport', label: 'Transport' },
     { to: '/dropshipping', label: 'Dropshipping' },
+    { to: '/whatsapp', label: 'WhatsApp' },
     { to: '/admin', label: 'Admin' },
     { to: '/contact', label: 'Contact' },
   ];
@@ -135,6 +137,7 @@ export default function App() {
             <Route path="/rfq" element={<RfqPage />} />
             <Route path="/transport" element={<TransportPage />} />
             <Route path="/dropshipping" element={<DropshippingPage />} />
+            <Route path="/whatsapp" element={<WhatsAppPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/admin" element={<AdminPage />} />
           </Routes>
