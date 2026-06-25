@@ -1,6 +1,6 @@
 import {
   BarChart3, Package, FileText, Users, Truck,
-  UserCheck, Activity, Settings, Mail, Clock, ArrowRight, Store, ShoppingCart
+  UserCheck, Activity, Settings, Mail, Clock, ArrowRight, Store, ShoppingCart, MessageCircle
 } from 'lucide-react';
 import { APP_EMAIL } from '../utils/constants';
 
@@ -181,6 +181,43 @@ export function AdminPage() {
             </div>
           );
         })}
+      </div>
+
+      {/* ─── WHATSAPP BOT SETUP ─── */}
+      <div className="sectionTitle" style={{ marginTop: 40 }}>
+        <h2>Configuration WhatsApp</h2>
+      </div>
+      <div className="card" style={{ padding: 24 }}>
+        <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start', flexWrap: 'wrap' }}>
+          <div style={{
+            width: 56, height: 56, borderRadius: 16,
+            background: '#075e54', display: 'grid',
+            placeItems: 'center', color: 'white', flexShrink: 0
+          }}>
+            <MessageCircle size={28} />
+          </div>
+          <div style={{ flex: 1, minWidth: 250 }}>
+            <h3 style={{ margin: '0 0 8px', fontSize: 18 }}>Bot WhatsApp IKABAY</h3>
+            <p style={{ fontSize: 14, color: '#60716f', lineHeight: 1.5, margin: 0 }}>
+              Connecte le bot WhatsApp pour recevoir les demandes clients, suivre les commandes
+              et gerer le sourcing depuis ton telephone.
+            </p>
+            <div style={{
+              marginTop: 16, background: '#1e293b', borderRadius: 12, padding: 16,
+              fontFamily: "'Fira Code', monospace", fontSize: 13, color: '#e2e8f0'
+            }}>
+              <div>1. <span style={{ color: '#a5f3fc' }}>hermes whatsapp</span></div>
+              <div style={{ color: '#94a3b8', marginLeft: 16 }}># Scanne le QR code avec ton tel</div>
+              <div>2. <span style={{ color: '#a5f3fc' }}>hermes gateway</span></div>
+              <div style={{ color: '#94a3b8', marginLeft: 16 }}># Demarre le bot</div>
+              <div>3. <span style={{ color: '#a5f3fc' }}>WHATSAPP_ALLOWED_USERS=*</span></div>
+              <div style={{ color: '#94a3b8', marginLeft: 16 }}># Dans ~/.hermes/.env</div>
+            </div>
+            <p style={{ fontSize: 12, color: '#8a9b97', marginTop: 12 }}>
+              Guide complet : <code>WHATSAPP_SETUP_GUIDE.md</code>
+            </p>
+          </div>
+        </div>
       </div>
 
     </section>
