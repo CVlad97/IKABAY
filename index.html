@@ -10,13 +10,13 @@
     <title>Ikabay Sourcing</title>
     <link rel="icon" type="image/png" href="/favicon.png" />
     <script>
-      // ===== SPA REDIRECT pour GitHub Pages =====
-      // Execute AVANT React pour que React Router voie la bonne URL
+      // ===== SPA REDIRECT pour domaine racine =====
+      // Execute AVANT React pour que React Router voie l'URL correcte
       (function() {
         var params = new URLSearchParams(window.location.search);
         var redirect = params.get('redirect');
         if (redirect && window.history && window.history.replaceState) {
-          window.history.replaceState({}, '', '/IKABAY/' + redirect);
+          window.history.replaceState({}, '', '/' + redirect);
         }
       })();
     </script>
