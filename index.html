@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Ikabay Sourcing — Sourcing, déstockage, devis et solutions logistiques pour la Caraïbe" />
+    <meta property="og:title" content="Ikabay Sourcing" />
+    <meta property="og:description" content="Trouvez, comparez, achetez et livrez plus intelligemment dans la Caraïbe." />
+    <meta property="og:type" content="website" />
+    <title>Ikabay Sourcing</title>
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <script>
+      // ===== SPA REDIRECT pour domaine racine =====
+      // Execute AVANT React pour que React Router voie l'URL correcte
+      (function() {
+        var params = new URLSearchParams(window.location.search);
+        var redirect = params.get('redirect');
+        if (redirect && window.history && window.history.replaceState) {
+          window.history.replaceState({}, '', '/' + redirect);
+        }
+      })();
+    </script>
+    <script type="module" crossorigin src="/assets/index-B9ZRyR2b.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-D92A5Reg.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
