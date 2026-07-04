@@ -399,7 +399,7 @@ export function RfqPage() {
               fontWeight: 700, fontSize: 14, transition: 'all 0.2s'
             }}
           >
-            {p.label} {p.id === 'all' ? `(${templates.length})` : p.id === 'joel' ? '(8)' : '(7)'}
+            {p.label}
           </button>
         ))}
       </div>

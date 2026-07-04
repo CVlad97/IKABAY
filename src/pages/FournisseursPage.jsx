@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import {
   Building2, Award, Star, TrendingUp, AlertTriangle,
-  Plus, Search, RefreshCw
+  Plus, Search, RefreshCw, ExternalLink, ShoppingCart
 } from 'lucide-react';
+import { products } from '../data/products';
+import { waMessage } from '../utils/constants';
 
 const CATEGORIES = [
   'Accastillage', 'Électronique', 'Sécurité', 'Plomberie',
@@ -14,17 +16,26 @@ const COUNTRIES = [
   'Portugal', 'Chine', 'Turquie', 'USA'
 ];
 
+const SUPPLIER_SCORES = {
+  'Osculati 🇮🇹':     { total: 94, details: { prix: 25, delai: 20, fiabilite: 19, qualite: 18, communication: 12 } },
+  'AD Nautic 🇫🇷':    { total: 88, details: { prix: 22, delai: 19, fiabilite: 18, qualite: 17, communication: 12 } },
+  'SVB Allemagne 🇩🇪': { total: 82, details: { prix: 20, delai: 18, fiabilite: 17, qualite: 16, communication: 11 } },
+  'Comptoir Nautique 🇫🇷': { total: 85, details: { prix: 23, delai: 17, fiabilite: 17, qualite: 16, communication: 12 } },
+  'Quick Nautical 🇮🇹': { total: 91, details: { prix: 26, delai: 20, fiabilite: 18, qualite: 17, communication: 10 } },
+  'X-Vision Marine 🇫🇷': { total: 76, details: { prix: 18, delai: 14, fiabilite: 15, qualite: 18, communication: 11 } },
+  'Tessilmare 🇮🇹':    { total: 88, details: { prix: 23, delai: 18, fiabilite: 18, qualite: 18, communication: 11 } },
+  'Gebomarine 🇫🇷':   { total: 72, details: { prix: 19, delai: 16, fiabilite: 14, qualite: 15, communication: 8 } },
+  'Plastimo 🇫🇷':     { total: 93, details: { prix: 24, delai: 20, fiabilite: 19, qualite: 19, communication: 11 } },
+  'Trend Marine 🇫🇷': { total: 68, details: { prix: 18, delai: 13, fiabilite: 14, qualite: 15, communication: 8 } },
+  'Seatrade 🇮🇹':     { total: 70, details: { prix: 19, delai: 12, fiabilite: 15, qualite: 16, communication: 8 } },
+  'Mantus Marine 🇺🇸': { total: 75, details: { prix: 20, delai: 14, fiabilite: 17, qualite: 16, communication: 8 } },
+  'Qingdao Glory 🇨🇳': { total: 60, details: { prix: 28, delai: 8, fiabilite: 10, qualite: 8, communication: 6 } },
+  'Wudi Chine 🇨🇳':   { total: 55, details: { prix: 27, delai: 7, fiabilite: 9, qualite: 7, communication: 5 } },
+  'Alastin Chine 🇨🇳': { total: 58, details: { prix: 27, delai: 8, fiabilite: 9, qualite: 8, communication: 6 } },
+};
+
 function generateScore() {
-  // Score pondéré sur 100
-  const prix = Math.floor(Math.random() * 31);       // 0-30
-  const delai = Math.floor(Math.random() * 21);       // 0-20
-  const fiabilite = Math.floor(Math.random() * 21);   // 0-20
-  const qualite = Math.floor(Math.random() * 16);     // 0-15
-  const communication = Math.floor(Math.random() * 16); // 0-15
-  return {
-    total: prix + delai + fiabilite + qualite + communication,
-    details: { prix, delai, fiabilite, qualite, communication }
-  };
+  return { total: 0, details: { prix: 0, delai: 0, fiabilite: 0, qualite: 0, communication: 0 } };
 }
 
 function badgeInfo(score) {
@@ -35,21 +46,42 @@ function badgeInfo(score) {
 }
 
 const INITIAL_SUPPLIERS = [
-  { id: 1, name: 'MarineTech SARL', contact: 'Sophie Martin', email: 'sophie@marinetech.fr', phone: '+33 6 12 34 56 78', country: 'France', category: 'Accastillage' },
-  { id: 2, name: 'NauticParts GmbH', contact: 'Hans Weber', email: 'hans@nauticparts.de', phone: '+49 170 9876543', country: 'Allemagne', category: 'Électronique' },
-  { id: 3, name: 'BoatSupply Italia', contact: 'Marco Rossi', email: 'marco@boatsupply.it', phone: '+39 345 6789012', country: 'Italie', category: 'Sécurité' },
-  { id: 4, name: 'SeaPro BV', contact: 'Jan de Vries', email: 'jan@seapro.nl', phone: '+31 6 12345678', country: 'Pays-Bas', category: 'Plomberie' },
+  { id: 1, name: 'Osculati 🇮🇹', contact: 'Vendite Export', email: 'vendite@osculati.com', phone: '+39 02 9353 8111', country: 'Italie', category: 'Accastillage', site: 'https://www.osculati.com' },
+  { id: 2, name: 'AD Nautic 🇫🇷', contact: 'Service Commercial', email: 'contact@adnautic.com', phone: '+33 2 97 65 00 00', country: 'France', category: 'Accastillage', site: 'https://www.adnautic.com' },
+  { id: 3, name: 'SVB Allemagne 🇩🇪', contact: 'Vertrieb', email: 'info@svb.de', phone: '+49 421 5363 0', country: 'Allemagne', category: 'Navigation', site: 'https://www.svb.de' },
+  { id: 4, name: 'Comptoir Nautique 🇫🇷', contact: 'Service Client', email: 'contact@comptoirnautique.fr', phone: '+33 1 84 80 09 00', country: 'France', category: 'Navigation', site: 'https://www.comptoirnautique.fr' },
+  { id: 5, name: 'Quick Nautical 🇮🇹', contact: 'Sales Dept', email: 'info@quicknautical.com', phone: '+39 030 373 1000', country: 'Italie', category: 'Davier', site: 'https://www.quicknautical.com' },
+  { id: 6, name: 'X-Vision Marine 🇫🇷', contact: 'Thomas Dupont', email: 'contact@x-vision-marine.com', phone: '+33 6 14 78 90 12', country: 'France', category: 'Sellerie', site: 'https://www.x-vision-marine.com' },
+  { id: 7, name: 'Tessilmare 🇮🇹', contact: 'Ufficio Commerciale', email: 'info@tessilmare.com', phone: '+39 0421 267 411', country: 'Italie', category: 'Liston', site: 'https://www.tessilmare.com' },
+  { id: 8, name: 'Plastimo / Comptoir Nautique 🇫🇷', contact: 'SAV Plastimo', email: 'sav@plastimo.com', phone: '+33 2 97 02 82 82', country: 'France', category: 'Compas', site: 'https://www.plastimo.com' },
+  { id: 9, name: 'GEODIS Logistics 🇫🇷', contact: 'Transport Maritime', email: 'contact@geodis.com', phone: '+33 1 55 95 30 00', country: 'France', category: 'Transport', site: 'https://www.geodis.com' },
+  { id: 10, name: 'Gebomarine 🇫🇷', contact: 'Carine Lambert', email: 'contact@gebomarine.com', phone: '+33 4 94 85 20 20', country: 'France', category: 'Hublots', site: 'https://www.gebomarine.com' },
+  { id: 11, name: 'Trend Marine 🇫🇷', contact: 'Service Devis', email: 'devis@trendmarine.com', phone: '+33 2 40 92 31 31', country: 'France', category: 'Sellerie', site: 'https://www.trendmarine.com' },
+  { id: 12, name: 'Qingdao Glory 🇨🇳', contact: 'Grace Wang', email: 'grace@gloryhardware.cn', phone: '+86 532 8896 1234', country: 'Chine', category: 'Taquets', site: 'https://gloryhardware.en.alibaba.com' },
+  { id: 13, name: 'Mantus Marine 🇺🇸', contact: 'Support', email: 'info@mantusmarine.com', phone: '+1 713 510 5345', country: 'USA', category: 'Davier', site: 'https://www.mantusmarine.com' },
 ];
 
 const OFFERS = [
-  { produit: 'Bouée de sauvetage', prixAchat: 12, transport: 3, delai: '10 jours', MOQ: 50, garantie: '2 ans', fournisseur: 'MarineTech SARL' },
-  { produit: 'Feu tribord vert', prixAchat: 15, transport: 4, delai: '14 jours', MOQ: 100, garantie: '1 an', fournisseur: 'NauticParts GmbH' },
-  { produit: 'Charnière inox', prixAchat: 8, transport: 2, delai: '7 jours', MOQ: 200, garantie: '2 ans', fournisseur: 'BoatSupply Italia' },
-  { produit: 'Projecteur LED', prixAchat: 22, transport: 5, delai: '12 jours', MOQ: 75, garantie: '3 ans', fournisseur: 'SeaPro BV' },
+  { produit: 'Compas magnétique Plastimo Contest 150', prixAchat: 543.90, transport: 26, delai: '48h stock', MOQ: 1, garantie: '2 ans', fournisseur: 'Comptoir Nautique 🇫🇷', categorie: 'Navigation', cat: 'compas' },
+  { produit: 'Liston PVC prépercé barre 6m', prixAchat: 8.90, transport: 2, delai: '5-7j stock', MOQ: 6, garantie: '1 an', fournisseur: 'Osculati 🇮🇹', categorie: 'Accastillage', cat: 'liston' },
+  { produit: 'Liseret PVC compatible liston (barre 6m)', prixAchat: 3.50, transport: 1, delai: '5-7j stock', MOQ: 6, garantie: '1 an', fournisseur: 'Osculati 🇮🇹', categorie: 'Accastillage', cat: 'liston' },
+  { produit: 'Hublot ovale inox 365x150mm Osculati 81.502', prixAchat: 85.90, transport: 8, delai: '5-7j stock', MOQ: 4, garantie: '2 ans', fournisseur: 'Osculati 🇮🇹', categorie: 'Accastillage', cat: 'hublots' },
+  { produit: 'Bolster double baquet avec sellerie', prixAchat: 1800, transport: 120, delai: '4-6 sem', MOQ: 1, garantie: '2 ans', fournisseur: 'X-Vision Marine 🇫🇷', categorie: 'Sellerie', cat: 'sieges' },
+  { produit: 'Davier bow roller Quick Nemo 10kg', prixAchat: 99, transport: 12, delai: '72h stock', MOQ: 5, garantie: '2 ans', fournisseur: 'Quick Nautical 🇮🇹', categorie: 'Accastillage', cat: 'davier' },
+  { produit: 'Échelle inox 4 marches Osculati 84.840', prixAchat: 112.50, transport: 15, delai: '5-7j stock', MOQ: 5, garantie: '2 ans', fournisseur: 'Osculati 🇮🇹', categorie: 'Accastillage', cat: 'echelles' },
+  { produit: 'Taquet inox 200mm Osculati 90.613', prixAchat: 18.50, transport: 4, delai: '5-7j stock', MOQ: 35, garantie: '2 ans', fournisseur: 'Osculati 🇮🇹', categorie: 'Accastillage', cat: 'taquets' },
+  { produit: 'Loquet inox simple 92.100', prixAchat: 9.80, transport: 2, delai: '5-7j stock', MOQ: 10, garantie: '2 ans', fournisseur: 'Osculati 🇮🇹', categorie: 'Accastillage', cat: 'loquets' },
+  { produit: 'Loquet inox à clé 92.102', prixAchat: 14.50, transport: 2, delai: '5-7j stock', MOQ: 10, garantie: '2 ans', fournisseur: 'Osculati 🇮🇹', categorie: 'Accastillage', cat: 'loquets' },
+  { produit: 'Porte-gobelet inox Osculati 84.970', prixAchat: 8.50, transport: 2, delai: '5-7j stock', MOQ: 20, garantie: '2 ans', fournisseur: 'Osculati 🇮🇹', categorie: 'Accastillage', cat: 'accastillage-inox' },
+  { produit: 'Taquet inox 200mm (MOQ100) Alibaba', prixAchat: 2.50, transport: 3, delai: '15-20j + fret', MOQ: 100, garantie: '1 an', fournisseur: 'Qingdao Glory 🇨🇳', categorie: 'Accastillage', cat: 'taquets' },
+  { produit: 'Loquet simple inox (MOQ300) Alibaba', prixAchat: 2.50, transport: 2, delai: '20-30j + fret', MOQ: 300, garantie: '1 an', fournisseur: 'Wudi Chine 🇨🇳', categorie: 'Accastillage', cat: 'loquets' },
 ];
 
 export function FournisseursPage() {
-  const [suppliers, setSuppliers] = useState(INITIAL_SUPPLIERS.map(s => ({ ...s, ...generateScore() })));
+  const [suppliers, setSuppliers] = useState(INITIAL_SUPPLIERS.map(s => {
+    const score = SUPPLIER_SCORES[s.name] || { total: 50, details: { prix: 12, delai: 10, fiabilite: 10, qualite: 9, communication: 9 } };
+    return { ...s, ...score };
+  }));
   const [showForm, setShowForm] = useState(false);
   const [search, setSearch] = useState('');
   const [form, setForm] = useState({ name: '', contact: '', email: '', phone: '', country: '', category: '' });
@@ -249,15 +281,32 @@ export function FournisseursPage() {
                 {s.phone && <div>📞 {s.phone}</div>}
               </div>
 
-              {/* Action */}
-              <button onClick={() => handleRefreshScore(s.id)}
-                style={{
-                  display: 'inline-flex', alignItems: 'center', gap: 6,
-                  background: 'none', border: '1px solid rgba(16,32,34,0.13)', borderRadius: 12,
-                  padding: '8px 14px', fontWeight: 700, fontSize: 12, cursor: 'pointer', color: '#435956', width: '100%', justifyContent: 'center'
-                }}>
-                <RefreshCw size={14} /> Recalculer score
-              </button>
+              {/* Actions */}
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                {s.site && (
+                  <a href={s.site} target="_blank" rel="noreferrer"
+                    style={{
+                      display: 'inline-flex', alignItems: 'center', gap: 5,
+                      background: '#0f766e', color: 'white', border: 0, borderRadius: 12,
+                      padding: '8px 14px', fontWeight: 700, fontSize: 12, cursor: 'pointer',
+                      textDecoration: 'none', flex: 1, justifyContent: 'center'
+                    }}>
+                    <ExternalLink size={13} /> Site
+                  </a>
+                )}
+                <button onClick={() => {
+                  const msg = `Bonjour ${s.name},\n\nJe suis Ikabay Sourcing, spécialiste en approvisionnement nautique pour la Martinique.\n\nNous avons identifié vos produits comme pertinents pour notre projet d'équipement de 5 bateaux de plaisance.\n\nPourriez-vous nous faire parvenir votre catalogue et vos meilleurs tarifs pour les articles suivants ?\n\nMerci de nous communiquer :\n- Prix unitaire HT (EXW ou FOB)\n- Délais de livraison\n- MOQ\n- Fiche technique et photos produits\n\nDans l'attente de votre retour, cordialement.\n\nIkabay Sourcing`;
+                  window.open(waMessage(msg), '_blank');
+                }}
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', gap: 5,
+                    background: '#25d366', color: 'white', border: 0, borderRadius: 12,
+                    padding: '8px 14px', fontWeight: 700, fontSize: 12, cursor: 'pointer',
+                    flex: 1, justifyContent: 'center'
+                  }}>
+                  <ShoppingCart size={13} /> RFQ
+                </button>
+              </div>
             </div>
           );
         })}
@@ -285,9 +334,9 @@ export function FournisseursPage() {
             <tbody>
               {OFFERS.map((offer, i) => {
                 const margin = getOfferMargin(offer);
-                const supplier = suppliers.find(s => s.name === offer.fournisseur);
-                const score = supplier?.total ?? Math.floor(60 + Math.random() * 40);
-                const badge = badgeInfo(score);
+                const supplierScore = SUPPLIER_SCORES[offer.fournisseur] || { total: 50, details: { prix: 12, delai: 10, fiabilite: 10, qualite: 9, communication: 9 } };
+                const score = supplierScore.total;
+                  const badge = badgeInfo(score);
                 return (
                   <tr key={i} style={{ borderBottom: '1px solid rgba(16,32,34,0.04)' }}>
                     <td style={{ padding: '12px 10px', fontWeight: 700, color: '#0a4a5c' }}>{offer.produit}</td>

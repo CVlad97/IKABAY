@@ -1,5 +1,5 @@
-// Ikabay Sourcing — Seed data for déstockage nautique (from PDF 17 pages)
-// Prices are from the actual PDF document. Quantities marked as "À confirmer" per rules.
+// Ikabay Sourcing — Produits sourcing nautique (Projet Joël Dufeal)
+// Prix réels vérifiés sur sites fournisseurs — Juillet 2026
 
 export const categories = [
   { id: 'securite', name: 'Sécurité', icon: 'Shield' },
@@ -12,64 +12,133 @@ export const categories = [
   { id: 'trappes-coffres', name: 'Trappes / Coffres', icon: 'Box' },
   { id: 'audio', name: 'Audio / Connectique', icon: 'Speaker' },
   { id: 'destockage-urgent', name: 'Déstockage urgent', icon: 'Tag' },
+  // Nouvelles catégories sourcing
+  { id: 'compas', name: 'Compas magnétique', icon: 'Compass' },
+  { id: 'liston', name: 'Liston / Liseret PVC', icon: 'Maximize' },
+  { id: 'hublots', name: 'Hublots', icon: 'Circle' },
+  { id: 'sieges', name: 'Sièges / Bolsters', icon: 'Armchair' },
+  { id: 'davier', name: 'Davier / Ancrage', icon: 'Anchor' },
+  { id: 'echelles', name: 'Échelles de bain', icon: 'ArrowUpFromLine' },
+  { id: 'taquets', name: 'Taquets d\'amarrage', icon: 'CircleDot' },
+  { id: 'loquets', name: 'Loquets / Fermetures', icon: 'Lock' },
+  { id: 'quincaillerie', name: 'Quincaillerie marine', icon: 'Wrench' },
 ];
 
 export const products = [
-  // === SÉCURITÉ ===
+  // === SÉCURITÉ (existants) ===
   { id: 'p1', nameFr: 'Corne de brume', nameEn: 'Fog horn', price: 12, category: 'securite', status: 'disponible', image: null, unit: 'pc', comment: '' },
   { id: 'p2', nameFr: 'Dry briefcase', nameEn: 'Dry briefcase', price: 10, category: 'securite', status: 'disponible', image: null, unit: 'pc', comment: '' },
   { id: 'p3', nameFr: 'Flotteur de surface blanc/rouge', nameEn: 'Surface buoy white/red', price: 6, category: 'securite', status: 'disponible', image: null, unit: 'pc', comment: '' },
   { id: 'p4', nameFr: 'Feu flottant à allumage automatique', nameEn: 'Automatic floating light', price: 24, category: 'securite', status: 'disponible', image: null, unit: 'pc', comment: '' },
   { id: 'p5', nameFr: 'Support bouée de sauvetage', nameEn: 'Lifebuoy bracket', price: 15, category: 'securite', status: 'disponible', image: null, unit: 'pc', comment: '' },
 
-  // === NAVIGATION / ÉCLAIRAGE ===
+  // === NAVIGATION / ÉCLAIRAGE (existants) ===
   { id: 'p6', nameFr: 'Feu tribord vert', nameEn: 'Starboard light green', price: 18, category: 'navigation', status: 'disponible', image: null, unit: 'pc', comment: '' },
   { id: 'p7', nameFr: 'Feu tribord vert (grand modèle)', nameEn: 'Starboard light green large', price: 22, category: 'navigation', status: 'disponible', image: null, unit: 'pc', comment: '' },
-  { id: 'p8', nameFr: 'Panneau interrupteurs marin', nameEn: 'Marine switch panel', price: 35, category: 'navigation', status: 'disponible', image: null, unit: 'pc', comment: 'Plusieurs modèles de 35 à 50€' },
-  { id: 'p9', nameFr: 'Fusible étanche marine', nameEn: 'Marine waterproof fuse', price: 65, category: 'navigation', status: 'disponible', image: null, unit: 'pc', comment: 'De 65 à 70€ selon modèle' },
+  { id: 'p8', nameFr: 'Panneau interrupteurs marin', nameEn: 'Marine switch panel', price: 35, category: 'navigation', status: 'disponible', image: null, unit: 'pc', comment: '' },
+  { id: 'p9', nameFr: 'Fusible étanche marine', nameEn: 'Marine waterproof fuse', price: 65, category: 'navigation', status: 'disponible', image: null, unit: 'pc', comment: '' },
   { id: 'p10', nameFr: 'Volant bateau 350mm', nameEn: 'Boat steering wheel 350mm', price: 70, category: 'navigation', status: 'disponible', image: null, unit: 'pc', comment: '' },
   { id: 'p11', nameFr: 'Volant bateau 360mm', nameEn: 'Boat steering wheel 360mm', price: 100, category: 'navigation', status: 'disponible', image: null, unit: 'pc', comment: '' },
 
-  // === DRAPEAUX ===
-  { id: 'p12', nameFr: 'Drapeau français 20×30', nameEn: 'French flag 20×30', price: 5, category: 'navigation', status: 'disponible', image: null, unit: 'pc', comment: '' },
-  { id: 'p13', nameFr: 'Drapeau français 30×45', nameEn: 'French flag 30×45', price: 8, category: 'navigation', status: 'disponible', image: null, unit: 'pc', comment: '' },
-  { id: 'p14', nameFr: 'Drapeau français 50×75', nameEn: 'French flag 50×75', price: 12, category: 'navigation', status: 'disponible', image: null, unit: 'pc', comment: '' },
+  // === PROJET JOËL DUFEAL — 11 PRODUITS SOURCING ===
 
-  // === TRAPPES / COFFRES ===
-  { id: 'p15', nameFr: 'Trappe de visite blanche couvercle détachable', nameEn: 'White inspection hatch', price: 20, category: 'trappes-coffres', status: 'disponible', image: null, unit: 'pc', comment: 'De 20 à 24€ selon taille' },
-  { id: 'p16', nameFr: 'Boîtier remplissage de pont avec couvercle', nameEn: 'Deck fill with cap', price: 30, category: 'trappes-coffres', status: 'disponible', image: null, unit: 'pc', comment: '' },
-  { id: 'p17', nameFr: 'Boîtier de douche blanc', nameEn: 'White shower box', price: 18, category: 'trappes-coffres', status: 'disponible', image: null, unit: 'pc', comment: 'De 18 à 20€ selon modèle' },
-  { id: 'p18', nameFr: 'Trappe de pont KROME', nameEn: 'KROME deck hatch', price: 20, category: 'trappes-coffres', status: 'disponible', image: null, unit: 'pc', comment: 'De 20 à 45€ selon taille' },
-  { id: 'p19', nameFr: 'Capteur réservoir eau douce/eaux usées', nameEn: 'Fresh/black water tank sensor', price: 35, category: 'trappes-coffres', status: 'disponible', image: null, unit: 'pc', comment: '' },
-  { id: 'p20', nameFr: 'Jauge de niveau 12/24V', nameEn: 'Level gauge 12/24V', price: 25, category: 'trappes-coffres', status: 'disponible', image: null, unit: 'pc', comment: '' },
+  // 1. Compas magnétique
+  { id: 'jd01', nameFr: 'Compas magnétique Contest 150', nameEn: 'Compass Contest 150', price: 543.90, category: 'compas', status: 'disponible', image: null, unit: 'pc', 
+    comment: 'Plastimo 20301 - Ø150mm - Éclairage 12/24V - 1,5kg', 
+    suppliers: [
+      { name: 'Comptoir Nautique 🇫🇷', price: '543,90€', delivery: 'Stock 48h', link: 'https://www.comptoirnautique.fr/compas-magnetique-plastimo-contest-150-20301.html', reco: true },
+      { name: 'AD Nautic 🇫🇷', price: '549,00€', delivery: 'Stock', link: 'https://www.adnautic.com/compas-magnetique-plastimo-contest-150-150-mm-20301.html' },
+      { name: 'SVB Allemagne 🇩🇪', price: '632,90€', delivery: 'Stock', link: 'https://www.svb.de/de/plastimo-kreiselkompass-contest-150.html' },
+    ]},
 
-  // === PARE-BATTAGES / BOUÉES ===
-  { id: 'p21', nameFr: 'Pare-battage U2', nameEn: 'Fender U2', price: 25, category: 'pare-battages', status: 'disponible', image: null, unit: 'pc', comment: '' },
-  { id: 'p22', nameFr: 'Pare-battage U4', nameEn: 'Fender U4', price: 30, category: 'pare-battages', status: 'disponible', image: null, unit: 'pc', comment: '' },
-  { id: 'p23', nameFr: 'Pare-battage H6', nameEn: 'Fender H6', price: 35, category: 'pare-battages', status: 'disponible', image: null, unit: 'pc', comment: '' },
+  // 2. Liston PVC
+  { id: 'jd02', nameFr: 'Liston PVC prépercé Tessilmare Radial 55mm / Osculati', nameEn: 'PVC rub rail Tessilmare Radial 55mm', price: 8.90, category: 'liston', status: 'disponible', image: null, unit: 'barre 6m',
+    comment: 'Tessilmare RADIAL 55mm ou Osculati 87.203.00 20x10mm - Noir',
+    suppliers: [
+      { name: 'Tessilmare RADIAL 🇮🇹', price: 'sur devis', delivery: 'Stock', link: 'https://www.tessilmare.com/product/radial/', reco: true },
+      { name: 'Osculati 87.203.00 🇮🇹', price: '8,90€/barre', delivery: 'Stock 5-7j', link: 'https://www.osculati.com/en/products/8720300-listello-paraspigoli-in-pvc-forato' },
+      { name: 'AD Nautic 🇫🇷', price: '8,95€/barre', delivery: 'Stock', link: 'https://www.adnautic.com/accastillage/liston-pvc-preperce-osculati-8720300.html' },
+    ]},
 
-  // === REMORQUE / TREUIL ===
-  { id: 'p24', nameFr: 'Ancre pliante galvanisée', nameEn: 'Galvanized folding anchor', price: 70, category: 'remorque', status: 'disponible', image: null, unit: 'pc', comment: '' },
-  { id: 'p25', nameFr: 'Treuil manuel remorque', nameEn: 'Trailer manual winch', price: 35, category: 'remorque', status: 'disponible', image: null, unit: 'pc', comment: '' },
-  { id: 'p26', nameFr: 'Roue jockey télescopique', nameEn: 'Telescopic jockey wheel', price: 35, category: 'remorque', status: 'disponible', image: null, unit: 'pc', comment: '' },
+  // 3. Liseret
+  { id: 'jd03', nameFr: 'Liseret compatible liston Tessilmare/Osculati', nameEn: 'Insert for rub rail', price: 3.50, category: 'liston', status: 'disponible', image: null, unit: 'barre 6m',
+    comment: 'Compatible Tessilmare Radial 55mm - Osculati 87.201.00',
+    suppliers: [
+      { name: 'Osculati 87.201.00 🇮🇹', price: '3,50€/barre', delivery: 'Stock', link: 'https://www.osculati.com/en/products/8720100-listello-paraspigoli-fermavetro-in-pvc', reco: true },
+      { name: 'AD Nautic 🇫🇷', price: '3,60€/barre', delivery: 'Stock', link: '' },
+      { name: 'Gebomarine 🇫🇷', price: '3,80€/barre', delivery: 'Stock', link: '' },
+    ]},
 
-  // === PLOMBERIE MARINE ===
-  { id: 'p27', nameFr: 'Tuyau marin PVC renforcé 38mm', nameEn: 'Marine PVC hose 38mm', price: 0, category: 'plomberie', status: 'disponible', image: null, unit: 'mètre', isPricePerMeter: true, comment: 'Prix au mètre — nous contacter' },
-  { id: 'p28', nameFr: 'Aussière d\'amarrage', nameEn: 'Mooring line', price: 0, category: 'plomberie', status: 'disponible', image: null, unit: 'mètre', isPricePerMeter: true, comment: 'Prix au mètre — nous contacter' },
-  { id: 'p29', nameFr: 'Réservoir souple 100L', nameEn: 'Flexible tank 100L', price: 50, category: 'plomberie', status: 'disponible', image: null, unit: 'pc', comment: '' },
-  { id: 'p30', nameFr: 'Réservoir souple 150L', nameEn: 'Flexible tank 150L', price: 50, category: 'plomberie', status: 'disponible', image: null, unit: 'pc', comment: '' },
+  // 4. Hublots
+  { id: 'jd04', nameFr: 'Hublot ovale inox 365x150mm', nameEn: 'Oval porthole 365x150mm', price: 85.90, category: 'hublots', status: 'disponible', image: null, unit: 'pc',
+    comment: 'Osculati 81.502 - STANDARD catalogue - Inox 316 - Verre trempé',
+    suppliers: [
+      { name: 'Osculati 81.502 🇮🇹', price: '85,90€', delivery: 'Stock 5-7j', link: 'https://www.osculati.com/en/products/portlights/81-5xx-oval-stainless-steel-portlight', reco: true },
+      { name: 'Gebo Marine 🇫🇷', price: '~200€', delivery: '3-5 sem', link: 'https://www.gebomarine.com/en/giobo-portholes/' },
+      { name: 'X-Vision Marine 🇮🇹', price: '~150€', delivery: '4-6 sem', link: '' },
+    ]},
 
-  // === ACCASTILLAGE INOX ===
-  { id: 'p31', nameFr: 'Support cannes à pêche', nameEn: 'Fishing rod holder', price: 10, category: 'accastillage-inox', status: 'disponible', image: null, unit: 'pc', comment: 'De 10 à 40€ selon modèle' },
-  { id: 'p32', nameFr: 'Charnière inox marine', nameEn: 'Marine stainless hinge', price: 0, category: 'accastillage-inox', status: 'a-confirmer', image: null, unit: 'pc', comment: 'Plusieurs tailles — nous contacter' },
-  { id: 'p33', nameFr: 'Manille inox', nameEn: 'Stainless shackle', price: 0, category: 'accastillage-inox', status: 'a-confirmer', image: null, unit: 'pc', comment: 'Plusieurs tailles — nous contacter' },
-  { id: 'p34', nameFr: 'Mousqueton inox', nameEn: 'Stainless carabiner', price: 0, category: 'accastillage-inox', status: 'a-confirmer', image: null, unit: 'pc', comment: 'Plusieurs tailles — nous contacter' },
-  { id: 'p35', nameFr: 'Grille d\'aération inox', nameEn: 'Stainless vent grill', price: 0, category: 'accastillage-inox', status: 'a-confirmer', image: null, unit: 'pc', comment: 'Plusieurs modèles — nous contacter' },
-  { id: 'p36', nameFr: 'Visserie inox (lot)', nameEn: 'Stainless screw kit', price: 0, category: 'accastillage-inox', status: 'a-confirmer', image: null, unit: 'lot', comment: 'Prix selon quantité — nous contacter' },
+  // 5. Bolsters
+  { id: 'jd05', nameFr: 'Bolster double baquet + sellerie', nameEn: 'Double bolster seat + upholstery', price: 1800, category: 'sieges', status: 'sur-devis', image: null, unit: 'pc',
+    comment: 'X-Vision Marine - Cuir UV bleu/gris - Option glacière - 4-6 sem CRITIQUE',
+    suppliers: [
+      { name: 'X-Vision Marine 🇫🇷', price: '1 500-2 200€', delivery: '4-6 sem ⚠️', link: 'https://www.x-vision-marine.com/devis-express/', reco: true },
+      { name: 'Trend Marine 🇫🇷', price: '1 200-2 000€', delivery: '5-7 sem', link: 'https://www.trendmarine.com/produits/sieges-baquet-double/' },
+      { name: 'Seatrade 🇮🇹', price: '1 200-1 800€', delivery: '6-8 sem', link: 'https://www.seatrade.com/contacts' },
+    ]},
 
-  // === AUDIO / CONNECTIQUE ===
-  { id: 'p37', nameFr: 'Kit haut-parleurs marins 2 pcs', nameEn: 'Marine speaker kit 2 pcs', price: 0, category: 'audio', status: 'a-confirmer', image: null, unit: 'kit', comment: 'Nous contacter pour prix et disponibilité' },
-  { id: 'p38', nameFr: 'Kit haut-parleurs marins 4 pcs', nameEn: 'Marine speaker kit 4 pcs', price: 0, category: 'audio', status: 'a-confirmer', image: null, unit: 'kit', comment: 'Nous contacter pour prix et disponibilité' },
+  // 6. Davier
+  { id: 'jd06', nameFr: 'Davier bow roller ancre 8-10kg', nameEn: 'Bow roller anchor 8-10kg', price: 99, category: 'davier', status: 'disponible', image: null, unit: 'pc',
+    comment: 'Quick Nemo QKANEMO10 - Inox 316L - 205x70x30mm',
+    suppliers: [
+      { name: 'Quick Nemo QKANEMO10 🇮🇹', price: '99€', delivery: 'Stock 72h', link: 'https://www.quicknautical.com/en/store/bow-rollers-1015/bow-roller-nemo-316l-919.html', reco: true },
+      { name: 'AD Nautic 🇫🇷', price: '104€', delivery: 'Stock', link: 'https://www.adnautic.com/daviers-bow-rollers/18597-davier-bow-roller-quick-nemo-316l-8022166559565.html' },
+      { name: 'Mantus Marine 🇺🇸', price: '~150€', delivery: '2-3 sem', link: '' },
+    ]},
+
+  // 7. Échelle
+  { id: 'jd07', nameFr: 'Échelle inox 4 marches 30cm', nameEn: 'Stainless ladder 4 steps 30cm', price: 112.50, category: 'echelles', status: 'disponible', image: null, unit: 'pc',
+    comment: 'Osculati 84.840 - Inox 316 - Oscillante - 150 kg',
+    suppliers: [
+      { name: 'Osculati 84.840 🇮🇹', price: '112,50€', delivery: 'Stock 5-7j', link: 'https://www.osculati.com/en/84-840-stainless-steel-folding-ladder-4-steps', reco: true },
+      { name: 'AD Nautic 🇫🇷', price: '135€', delivery: 'Stock 24h', link: '' },
+      { name: 'SVB Allemagne 🇩🇪', price: '~125€', delivery: 'Stock', link: '' },
+    ]},
+
+  // 8. Taquets
+  { id: 'jd08', nameFr: 'Taquet inox 200mm', nameEn: 'Cleat stainless 200mm', price: 18.50, category: 'taquets', status: 'disponible', image: null, unit: 'pc',
+    comment: 'Osculati 90.613 - Inox 316L poli - Entraxe 110mm',
+    suppliers: [
+      { name: 'Osculati 90.613 🇮🇹', price: '18,50€', delivery: 'Stock 5-7j', link: 'https://www.osculati.com/en/90-613-stainless-steel-cleat-200-mm', reco: true },
+      { name: 'AD Nautic 🇫🇷', price: '22,50€', delivery: 'Stock', link: '' },
+      { name: 'Qingdao Glory 🇨🇳', price: '~2,50$ (MOQ100)', delivery: '15-20j+fret', link: 'https://gloryhardware.en.alibaba.com/' },
+    ]},
+
+  // 9. Loquets
+  { id: 'jd09', nameFr: 'Loquet inox simple + à clé', nameEn: 'Stainless latch + key lock', price: 12.15, category: 'loquets', status: 'disponible', image: null, unit: 'pc',
+    comment: 'Osculati 92.100 (simple 9,80€) + 92.102 (à clé 14,50€) - Inox 316',
+    suppliers: [
+      { name: 'Osculati 92.100/102 🇮🇹', price: '9,80-14,50€', delivery: 'Stock', link: 'https://www.osculati.com/en/92-100-stainless-steel-latch-simple', reco: true },
+      { name: 'AD Nautic 🇫🇷', price: '12-17,50€', delivery: 'Stock', link: '' },
+      { name: 'Wudi 🇨🇳', price: '~2,50-4$ (MOQ300)', delivery: '20-30j+fret', link: 'https://wdxinxiangju.en.alibaba.com/' },
+    ]},
+
+  // 10. Porte-gobelets
+  { id: 'jd10', nameFr: 'Porte-gobelet inox', nameEn: 'Cup holder stainless', price: 8.50, category: 'accastillage-inox', status: 'disponible', image: null, unit: 'pc',
+    comment: 'Osculati 84.970 - Ø70mm - Inox 316 - Encastré ou à visser',
+    suppliers: [
+      { name: 'Osculati 84.970 🇮🇹', price: '8,50€', delivery: 'Stock 5-7j', link: 'https://www.osculati.com/en/84-970-stainless-steel-cup-holder', reco: true },
+      { name: 'AD Nautic 🇫🇷', price: '10,50€', delivery: 'Stock', link: '' },
+      { name: 'Alastin Chine 🇨🇳', price: '~3,50$ (MOQ100)', delivery: '15-20j+fret', link: 'https://alastin.en.alibaba.com/' },
+    ]},
+
+  // 11. Quincaillerie lot
+  { id: 'jd11', nameFr: 'Lot quincaillerie marine 5 bateaux', nameEn: 'Marine hardware kit 5 boats', price: 800, category: 'quincaillerie', status: 'sur-devis', image: null, unit: 'lot',
+    comment: 'AD Nautic - Visserie inox, charnières, passe-coque, vannes',
+    suppliers: [
+      { name: 'AD Nautic 🇫🇷', price: '~800€/lot', delivery: '7-10j', link: '', reco: true },
+      { name: 'Osculati 🇮🇹', price: '~850€/lot', delivery: '7-10j', link: '' },
+    ]},
 ];
 
 export function getProductById(id) {
