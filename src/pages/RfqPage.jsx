@@ -153,21 +153,21 @@ Ikabay Sourcing` },
 
   // PROJET IKABAY — 8 RFQ SOURCING NAUTIQUE (generiques, sans client)
     {
-      id: 'ikabay-xvision',
-      title: 'X-Vision Marine — Bolsters doubles',
-      subject: 'DEMANDE DE PRIX — Bolsters doubles marine — Catalogue IKABAY Sourcing',
-      body: `Bonjour,
+      id: 'ikabay-ullman',
+      title: 'Ullman Dynamics — Bolsters pilots',
+      subject: 'DEMANDE DE PRIX — Sièges pilotes marin — Catalogue IKABAY Sourcing',
+      body: `Dear Ullman Dynamics Team,
 
-  IKABAY Sourcing, specialiste en approvisionnement nautique pour la Martinique, constitue son catalogue et souhaite vos tarifs pour :
+  IKABAY Sourcing, marine equipment procurement specialist based in Martinique, is building its catalog and requests your pricing for:
 
-  Bolster double (baquet) — cuir synthetique marine grade UV, anti-moisissure
-  Coloris : bleu/gris + gris premium
-  Pietement aluminium marine grade
-  Option glaciere integree OUI/NON
+  Double bolster seat (pilot) — marine-grade synthetic leather, UV-resistant, anti-mold
+  Colors: blue/grey + premium grey
+  Aluminum marine-grade frame
+  Integrated cooler option YES/NO
 
-  Merci de preciser : prix HT, delai, options, poids colis, livraison DOM.
+  Please quote: price EXW, lead time, options, package weight, shipment to Caribbean (FOM, Martinique).
 
-  Cordialement,
+  Best regards,
   IKABAY Sourcing` },
     {
       id: 'ikabay-osculati',
@@ -262,14 +262,16 @@ Ikabay Sourcing` },
   IKABAY Sourcing` },
     {
       id: 'ikabay-geodis',
-      title: 'GEODIS — Transport logistique',
-      subject: 'DEMANDE DE TARIF — Transport LCL France + Chine vers Martinique',
+      title: 'GEODIS — Transport logistique (formulaire)',
+      subject: 'IKABAY Sourcing — Demande transport maritime Martinique via formulaire web',
       body: `Bonjour,
 
   IKABAY Sourcing prepare des expeditions regulieres vers Fort-de-France (Martinique) :
 
-  A - FRANCE (Le Havre/Marseille) : equipement nautique, 3-4m3, 300-500kg, LCL
-  B - CHINE (Qingdao/Ningbo) : quincaillerie inox, 1-2m3, 100-200kg, LCL (option)
+  ROUTE A — FRANCE (Le Havre/Marseille) : equipement nautique, 3-4m3, 300-500kg, LCL
+  ROUTE B — CHINE (Qingdao/Ningbo) : quincaillerie inox, 1-2m3, 100-200kg, LCL (option)
+
+  ⚠️ Contacter via formulaire : https://www.geodis.com/fr/nous-contacter
 
   Merci d'indiquer prix par route, delai, prestations incluses (dedouanement, assurance). Possibilite consolider ?
 

@@ -74,17 +74,17 @@ export const products = [
     comment: 'Osculati 81.502 - STANDARD catalogue - Inox 316 - Verre trempé',
     suppliers: [
       { name: 'Osculati 81.502 🇮🇹', price: '85,90€', delivery: 'Stock 5-7j', link: 'https://www.osculati.com/en/products/portlights/81-5xx-oval-stainless-steel-portlight', reco: true },
-      { name: 'Gebo Marine 🇫🇷', price: '~200€', delivery: '3-5 sem', link: 'https://www.gebomarine.com/en/giobo-portholes/' },
-      { name: 'X-Vision Marine 🇮🇹', price: '~150€', delivery: '4-6 sem', link: '' },
+      { name: 'Trend Marine 🇫🇷', price: '~130€', delivery: '5-7j', link: '' },
+      { name: 'SVB Allemagne 🇩🇪', price: '95€', delivery: 'Stock', link: '' },
     ]},
 
   // 5. Bolsters
   { id: 'jd05', nameFr: 'Bolster double baquet + sellerie', nameEn: 'Double bolster seat + upholstery', price: 1800, category: 'sieges', status: 'sur-devis', image: null, unit: 'pc',
     comment: 'X-Vision Marine - Cuir UV bleu/gris - Option glacière - 4-6 sem CRITIQUE',
     suppliers: [
-      { name: 'X-Vision Marine 🇫🇷', price: '1 500-2 200€', delivery: '4-6 sem ⚠️', link: 'https://www.x-vision-marine.com/devis-express/', reco: true },
+      { name: 'Ullman Dynamics 🇸🇪', price: 'sur devis', delivery: '4-8 sem', link: 'https://www.ullmandynamics.com', reco: true },
+      { name: 'Ros Industrie 🇮🇹', price: 'sur devis', delivery: '4-6 sem', link: 'https://www.rosindustrie.com/' },
       { name: 'Trend Marine 🇫🇷', price: '1 200-2 000€', delivery: '5-7 sem', link: 'https://www.trendmarine.com/produits/sieges-baquet-double/' },
-      { name: 'Seatrade 🇮🇹', price: '1 200-1 800€', delivery: '6-8 sem', link: 'https://www.seatrade.com/contacts' },
     ]},
 
   // 6. Davier
