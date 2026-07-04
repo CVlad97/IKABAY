@@ -3,9 +3,8 @@ import {
   Send, FileText, Copy, Mail, Settings, Clock,
   CheckCircle, AlertCircle, Archive, MessageCircle
 } from 'lucide-react';
-import { APP_EMAIL } from '../utils/constants';
 
-const SOURCING_EMAIL = APP_EMAIL;
+const SOURCING_EMAIL = 'contactcvs@ikabay.store';
 
 const statusList = [
   { id: 'brouillon', label: 'Brouillon', icon: Clock, color: '#92400e', bg: '#fef3c7' },

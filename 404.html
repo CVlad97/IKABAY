@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Ikabay Sourcing</title>
+  <script>
+    // SPA redirect for GitHub Pages
+    // Capture the original path and redirect to index.html with ?redirect=path
+    var path = location.pathname.replace(/^\/IKABAY\//, '');
+    if (path && path !== '') {
+      var search = location.search || '';
+      var hash = location.hash || '';
+      location.replace('/IKABAY/?redirect=' + encodeURIComponent(path + search + hash));
+    } else {
+      location.replace('/IKABAY/');
+    }
+  </script>
+</head>
+<body>
+  <p>Redirection vers Ikabay Sourcing...</p>
+</body>
+</html>
