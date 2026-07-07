@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import {
-  MessageCircle, Mail, Phone, MapPin, Clock, HelpCircle,
-  ChevronDown, ChevronUp, Send, ArrowRight
+  Mail, MessageCircle, Phone, MapPin, Clock,
+  ChevronDown, ChevronUp, Send, ArrowRight, CheckCircle, AlertCircle
 } from 'lucide-react';
 import { WHATSAPP_URL, APP_NAME, APP_EMAIL, waMessage } from '../utils/constants';
+import { supabase, hasSupabaseConfig } from '../lib/supabase';
 
 const faqs = [
   {
@@ -33,17 +34,53 @@ const faqs = [
 ];
 
 export function ContactPage() {
-  const [form, setForm] = useState({ name: '', email: '', phone: '', subject: '', message: '' });
   const [openFaq, setOpenFaq] = useState(null);
+  const [form, setForm] = useState({ name: '', email: '', telephone: '', subject: '', message: '' });
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState('');
 
   const handleChange = (field) => (e) => {
     setForm(prev => ({ ...prev, [field]: e.target.value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const msg = `*Message depuis le formulaire Ikabay*%0A%0ANom: ${encodeURIComponent(form.name)}%0AEmail: ${encodeURIComponent(form.email)}%0ATéléphone: ${encodeURIComponent(form.phone)}%0ASujet: ${encodeURIComponent(form.subject)}%0AMessage: ${encodeURIComponent(form.message)}`;
-    window.open(`${WHATSAPP_URL}?text=${msg}`, '_blank');
+    setSubmitting(true);
+    setError('');
+
+    try {
+      // Save to Supabase
+      if (hasSupabaseConfig && supabase) {
+        const { error: dbError } = await supabase
+          .from('contact_messages')
+          .insert({
+            name: form.name,
+            email: form.email,
+            telephone: form.telephone,
+            subject: form.subject,
+            message: form.message,
+            status: 'nouveau',
+            notified: false,
+          });
+        if (dbError && !dbError.message?.includes('does not exist')) {
+          console.warn('Supabase:', dbError.message);
+        }
+      }
+
+      // WhatsApp notification
+      const msg = `*NOUVEAU MESSAGE CONTACT*\\n\\n` +
+        `👤 ${form.name}\\n📧 ${form.email}\\n📞 ${form.telephone}\\n📝 ${form.subject}\\n${form.message}`;
+      window.open(waMessage(msg), '_blank');
+
+      setSubmitted(true);
+      setForm({ name: '', email: '', telephone: '', subject: '', message: '' });
+    } catch (e) {
+      setError("Erreur lors de l'envoi. Contactez-nous sur WhatsApp.");
+      console.error(e);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -143,7 +180,7 @@ export function ContactPage() {
                   <label style={{ display: 'block', fontWeight: 700, fontSize: 13, color: '#435956', marginBottom: 4 }}>
                     Téléphone
                   </label>
-                  <input type="tel" value={form.phone} onChange={handleChange('phone')}
+                  <input type="tel" value={form.telephone} onChange={handleChange('telephone')}
                     placeholder="+596 6XX XX XX XX"
                     style={{ width: '100%', minHeight: 46, borderRadius: 14, border: '1px solid rgba(16,32,34,0.13)',
                       padding: '0 14px', background: 'white', outline: 'none', fontWeight: 600, fontSize: 14 }}
@@ -172,15 +209,37 @@ export function ContactPage() {
                   />
                 </div>
               </div>
-              <button type="submit"
+              {submitted && (
+                <div style={{
+                  width: '100%', padding: 16, borderRadius: 14,
+                  background: '#dcfce7', color: '#166534',
+                  display: 'flex', alignItems: 'center', gap: 10,
+                  fontWeight: 700, fontSize: 14
+                }}>
+                  <CheckCircle size={20} />
+                  Message envoyé ! Nous vous répondrons sous 24h.
+                </div>
+              )}
+              {error && (
+                <div style={{
+                  width: '100%', padding: 16, borderRadius: 14,
+                  background: '#fef2f2', color: '#dc2626',
+                  display: 'flex', alignItems: 'center', gap: 10,
+                  fontWeight: 700, fontSize: 14
+                }}>
+                  <AlertCircle size={20} />
+                  {error}
+                </div>
+              )}
+              <button type="submit" disabled={submitting}
                 style={{
                   display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-                  width: '100%', background: '#f97316', color: 'white', border: 0, borderRadius: 16,
-                  padding: '14px 20px', fontWeight: 800, fontSize: 16, cursor: 'pointer',
+                  width: '100%', background: submitting ? '#bccfcc' : '#f97316', color: 'white', border: 0, borderRadius: 16,
+                  padding: '14px 20px', fontWeight: 800, fontSize: 16, cursor: submitting ? 'not-allowed' : 'pointer',
                   boxShadow: '0 12px 32px rgba(249,115,22,0.28)'
                 }}
               >
-                <Send size={18} /> Envoyer le message
+                <Send size={18} /> {submitting ? 'Envoi en cours...' : 'Envoyer le message'}
               </button>
             </form>
           </div>

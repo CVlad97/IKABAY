@@ -139,6 +139,161 @@ export const products = [
       { name: 'AD Nautic 🇫🇷', price: '~800€/lot', delivery: '7-10j', link: '', reco: true },
       { name: 'Osculati 🇮🇹', price: '~850€/lot', delivery: '7-10j', link: '' },
     ]},
+
+  // ========== NOUVEAUX PRODUITS — EXTENSION CATALOGUE ==========
+
+  // 12. Winch
+  { id: 'jd12', nameFr: 'Winch manuel inox 2 vitesses', nameEn: 'Manual winch 2-speed stainless', price: 320, category: 'accastillage-inox', status: 'disponible', image: null, unit: 'pc',
+    comment: 'Lewmar EVO70 ou Andersen 46ST - Inox 316 - Rapport 6.3:1 / 48:1',
+    suppliers: [
+      { name: 'AD Nautic 🇫🇷', price: '320-380€', delivery: 'Stock', link: 'https://www.adnautic.com/winches/30439-lewmar-evo70-self-tailing-winch.html', reco: true },
+      { name: 'SVB Allemagne 🇩🇪', price: '~360€', delivery: 'Stock', link: 'https://www.svb.de/en/andersen-stainless-steel-winch-46st.html' },
+    ]},
+
+  // 13. Feux de navigation LED
+  { id: 'jd13', nameFr: 'Feu de navigation LED étanche', nameEn: 'Navigation LED light waterproof', price: 45, category: 'navigation', status: 'disponible', image: null, unit: 'pc',
+    comment: 'Lopolight ou Hella Marine - LED 2Nm - 12/24V - IP67',
+    suppliers: [
+      { name: 'SVB Allemagne 🇩🇪', price: '45-65€', delivery: 'Stock', link: 'https://www.svb.de/en/navigation-lights/', reco: true },
+      { name: 'AD Nautic 🇫🇷', price: '52€', delivery: 'Stock', link: '' },
+    ]},
+
+  // 14. Moteur hors-bord électrique
+  { id: 'jd14', nameFr: 'Moteur hors-bord électrique 3-5CV', nameEn: 'Electric outboard motor 3-5hp', price: 1490, category: 'navigation', status: 'sur-devis', image: null, unit: 'pc',
+    comment: 'Torqeedo Travel 1103C ou ePropulsion Navy 3.0 - Lithium 48V',
+    suppliers: [
+      { name: 'AD Nautic 🇫🇷', price: '1 490-2 200€', delivery: '7-10j', link: '', reco: true },
+      { name: 'SVB Allemagne 🇩🇪', price: '1 680€', delivery: 'Stock', link: 'https://www.svb.de/en/electric-outboard-motors/' },
+    ]},
+
+  // 15. Panneau solaire marine
+  { id: 'jd15', nameFr: 'Panneau solaire flexible 100W', nameEn: 'Solar panel flexible 100W', price: 190, category: 'electricite', status: 'disponible', image: null, unit: 'pc',
+    comment: 'Victron Energy - Monocristallin - Étanche - 1200x540x3mm - 2,5kg',
+    suppliers: [
+      { name: 'AD Nautic 🇫🇷', price: '190€', delivery: 'Stock', link: '', reco: true },
+      { name: 'SVB Allemagne 🇩🇪', price: '210€', delivery: 'Stock', link: 'https://www.svb.de/en/solar-charging/' },
+    ]},
+
+  // 16. Guindeau électrique
+  { id: 'jd16', nameFr: 'Guindeau électrique 12V 700W', nameEn: 'Electric windlass 12V 700W', price: 650, category: 'davier', status: 'disponible', image: null, unit: 'pc',
+    comment: 'Quick Nemo QKWIND700 - Inox 316 - 8mm chaine - Télécommande incluse',
+    suppliers: [
+      { name: 'Quick Nautical 🇮🇹', price: '650€', delivery: 'Stock 72h', link: 'https://www.quicknautical.com/en/store/windlasses/', reco: true },
+      { name: 'AD Nautic 🇫🇷', price: '720€', delivery: 'Stock', link: '' },
+      { name: 'Lewmar 🇬🇧', price: '700-850€', delivery: '2-3 sem', link: '' },
+    ]},
+
+  // 17. Pare-battage gonflable
+  { id: 'jd17', nameFr: 'Pare-battage gonflable polyform A6', nameEn: 'Inflatable fender polyform A6', price: 38, category: 'pare-battages', status: 'disponible', image: null, unit: 'pc',
+    comment: 'Polyform A6 - 76x40cm - PVC renforcé - 2 anneaux',
+    suppliers: [
+      { name: 'AD Nautic 🇫🇷', price: '38€', delivery: 'Stock', link: '', reco: true },
+      { name: 'SVB Allemagne 🇩🇪', price: '42€', delivery: 'Stock', link: '' },
+    ]},
+
+  // 18. Aileron stabilisateur
+  { id: 'jd18', nameFr: 'Aileron stabilisateur actif 12V', nameEn: 'Active stabilizer fin 12V', price: 3500, category: 'navigation', status: 'sur-devis', image: null, unit: 'pc',
+    comment: 'Matspec ou Smartgyro - Réduit roulis 90% - 12/24V - Installation pro',
+    suppliers: [
+      { name: 'AD Nautic 🇫🇷', price: '3 500€', delivery: '4-6 sem', link: '', reco: true },
+      { name: 'SVB Allemagne 🇩🇪', price: '3 200-4 500€', delivery: '2-4 sem', link: '' },
+    ]},
+
+  // 19. Radar marine 24"
+  { id: 'jd19', nameFr: 'Radar marine 24" couleur', nameEn: 'Marine color radar 24"', price: 2400, category: 'navigation', status: 'sur-devis', image: null, unit: 'pc',
+    comment: 'Furuno DRS4D+ ou Simrad Halo20+ - 24" écran couleur - 36Nm',
+    suppliers: [
+      { name: 'SVB Allemagne 🇩🇪', price: '2 400-3 000€', delivery: 'Stock', link: 'https://www.svb.de/en/radar-systems/', reco: true },
+      { name: 'AD Nautic 🇫🇷', price: '2 600€', delivery: '7-10j', link: '' },
+    ]},
+
+  // 20. VHF marine DSC
+  { id: 'jd20', nameFr: 'VHF marine DSC fixe', nameEn: 'Fixed VHF marine DSC', price: 280, category: 'navigation', status: 'disponible', image: null, unit: 'pc',
+    comment: 'ICOM M330 ou Standard Horizon GX1800 - Classe D DSC - AIS récepteur intégré',
+    suppliers: [
+      { name: 'SVB Allemagne 🇩🇪', price: '280€', delivery: 'Stock', link: 'https://www.svb.de/en/vhf-radios/', reco: true },
+      { name: 'AD Nautic 🇫🇷', price: '310€', delivery: 'Stock', link: '' },
+    ]},
+
+  // 21. Doseur de carburant électronique
+  { id: 'jd21', nameFr: 'Débitmètre carburant électronique', nameEn: 'Electronic fuel flow meter', price: 220, category: 'navigation', status: 'disponible', image: null, unit: 'pc',
+    comment: 'Navman F210 - Précision 1% - 12/24V - Débit max 150L/h',
+    suppliers: [
+      { name: 'SVB Allemagne 🇩🇪', price: '220€', delivery: 'Stock', link: '', reco: true },
+      { name: 'AD Nautic 🇫🇷', price: '250€', delivery: 'Stock', link: '' },
+    ]},
+
+  // 22. Propulseur d'étrave 12V
+  { id: 'jd22', nameFr: 'Propulseur d\'étrave électrique 12V 4kW', nameEn: 'Bow thruster electric 12V 4kW', price: 2100, category: 'navigation', status: 'sur-devis', image: null, unit: 'pc',
+    comment: 'Sleipner SX35 ou Vetus 75kgf - 12V - Commande à distance - Installation',
+    suppliers: [
+      { name: 'AD Nautic 🇫🇷', price: '2 100-2 800€', delivery: '2-3 sem', link: '', reco: true },
+      { name: 'SVB Allemagne 🇩🇪', price: '2 500€', delivery: 'Stock', link: '' },
+    ]},
+
+  // 23. Compresseur de climatisation marine
+  { id: 'jd23', nameFr: 'Climatisation marine 12000 BTU', nameEn: 'Marine AC 12000 BTU', price: 1800, category: 'electricite', status: 'sur-devis', image: null, unit: 'pc',
+    comment: 'Webasto BlueCool ou Dometic Turbo - 12000 BTU - 230V - Inverseur de cycle',
+    suppliers: [
+      { name: 'AD Nautic 🇫🇷', price: '1 800-2 400€', delivery: '7-10j', link: '', reco: true },
+      { name: 'SVB Allemagne 🇩🇪', price: '2 100€', delivery: 'Stock', link: '' },
+    ]},
+
+  // 24. Chaudière eau chaude marine
+  { id: 'jd24', nameFr: 'Chauffe-eau marine 40L 230V/Échangeur', nameEn: 'Marine water heater 40L', price: 420, category: 'plomberie', status: 'disponible', image: null, unit: 'pc',
+    comment: 'Isotherm ou Quick - 40L - 230V + échangeur moteur - Cuve inox 316',
+    suppliers: [
+      { name: 'AD Nautic 🇫🇷', price: '420-550€', delivery: 'Stock', link: '', reco: true },
+      { name: 'SVB Allemagne 🇩🇪', price: '480€', delivery: 'Stock', link: '' },
+    ]},
+
+  // 25. Pompe de cale automatique
+  { id: 'jd25', nameFr: 'Pompe de cale automatique 12V 2000GPH', nameEn: 'Bilge pump auto 12V 2000GPH', price: 85, category: 'plomberie', status: 'disponible', image: null, unit: 'pc',
+    comment: 'Rule 2000 ou Johnson Pump - 12V - 2000 GPH (7500L/h) - Flotteur auto intégré',
+    suppliers: [
+      { name: 'AD Nautic 🇫🇷', price: '85€', delivery: 'Stock', link: '', reco: true },
+      { name: 'SVB Allemagne 🇩🇪', price: '92€', delivery: 'Stock', link: '' },
+    ]},
+
+  // 26. Porte-bidon eau douce 12V
+  { id: 'jd26', nameFr: 'Distributeur eau sous pression 12V', nameEn: 'Fresh water pressure pump 12V', price: 110, category: 'plomberie', status: 'disponible', image: null, unit: 'pc',
+    comment: 'SHURflo Aqua King - 12V - 5.5L/min - 3 bar - Anti-cyclage',
+    suppliers: [
+      { name: 'AD Nautic 🇫🇷', price: '110€', delivery: 'Stock', link: '', reco: true },
+      { name: 'SVB Allemagne 🇩🇪', price: '125€', delivery: 'Stock', link: '' },
+    ]},
+
+  // 27. WC marin électrique avec broyeur
+  { id: 'jd27', nameFr: 'WC marin électrique broyeur', nameEn: 'Electric marine toilet with macerator', price: 680, category: 'plomberie', status: 'disponible', image: null, unit: 'pc',
+    comment: 'Jabsco 37010 ou Dometic MasterFlush - 12V - Broyeur intégré - 60L réservoir eau',
+    suppliers: [
+      { name: 'AD Nautic 🇫🇷', price: '680€', delivery: 'Stock', link: '', reco: true },
+      { name: 'SVB Allemagne 🇩🇪', price: '750€', delivery: 'Stock', link: '' },
+    ]},
+
+  // 28. Table de cockpit pliante
+  { id: 'jd28', nameFr: 'Table cockpit pliante acajou/inox', nameEn: 'Folding teak cockpit table', price: 350, category: 'trappes-coffres', status: 'sur-devis', image: null, unit: 'pc',
+    comment: 'Acajou massif ou teck - Piètement inox 316 - Pliante - 800x500mm',
+    suppliers: [
+      { name: 'AD Nautic 🇫🇷', price: '350-500€', delivery: '7-10j', link: '', reco: true },
+      { name: 'Osculati 🇮🇹', price: '380€', delivery: '5-7j', link: '' },
+    ]},
+
+  // 29. Coffre de pont inox
+  { id: 'jd29', nameFr: 'Coffre de pont inox 316 600x400x250mm', nameEn: 'Deck locker stainless 600x400x250mm', price: 240, category: 'accastillage-inox', status: 'disponible', image: null, unit: 'pc',
+    comment: 'Osculati 84.600 ou AD Nautic - Inox 316 brossé - Charnière continue - Joint EPDM',
+    suppliers: [
+      { name: 'Osculati 🇮🇹', price: '240€', delivery: 'Stock 5-7j', link: 'https://www.osculati.com/en/deck-lockers/', reco: true },
+      { name: 'AD Nautic 🇫🇷', price: '275€', delivery: 'Stock', link: '' },
+    ]},
+
+  // 30. Gilet de sauvetage automatique
+  { id: 'jd30', nameFr: 'Gilet de sauvetage automatique ISO 150N', nameEn: 'Auto lifejacket 150N ISO', price: 89, category: 'securite', status: 'disponible', image: null, unit: 'pc',
+    comment: 'Plastimo 150N - Déclenchement automatique - Harnais intégré - Lumière LED',
+    suppliers: [
+      { name: 'AD Nautic 🇫🇷', price: '89€', delivery: 'Stock', link: '', reco: true },
+      { name: 'SVB Allemagne 🇩🇪', price: '95€', delivery: 'Stock', link: 'https://www.svb.de/en/lifejackets/' },
+    ]},
 ];
 
 export function getProductById(id) {

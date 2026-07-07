@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { WHATSAPP_URL, APP_NAME, APP_EMAIL, waMessage } from '../utils/constants';
 import { categories } from '../data/products';
+import { supabase, hasSupabaseConfig } from '../lib/supabase';
 
 const methodSteps = [
   { num: '01', icon: Search, label: 'Qualification', desc: 'Analyse précise de votre besoin technique et commercial' },
@@ -52,15 +53,72 @@ export function SourcingPage() {
     destination: '',
     livraison: '',
   });
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState('');
 
   const handleChange = (field) => (e) => {
     setForm(prev => ({ ...prev, [field]: e.target.value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const msg = `*Nouvelle demande sourcing Ikabay*\n\nNom: ${form.nom}\nTéléphone: ${form.telephone}\nEmail: ${form.email}\nCatégorie: ${form.categorie}\nDescription: ${form.description}\nBudget: ${form.budget}\nUrgence: ${form.urgence}\nQuantité: ${form.quantite}\nLien produit: ${form.lien}\nDestination: ${form.destination}\nLivraison: ${form.livraison}`;
-    window.open(waMessage(msg), '_blank');
+    setSubmitting(true);
+    setError('');
+
+    try {
+      // 1. Sauvegarder dans Supabase
+      if (hasSupabaseConfig && supabase) {
+        const payload = {
+          client_name: form.nom,
+          telephone: form.telephone,
+          email: form.email,
+          category: form.categorie,
+          description: form.description,
+          budget: form.budget,
+          urgence: form.urgence,
+          quantite: form.quantite,
+          lien: form.lien,
+          destination: form.destination,
+          livraison: form.livraison,
+          status: 'nouveau',
+          notified: false,
+        };
+        const { error: dbError } = await supabase
+          .from('sourcing_requests')
+          .insert(payload);
+        if (dbError && !dbError.message?.includes('does not exist')) {
+          console.warn('Supabase:', dbError.message);
+        }
+      }
+
+      // 2. Envoyer notification WhatsApp (au propriétaire)
+      const msg = `*NOUVELLE DEMANDE SOURCING*\\n\\n` +
+        `👤 *${form.nom}*\\n` +
+        `📞 ${form.telephone}\\n` +
+        `📧 ${form.email}\\n` +
+        `📂 ${form.categorie}\\n` +
+        `📝 ${form.description}\\n` +
+        `💰 Budget: ${form.budget}\\n` +
+        `⚡ Urgence: ${form.urgence}\\n` +
+        `📍 Destination: ${form.destination}\\n` +
+        `🚚 Livraison: ${form.livraison}`;
+
+      // Backup WhatsApp direct
+      window.open(waMessage(msg), '_blank');
+
+      setSubmitted(true);
+      setForm({
+        nom: '', telephone: '', email: '', categorie: '',
+        description: '', budget: '', urgence: '', quantite: '',
+        lien: '', destination: '', livraison: '',
+      });
+    } catch (e) {
+      setError("Erreur lors de l'envoi. Contactez-nous directement sur WhatsApp.");
+      console.error(e);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -342,16 +400,44 @@ export function SourcingPage() {
           </div>
 
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
+
+            {/* Success message */}
+            {submitted && (
+              <div style={{
+                width: '100%', padding: 16, borderRadius: 14,
+                background: '#dcfce7', color: '#166534',
+                display: 'flex', alignItems: 'center', gap: 10,
+                fontWeight: 700, fontSize: 14
+              }}>
+                <CheckCircle size={20} />
+                Demande envoyée ! Nous vous répondrons sous 24h.
+              </div>
+            )}
+
+            {/* Error message */}
+            {error && (
+              <div style={{
+                width: '100%', padding: 16, borderRadius: 14,
+                background: '#fef2f2', color: '#dc2626',
+                display: 'flex', alignItems: 'center', gap: 10,
+                fontWeight: 700, fontSize: 14
+              }}>
+                <AlertCircle size={20} />
+                {error}
+              </div>
+            )}
+
             <button
               type="submit"
+              disabled={submitting}
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 8,
-                background: '#f97316', color: 'white', border: 0, borderRadius: 16,
-                padding: '14px 24px', fontWeight: 800, fontSize: 16, cursor: 'pointer',
-                boxShadow: '0 12px 32px rgba(249,115,22,0.28)'
+                background: submitting ? '#bccfcc' : '#f97316', color: 'white', border: 0, borderRadius: 16,
+                padding: '14px 24px', fontWeight: 800, fontSize: 16, cursor: submitting ? 'not-allowed' : 'pointer',
+                boxShadow: submitting ? 'none' : '0 12px 32px rgba(249,115,22,0.28)'
               }}
             >
-              <Send size={18} /> Envoyer la demande
+              <Send size={18} /> {submitting ? 'Envoi en cours...' : 'Envoyer la demande'}
             </button>
             <a
               href={waMessage('Bonjour Ikabay, je souhaite faire une demande de sourcing.')}

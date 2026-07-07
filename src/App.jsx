@@ -17,12 +17,15 @@ const DropshippingPage = React.lazy(() => import('./pages/DropshippingPage'));
 const WhatsAppPage = React.lazy(() => import('./pages/WhatsAppPage'));
 const AdminPage = React.lazy(() => import('./pages/AdminPage'));
 const ContactPage = React.lazy(() => import('./pages/ContactPage'));
+const CataloguePage = React.lazy(() => import('./pages/CataloguePage'));
+const ProductDetailPage = React.lazy(() => import('./pages/ProductDetailPage'));
 
 function Layout({ children }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const navLinks = [
     { to: '/', label: 'Accueil' },
+    { to: '/catalogue', label: 'Catalogue' },
     { to: '/destockage', label: 'Déstockage' },
     { to: '/sourcing', label: 'Sourcing' },
     { to: '/dossier-jules-defel', label: 'Dossier client' },
@@ -129,6 +132,8 @@ export default function App() {
         <Suspense fallback={<LoadingFallback />}>
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/catalogue" element={<CataloguePage />} />
+            <Route path="/produit/:id" element={<ProductDetailPage />} />
             <Route path="/destockage" element={<DestockagePage />} />
             <Route path="/sourcing" element={<SourcingPage />} />
             <Route path="/dossier-jules-defel" element={<DossierJulesPage />} />
