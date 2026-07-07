@@ -5,9 +5,10 @@ import {
 import { WHATSAPP_URL, APP_NAME, waMessage } from '../utils/constants';
 
 const stats = [
-  { icon: Store, value: '38', label: 'Partenaires fournisseurs' },
-  { icon: Ship, value: '12', label: 'Communes couvertes' },
-  { icon: ClipboardCheck, value: '150+', label: 'Commandes traitées' },
+  { icon: Store, value: '15', label: 'Fournisseurs vérifiés' },
+  { icon: Ship, value: '30', label: 'Produits référencés' },
+  { icon: ClipboardCheck, value: '3', label: 'Scénarios logistiques' },
+  { icon: Truck, value: '8-10', label: 'Semaines délai DOM' },
 ];
 
 const services = [
@@ -116,6 +117,59 @@ export function HomePage() {
             <span>{label}</span>
           </div>
         ))}
+      </section>
+
+      {/* ──────────── DOSSIER DU MOMENT ──────────── */}
+      <section className="section" style={{ marginBottom: 48 }} aria-label="Dossier du moment">
+        <div className="sectionTitle">
+          <h2>🇫🇷 Dossier du moment</h2>
+          <p>Équipement de 5 bateaux de plaisance — Sourcing international complet.</p>
+        </div>
+        <div style={{
+          background: 'rgba(255,255,255,0.95)', borderRadius: 24,
+          border: '1px solid rgba(16,32,34,0.1)', padding: 28, overflow: 'hidden',
+          boxShadow: '0 12px 40px rgba(26,72,70,0.08)'
+        }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 24, alignItems: 'flex-start' }}>
+            {/* Left: Summary */}
+            <div style={{ flex: '1 1 300px' }}>
+              <div className="badge" style={{ marginBottom: 12 }}>Sourcing nautique</div>
+              <h3 style={{ fontSize: 22, marginBottom: 8 }}>Projet Joël Dufeal</h3>
+              <p style={{ color: '#516866', fontSize: 14, lineHeight: 1.6, marginBottom: 16 }}>
+                Sourcing de 11 familles de produits pour l'équipement complet de 5 bateaux.
+                Recherche mondiale (France, Italie, Allemagne, Suède, Chine), prix vérifiés,
+                3 fournisseurs par produit, scénario Équilibré à 16 400€ rendu Martinique.
+              </p>
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                <a href="/dossier-jules-defel" className="primary" style={{ fontSize: 13, padding: '10px 18px' }}>
+                  <FileText size={15} /> Voir le dossier
+                </a>
+                <a href="/catalogue" className="secondary" style={{ fontSize: 13, padding: '10px 18px' }}>
+                  <Ship size={15} /> Catalogue produits
+                </a>
+              </div>
+            </div>
+            {/* Right: Mini stats */}
+            <div style={{
+              flex: '1 1 250px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12
+            }}>
+              {[
+                { value: '11', label: 'Familles', color: '#0f766e' },
+                { value: '15', label: 'Fournisseurs', color: '#2563eb' },
+                { value: '16,4k€', label: 'Rendu Martinique', color: '#f97316' },
+                { value: '8-10 sem', label: 'Délai total', color: '#7c3aed' },
+              ].map(s => (
+                <div key={s.label} style={{
+                  background: 'rgba(15,118,110,0.04)', borderRadius: 16, padding: 16,
+                  textAlign: 'center', border: '1px solid rgba(16,32,34,0.06)'
+                }}>
+                  <div style={{ fontSize: 24, fontWeight: 900, color: s.color }}>{s.value}</div>
+                  <div style={{ fontSize: 12, color: '#60716f', fontWeight: 600 }}>{s.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* ──────────── SERVICES ──────────── */}

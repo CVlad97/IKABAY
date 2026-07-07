@@ -2,7 +2,7 @@ import { useState } from 'react';
 import {
   User, Clock, FileText, MessageCircle, Truck, CheckCircle,
   Circle, Plus, Send, BarChart3,
-  Star, Package
+  Star, Package, ShoppingCart
 } from 'lucide-react';
 import { waMessage } from '../utils/constants';
 
@@ -14,14 +14,21 @@ const STAGES = [
 ];
 
 const DUMMY_PRODUCTS = [
-  { ref: 'P-BUOY-01', name: 'Bouée de sauvetage', qte: 10, pu: 15.00, pa: 9.50, marge: '36.7%', total: 150.00, dispo: 'Disponible', comment: 'Livraison 48h' },
-  { ref: 'P-LIGHT-03', name: 'Feu tribord vert LED', qte: 5, pu: 18.00, pa: 12.00, marge: '33.3%', total: 90.00, dispo: 'Disponible', comment: 'Certifié CE' },
-  { ref: 'P-INOX-07', name: 'Charnière inox 316L', qte: 20, pu: 0, pa: 0, marge: '—', total: 0, dispo: 'À confirmer', comment: 'Attente devis fournisseur' },
-  { ref: 'P-ANCR-02', name: 'Ancre type Danforth', qte: 3, pu: 82.00, pa: 51.00, marge: '37.8%', total: 246.00, dispo: 'Disponible', comment: 'Stock Marseille' },
+  { ref: 'JD-COMPAS-01', name: 'Compas magnétique Contest 150', qte: 5, pu: 543.90, pa: 543.90, marge: '0%', total: 2719.50, dispo: 'Disponible', comment: 'Plastimo — Stock 48h', fournisseur: 'Comptoir Nautique 🇫🇷' },
+  { ref: 'JD-LISTON-02', name: 'Liston PVC prépercé (barre 6m)', qte: 11, pu: 8.90, pa: 8.90, marge: '0%', total: 97.90, dispo: 'Disponible', comment: 'Osculati 87.203.00 — Stock', fournisseur: 'Osculati 🇮🇹' },
+  { ref: 'JD-LISERET-03', name: 'Liseret compatible liston', qte: 17, pu: 3.50, pa: 3.50, marge: '0%', total: 59.50, dispo: 'Disponible', comment: 'Osculati 87.201.00 — Stock', fournisseur: 'Osculati 🇮🇹' },
+  { ref: 'JD-HUBLOT-04', name: 'Hublot ovale inox 365x150mm', qte: 10, pu: 85.90, pa: 85.90, marge: '0%', total: 859.00, dispo: 'Disponible', comment: 'Osculati 81.502 — Standard', fournisseur: 'Osculati 🇮🇹' },
+  { ref: 'JD-BOLSTER-05', name: 'Bolster double baquet + sellerie', qte: 5, pu: 1800, pa: 0, marge: 'Sur devis', total: 9000, dispo: 'Sur devis', comment: 'Ullman Dynamics 🇸🇪 — Attente devis', fournisseur: 'Ullman Dynamics 🇸🇪' },
+  { ref: 'JD-DAVIER-06', name: 'Davier bow roller 8-10kg', qte: 5, pu: 99, pa: 99, marge: '0%', total: 495, dispo: 'Disponible', comment: 'Quick Nemo — Stock 72h', fournisseur: 'Quick Nautical 🇮🇹' },
+  { ref: 'JD-ECHELLE-07', name: 'Échelle inox 4 marches 30cm', qte: 10, pu: 112.50, pa: 112.50, marge: '0%', total: 1125, dispo: 'Disponible', comment: 'Osculati 84.840 — Stock', fournisseur: 'Osculati 🇮🇹' },
+  { ref: 'JD-TAQUET-08', name: 'Taquet inox 200mm', qte: 35, pu: 18.50, pa: 18.50, marge: '0%', total: 647.50, dispo: 'Disponible', comment: 'Osculati 90.613 — Stock', fournisseur: 'Osculati 🇮🇹' },
+  { ref: 'JD-LOQUET-09', name: 'Loquets inox (simple + à clé)', qte: 35, pu: 12.15, pa: 12.15, marge: '0%', total: 425.25, dispo: 'Disponible', comment: 'Osculati 92.100/102 — Stock', fournisseur: 'Osculati 🇮🇹' },
+  { ref: 'JD-GOBELET-10', name: 'Porte-gobelet inox', qte: 20, pu: 8.50, pa: 8.50, marge: '0%', total: 170, dispo: 'Disponible', comment: 'Osculati 84.970 — Stock', fournisseur: 'Osculati 🇮🇹' },
+  { ref: 'JD-QUINCAIL-11', name: 'Lot quincaillerie marine 5 bateaux', qte: 1, pu: 800, pa: 0, marge: 'Sur devis', total: 800, dispo: 'Sur devis', comment: 'AD Nautic — Attente confirmation', fournisseur: 'AD Nautic 🇫🇷' },
 ];
 
 export function DossierJulesPage() {
-  const [activeStep] = useState(2); // étape "Recherche fournisseurs"
+  const [activeStep] = useState(5); // offres reçues
   const [comment, setComment] = useState('');
 
   const handleWhatsApp = () => {
@@ -106,9 +113,10 @@ export function DossierJulesPage() {
       {/* ─── INFO CARDS ─── */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 14, marginBottom: 24 }}>
         {[
-          { icon: <FileText size={22} />, label: 'Budget', value: 'À compléter', color: '#f97316' },
-          { icon: <Clock size={22} />, label: 'Urgence', value: 'À compléter', color: '#92400e' },
-          { icon: <FileText size={22} />, label: 'Documents liés', value: '3 documents', color: '#0f766e' },
+          { icon: <FileText size={22} />, label: 'Budget total', value: '~16 400€', color: '#f97316' },
+          { icon: <Clock size={22} />, label: 'Délai estimé', value: '8-10 sem', color: '#7c3aed' },
+          { icon: <Ship size={22} />, label: 'Fournisseurs', value: '15 vérifiés', color: '#0f766e' },
+          { icon: <Truck size={22} />, label: 'Transport', value: 'GEODIS LCL', color: '#2563eb' },
         ].map(card => (
           <div key={card.label} className="card" style={{ display: 'flex', alignItems: 'center', gap: 14, padding: 18 }}>
             <div style={{ width: 44, height: 44, borderRadius: 14, background: '#f4f9f7', display: 'grid', placeItems: 'center', color: card.color }}>
@@ -164,7 +172,7 @@ export function DossierJulesPage() {
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
             <thead>
               <tr style={{ borderBottom: '1px solid rgba(16,32,34,0.06)', background: '#f4f9f7' }}>
-                {['Référence', 'Nom produit', 'Quantité', 'Prix unitaire', 'Prix achat estimé', 'Marge', 'Total', 'Disponibilité', 'Commentaire'].map(h => (
+                {['Réf', 'Produit', 'Qté', 'Prix unitaire', 'Fournisseur', 'Total', 'Statut', 'Commentaire'].map(h => (
                   <th key={h} style={{ textAlign: 'left', padding: '12px 10px', fontWeight: 800, color: '#435956', fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.04em', whiteSpace: 'nowrap' }}>{h}</th>
                 ))}
               </tr>
@@ -172,13 +180,14 @@ export function DossierJulesPage() {
             <tbody>
               {DUMMY_PRODUCTS.map(p => (
                 <tr key={p.ref} style={{ borderBottom: '1px solid rgba(16,32,34,0.04)' }}>
-                  <td style={{ padding: '12px 10px', fontWeight: 700, color: '#0a4a5c', whiteSpace: 'nowrap' }}>{p.ref}</td>
-                  <td style={{ padding: '12px 10px', whiteSpace: 'nowrap' }}>{p.name}</td>
-                  <td style={{ padding: '12px 10px', fontWeight: 700 }}>{p.qte}</td>
-                  <td style={{ padding: '12px 10px', fontWeight: 700, whiteSpace: 'nowrap' }}>{p.pu > 0 ? `${p.pu.toFixed(2)} €` : 'Nous contacter'}</td>
-                  <td style={{ padding: '12px 10px', whiteSpace: 'nowrap' }}>{p.pa > 0 ? `${p.pa.toFixed(2)} €` : '—'}</td>
-                  <td style={{ padding: '12px 10px', fontWeight: 700 }}>{p.marge}</td>
-                  <td style={{ padding: '12px 10px', fontWeight: 700, whiteSpace: 'nowrap' }}>{p.total > 0 ? `${p.total.toFixed(2)} €` : '—'}</td>
+                  <td style={{ padding: '12px 10px', fontWeight: 700, color: '#0a4a5c', fontSize: 12, fontFamily: 'monospace', whiteSpace: 'nowrap' }}>{p.ref}</td>
+                  <td style={{ padding: '12px 10px', whiteSpace: 'nowrap', fontWeight: 600 }}>{p.name}</td>
+                  <td style={{ padding: '12px 10px', fontWeight: 700, textAlign: 'center' }}>{p.qte}</td>
+                  <td style={{ padding: '12px 10px', fontWeight: 700, whiteSpace: 'nowrap' }}>{p.pu > 0 ? `${p.pu.toFixed(2)} €` : 'Sur devis'}</td>
+                  <td style={{ padding: '12px 10px', fontSize: 12, whiteSpace: 'nowrap' }}>
+                    <span style={{ fontWeight: 700, color: '#0f766e' }}>{p.fournisseur}</span>
+                  </td>
+                  <td style={{ padding: '12px 10px', fontWeight: 900, whiteSpace: 'nowrap' }}>{p.total > 0 ? `${p.total.toFixed(2)} €` : '—'}</td>
                   <td style={{ padding: '12px 10px' }}>
                     <span style={{
                       display: 'inline-flex', alignItems: 'center', gap: 4,
@@ -189,10 +198,22 @@ export function DossierJulesPage() {
                       {p.dispo}
                     </span>
                   </td>
-                  <td style={{ padding: '12px 10px', color: '#60716f', fontSize: 12, maxWidth: 140 }}>{p.comment}</td>
+                  <td style={{ padding: '12px 10px', color: '#60716f', fontSize: 12, maxWidth: 160 }}>{p.comment}</td>
                 </tr>
               ))}
             </tbody>
+            <tfoot>
+              <tr style={{ borderTop: '2px solid #0f766e', background: 'rgba(15,118,110,0.04)' }}>
+                <td colSpan={4} style={{ padding: '14px 10px', fontWeight: 900, textAlign: 'right', fontSize: 14 }}>TOTAL</td>
+                <td style={{ padding: '14px 10px' }}></td>
+                <td style={{ padding: '14px 10px', fontWeight: 900, fontSize: 18, color: '#0a4a5c' }}>
+                  {DUMMY_PRODUCTS.reduce((s, p) => s + p.total, 0).toLocaleString('fr-FR', {minimumFractionDigits: 2})} €
+                </td>
+                <td colSpan={2} style={{ padding: '14px 10px', color: '#60716f', fontSize: 12 }}>
+                  + Transport GEODIS ~970€ / + Douane ~1 900€
+                </td>
+              </tr>
+            </tfoot>
           </table>
         </div>
         <div style={{ padding: '12px 20px', borderTop: '1px solid rgba(16,32,34,0.06)', fontSize: 12, color: '#60716f', textAlign: 'right' }}>
