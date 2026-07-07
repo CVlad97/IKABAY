@@ -10,15 +10,7 @@
     <title>Ikabay Sourcing</title>
     <link rel="icon" type="image/png" href="/favicon.png" />
     <script>
-      // ===== SPA REDIRECT pour domaine racine =====
-      // Execute AVANT React pour que React Router voie l'URL correcte
-      (function() {
-        var params = new URLSearchParams(window.location.search);
-        var redirect = params.get('redirect');
-        if (redirect && window.history && window.history.replaceState) {
-          window.history.replaceState({}, '', '/' + redirect);
-        }
-      })();
+      // HashRouter — pas de redirect nécessaire, le 404.html gère le fallback
     </script>
     <script type="module" crossorigin src="/assets/index-B9ZRyR2b.js"></script>
     <link rel="stylesheet" crossorigin href="/assets/index-D92A5Reg.css">

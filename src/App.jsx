@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { HashRouter, Routes, Route, Link } from 'react-router-dom';
 import React, { Suspense, useState } from 'react';
 import { Ship, MessageCircle, Menu, X, Mail, Phone, FileText, ClipboardList, LayoutDashboard, Truck } from 'lucide-react';
 import { WHATSAPP_URL, APP_NAME, APP_EMAIL } from './utils/constants';
@@ -128,7 +128,7 @@ export { Layout };
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Layout>
         <Suspense fallback={<LoadingFallback />}>
           <Routes>
@@ -150,6 +150,6 @@ export default function App() {
           </Routes>
         </Suspense>
       </Layout>
-    </BrowserRouter>
+    </HashRouter>
   );
 }

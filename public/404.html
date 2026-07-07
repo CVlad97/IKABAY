@@ -4,12 +4,12 @@
   <meta charset="utf-8">
   <title>Ikabay Sourcing</title>
   <script>
-    // SPA redirect — compatible domaine racine (ikabay.store) et sous-chemin (/IKABAY/)
+    // SPA fallback → HashRouter (#/route)
     var path = location.pathname;
-    var base = path.match(/^(\/[^\/]+\/)/) ? RegExp.$1 : '/';
-    var rest = path.replace(base, '');
-    if (rest && rest !== '' && rest !== 'index.html') {
-      location.replace(base + '?redirect=' + encodeURIComponent(rest + location.search + location.hash));
+    var base = path.match(/IKABAY/) ? '/IKABAY/' : '/';
+    var rest = path.replace(base, '').replace(/^\/+/, '');
+    if (rest && rest !== '') {
+      location.replace(base + '#' + rest);
     } else {
       location.replace(base);
     }
