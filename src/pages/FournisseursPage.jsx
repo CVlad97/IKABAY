@@ -32,6 +32,9 @@ const SUPPLIER_SCORES = {
   'Qingdao Glory 🇨🇳': { total: 60, details: { prix: 28, delai: 8, fiabilite: 10, qualite: 8, communication: 6 } },
   'Wudi Chine 🇨🇳':   { total: 55, details: { prix: 27, delai: 7, fiabilite: 9, qualite: 7, communication: 5 } },
   'Alastin Chine 🇨🇳': { total: 58, details: { prix: 27, delai: 8, fiabilite: 9, qualite: 8, communication: 6 } },
+  'Jéricho Boura 🇨🇳🇲🇶': { total: 65, details: { prix: 24, delai: 10, fiabilite: 12, qualite: 10, communication: 9 } },
+  'Shenghui SS316 🇨🇳': { total: 55, details: { prix: 26, delai: 8, fiabilite: 9, qualite: 7, communication: 5 } },
+  'Tofun Marine 🇨🇳': { total: 50, details: { prix: 22, delai: 8, fiabilite: 8, qualite: 7, communication: 5 } },
 };
 
 function generateScore() {
@@ -59,6 +62,9 @@ const INITIAL_SUPPLIERS = [
   { id: 11, name: 'Qingdao Glory 🇨🇳', contact: 'Grace Wang', email: 'grace@gloryhardware.cn', phone: '+86 532 8896 1234', country: 'Chine', category: 'Taquets', site: 'https://gloryhardware.en.alibaba.com' },
   { id: 12, name: 'Mantus Marine 🇺🇸', contact: 'Support', email: 'info@mantusmarine.com', phone: '+1 713 510 5345', country: 'USA', category: 'Davier', site: 'https://www.mantusmarine.com' },
   { id: 13, name: 'Tessilmare 🇮🇹', contact: 'Ufficio Commerciale', email: 'info@tessilmare.com', phone: '+39 0421 267 411', country: 'Italie', category: 'Liston', site: 'https://www.tessilmare.com' },
+  { id: 14, name: 'Jéricho Boura 🇨🇳🇲🇶', contact: 'Jéricho Boura', email: '', phone: '+596 696 415 157', country: 'Chine/Martinique', category: 'Sourcing Chine', site: '' },
+  { id: 15, name: 'Shenghui SS316 🇨🇳', contact: 'Shenghui Sales', email: '', phone: '', country: 'Chine', category: 'Échelles', site: '' },
+  { id: 16, name: 'Tofun Marine 🇨🇳', contact: 'Sales Dept', email: '', phone: '', country: 'Chine', category: 'Sellerie', site: '' },
 ];
 
 const OFFERS = [
@@ -75,6 +81,10 @@ const OFFERS = [
   { produit: 'Porte-gobelet inox Osculati 84.970', prixAchat: 8.50, transport: 2, delai: '5-7j stock', MOQ: 20, garantie: '2 ans', fournisseur: 'Osculati 🇮🇹', categorie: 'Accastillage', cat: 'accastillage-inox' },
   { produit: 'Taquet inox 200mm (MOQ100) Alibaba', prixAchat: 2.50, transport: 3, delai: '15-20j + fret', MOQ: 100, garantie: '1 an', fournisseur: 'Qingdao Glory 🇨🇳', categorie: 'Accastillage', cat: 'taquets' },
   { produit: 'Loquet simple inox (MOQ300) Alibaba', prixAchat: 2.50, transport: 2, delai: '20-30j + fret', MOQ: 300, garantie: '1 an', fournisseur: 'Wudi Chine 🇨🇳', categorie: 'Accastillage', cat: 'loquets' },
+  { produit: 'Échelle inox 3 marches Shenghui SH030-006-04', prixAchat: 39, transport: 12, delai: '4-6 sem + fret', MOQ: 10, garantie: '1 an', fournisseur: 'Shenghui SS316 🇨🇳', categorie: 'Accastillage', cat: 'echelles' },
+  { produit: 'Liston PVC 55mm blanc/noir Hebei Yawang', prixAchat: 3.37, transport: 2, delai: '6-8 sem + fret', MOQ: 144, garantie: '1 an', fournisseur: 'Jéricho Boura 🇨🇳🇲🇶', categorie: 'Liston', cat: 'liston' },
+  { produit: 'Taquet SS316 Silhouette 200mm Shenghui SH032', prixAchat: 6.21, transport: 3, delai: '4-6 sem + fret', MOQ: 100, garantie: '1 an', fournisseur: 'Jéricho Boura 🇨🇳🇲🇶', categorie: 'Accastillage', cat: 'taquets' },
+  { produit: 'Davier bow roller 330mm ancre 8kg Chine', prixAchat: 91.42, transport: 12, delai: '6-8 sem + fret', MOQ: 10, garantie: '1 an', fournisseur: 'Jéricho Boura 🇨🇳🇲🇶', categorie: 'Accastillage', cat: 'davier' },
 ];
 
 export function FournisseursPage() {
