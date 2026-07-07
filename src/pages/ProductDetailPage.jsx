@@ -1,11 +1,13 @@
 import { useState, useMemo } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import {
   Ship, ArrowLeft, ShoppingCart, CheckCircle, AlertTriangle,
-  Truck, Clock, Phone, Mail, Star, ExternalLink, MessageCircle
+  Truck, Clock, Phone, Mail, Star, ExternalLink, MessageCircle,
+  X, Send, Loader, Check
 } from 'lucide-react';
 import { products, categories, getProductById } from '../data/products';
-import { waMessage } from '../utils/constants';
+import { waMessage, WHATSAPP_URL } from '../utils/constants';
+import { ordersApi } from '../services/database';
 
 const CATEGORY_ICONS = {
   'compas': '🧭', 'liston': '📏', 'hublots': '🪟', 'sieges': '🪑',
@@ -23,7 +25,77 @@ const STATUS_STYLES = {
 
 export function ProductDetailPage() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const product = getProductById(id);
+  const [showOrderModal, setShowOrderModal] = useState(false);
+  const [orderForm, setOrderForm] = useState({ name: '', telephone: '', quantity: 1 });
+  const [orderSubmitting, setOrderSubmitting] = useState(false);
+  const [orderSuccess, setOrderSuccess] = useState(false);
+  const [orderError, setOrderError] = useState('');
+  const [orderNumber, setOrderNumber] = useState('');
+
+  const resetOrderForm = () => {
+    setOrderForm({ name: '', telephone: '', quantity: 1 });
+    setOrderSuccess(false);
+    setOrderError('');
+    setOrderSubmitting(false);
+  };
+
+  const handleOrderSubmit = async (e) => {
+    e.preventDefault();
+    if (!orderForm.name.trim() || !orderForm.telephone.trim()) {
+      setOrderError('Veuillez remplir tous les champs obligatoires.');
+      return;
+    }
+    setOrderSubmitting(true);
+    setOrderError('');
+
+    try {
+      const orderPayload = {
+        product_id: product.id,
+        product_name: product.nameFr,
+        product_price: product.price || 0,
+        client_name: orderForm.name.trim(),
+        client_telephone: orderForm.telephone.trim(),
+        quantity: parseInt(orderForm.quantity) || 1,
+        status: 'nouvelle',
+        source: 'web-direct',
+      };
+      const { data, error } = await ordersApi.create(orderPayload);
+      if (error) {
+        console.warn('Supabase error, using local order number:', error);
+      }
+      const num = data?.id || `CMD-${Date.now().toString(36).toUpperCase()}`;
+      setOrderNumber(num);
+      setOrderSuccess(true);
+
+      // Store in localStorage for confirmation page
+      const orderData = {
+        id: num,
+        product_name: product.nameFr,
+        quantity: parseInt(orderForm.quantity) || 1,
+        price: product.price || 0,
+        client_name: orderForm.name.trim(),
+        client_telephone: orderForm.telephone.trim(),
+        date: new Date().toLocaleDateString('fr-FR', {
+          day: 'numeric', month: 'long', year: 'numeric'
+        }),
+      };
+      try {
+        localStorage.setItem('ikabay_last_order', JSON.stringify(orderData));
+      } catch (e) { /* ignore */ }
+
+      // Navigate to confirmation page after short delay
+      setTimeout(() => {
+        navigate(`/commande-confirmee?id=${num}&product=${encodeURIComponent(product.nameFr)}&qty=${orderForm.quantity}&price=${product.price || 0}`);
+      }, 2000);
+    } catch (err) {
+      setOrderError('Erreur réseau. Veuillez réessayer ou nous contacter sur WhatsApp.');
+      console.error(err);
+    } finally {
+      setOrderSubmitting(false);
+    }
+  };
 
   if (!product) {
     return (
@@ -162,6 +234,15 @@ export function ProductDetailPage() {
               }}>
               <ShoppingCart size={18} /> Ajouter au devis
             </Link>
+            <button onClick={() => { resetOrderForm(); setShowOrderModal(true); }}
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: 8,
+                background: '#ea580c', color: 'white', border: 0, borderRadius: 14,
+                padding: '12px 24px', fontWeight: 800, fontSize: 15, cursor: 'pointer',
+                textDecoration: 'none', boxShadow: '0 8px 24px rgba(234,88,12,0.3)'
+              }}>
+              <Send size={18} /> Commander maintenant
+            </button>
             <a href={waMessage(`Bonjour Ikabay, je suis intéressé par ${product.nameFr} (${product.id}).`)}
               target="_blank" rel="noreferrer"
               style={{
@@ -253,6 +334,129 @@ export function ProductDetailPage() {
           <ArrowLeft size={18} /> Retour au catalogue
         </Link>
       </div>
+
+      {/* ─── ORDER MODAL ─── */}
+      {showOrderModal && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          background: 'rgba(0,0,0,0.5)', zIndex: 9999,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          padding: 20
+        }} onClick={(e) => { if (e.target === e.currentTarget && !orderSubmitting) { setShowOrderModal(false); resetOrderForm(); } }}>
+          <div style={{
+            background: 'white', borderRadius: 24, maxWidth: 500, width: '100%',
+            padding: 32, boxShadow: '0 25px 60px rgba(0,0,0,0.25)',
+            position: 'relative'
+          }}>
+            {/* Close */}
+            <button onClick={() => { if (!orderSubmitting) { setShowOrderModal(false); resetOrderForm(); } }}
+              style={{
+                position: 'absolute', top: 16, right: 16, background: 'none',
+                border: 'none', cursor: 'pointer', color: '#60716f', padding: 4
+              }} aria-label="Fermer">
+              <X size={22} />
+            </button>
+
+            {orderSuccess ? (
+              /* ─── SUCCESS STATE ─── */
+              <div style={{ textAlign: 'center', padding: '20px 0' }}>
+                <div style={{
+                  width: 64, height: 64, borderRadius: '50%',
+                  background: '#dcfce7', display: 'flex', alignItems: 'center',
+                  justifyContent: 'center', margin: '0 auto 16px'
+                }}>
+                  <Check size={32} color="#16a34a" />
+                </div>
+                <h3 style={{ margin: '0 0 8px', color: '#16a34a', fontSize: 22 }}>
+                  Commande envoyée !
+                </h3>
+                <p style={{ color: '#435956', fontSize: 15, margin: '0 0 6px' }}>
+                  Nous vous confirmons sous 24h.
+                </p>
+                <p style={{ color: '#60716f', fontSize: 13, margin: '0 0 20px' }}>
+                  Réf: <strong>{orderNumber}</strong>
+                </p>
+                <a href={waMessage(`Bonjour Ikabay, je viens de commander ${product.nameFr} (réf: ${orderNumber}). Suivi de commande SVP.`)}
+                  target="_blank" rel="noreferrer"
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', gap: 8,
+                    background: '#25d366', color: 'white', border: 0, borderRadius: 14,
+                    padding: '12px 24px', fontWeight: 800, fontSize: 15, cursor: 'pointer',
+                    textDecoration: 'none'
+                  }}>
+                  <MessageCircle size={18} /> Suivi WhatsApp
+                </a>
+              </div>
+            ) : (
+              /* ─── FORM STATE ─── */
+              <>
+                <h3 style={{ margin: '0 0 4px', color: '#0a4a5c', fontSize: 22 }}>
+                  Commander
+                </h3>
+                <p style={{ color: '#60716f', fontSize: 14, margin: '0 0 20px' }}>
+                  {product.nameFr} — {product.price > 0 ? `${product.price} €` : 'Sur devis'}
+                </p>
+
+                <form onSubmit={handleOrderSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                  <div>
+                    <label style={{ display: 'block', fontSize: 13, fontWeight: 700, color: '#435956', marginBottom: 4 }}>
+                      Nom complet *
+                    </label>
+                    <input type="text" required value={orderForm.name}
+                      onChange={e => setOrderForm(p => ({ ...p, name: e.target.value }))}
+                      placeholder="Votre nom"
+                      style={{
+                        width: '100%', padding: '12px 14px', border: '1px solid #d0dbd8',
+                        borderRadius: 12, fontSize: 15, outline: 'none',
+                        boxSizing: 'border-box'
+                      }} />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: 13, fontWeight: 700, color: '#435956', marginBottom: 4 }}>
+                      Téléphone *
+                    </label>
+                    <input type="tel" required value={orderForm.telephone}
+                      onChange={e => setOrderForm(p => ({ ...p, telephone: e.target.value }))}
+                      placeholder="+596 XXX XXX XX"
+                      style={{
+                        width: '100%', padding: '12px 14px', border: '1px solid #d0dbd8',
+                        borderRadius: 12, fontSize: 15, outline: 'none',
+                        boxSizing: 'border-box'
+                      }} />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: 13, fontWeight: 700, color: '#435956', marginBottom: 4 }}>
+                      Quantité
+                    </label>
+                    <input type="number" min="1" value={orderForm.quantity}
+                      onChange={e => setOrderForm(p => ({ ...p, quantity: e.target.value }))}
+                      style={{
+                        width: '100%', padding: '12px 14px', border: '1px solid #d0dbd8',
+                        borderRadius: 12, fontSize: 15, outline: 'none',
+                        boxSizing: 'border-box'
+                      }} />
+                  </div>
+
+                  {orderError && (
+                    <p style={{ color: '#dc2626', fontSize: 13, margin: 0 }}>{orderError}</p>
+                  )}
+
+                  <button type="submit" disabled={orderSubmitting}
+                    style={{
+                      display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                      background: '#ea580c', color: 'white', border: 0, borderRadius: 14,
+                      padding: '14px 24px', fontWeight: 800, fontSize: 16, cursor: 'pointer',
+                      opacity: orderSubmitting ? 0.7 : 1, marginTop: 4
+                    }}>
+                    {orderSubmitting ? <Loader size={20} className="loadingSpin" /> : <Send size={20} />}
+                    {orderSubmitting ? 'Envoi en cours…' : 'Confirmer la commande'}
+                  </button>
+                </form>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </section>
   );
 }

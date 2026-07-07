@@ -107,6 +107,9 @@ export const offersApi       = api('supplier_offers');
 export const emailLogsApi    = api('email_logs');
 export const deliveryApi     = api('delivery_tracking');
 
+// ─── Orders API ────────────────────────────────────────────
+export const ordersApi = api('orders');
+
 // ─── Dropshipping APIs ────────────────────────────────────
 export const partnerSourcesApi  = api('partner_sources');
 export const partnerProductsApi = api('partner_products');

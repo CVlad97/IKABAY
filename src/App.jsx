@@ -19,6 +19,7 @@ const AdminPage = React.lazy(() => import('./pages/AdminPage'));
 const ContactPage = React.lazy(() => import('./pages/ContactPage'));
 const CataloguePage = React.lazy(() => import('./pages/CataloguePage'));
 const ProductDetailPage = React.lazy(() => import('./pages/ProductDetailPage'));
+const OrderConfirmPage = React.lazy(() => import('./pages/OrderConfirmPage'));
 
 function Layout({ children }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -134,6 +135,7 @@ export default function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/catalogue" element={<CataloguePage />} />
             <Route path="/produit/:id" element={<ProductDetailPage />} />
+            <Route path="/commande-confirmee" element={<OrderConfirmPage />} />
             <Route path="/destockage" element={<DestockagePage />} />
             <Route path="/sourcing" element={<SourcingPage />} />
             <Route path="/dossier-jules-defel" element={<DossierJulesPage />} />
