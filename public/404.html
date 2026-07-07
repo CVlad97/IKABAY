@@ -4,15 +4,14 @@
   <meta charset="utf-8">
   <title>Ikabay Sourcing</title>
   <script>
-    // SPA redirect for GitHub Pages
-    // Capture the original path and redirect to index.html with ?redirect=path
-    var path = location.pathname.replace(/^\/IKABAY\//, '');
-    if (path && path !== '') {
-      var search = location.search || '';
-      var hash = location.hash || '';
-      location.replace('/IKABAY/?redirect=' + encodeURIComponent(path + search + hash));
+    // SPA redirect — compatible domaine racine (ikabay.store) et sous-chemin (/IKABAY/)
+    var path = location.pathname;
+    var base = path.match(/^(\/[^\/]+\/)/) ? RegExp.$1 : '/';
+    var rest = path.replace(base, '');
+    if (rest && rest !== '' && rest !== 'index.html') {
+      location.replace(base + '?redirect=' + encodeURIComponent(rest + location.search + location.hash));
     } else {
-      location.replace('/IKABAY/');
+      location.replace(base);
     }
   </script>
 </head>
