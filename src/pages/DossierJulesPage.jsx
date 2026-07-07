@@ -130,6 +130,54 @@ export function DossierJulesPage() {
         ))}
       </div>
 
+      {/* ─── SCÉNARIOS COMPARATIFS ─── */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 14, marginBottom: 24 }}>
+        {[
+          { 
+            titre: '🇪🇺 Équilibré (Europe)', 
+            montant: '~16 400€', 
+            delai: '8-10 sem', 
+            risque: 'Faible ✅',
+            desc: 'Osculati + Quick + Plastimo + Ullman',
+            color: '#0f766e' 
+          },
+          { 
+            titre: '🇨🇳 Mixte (Chine/Europe)', 
+            montant: '~14 700€', 
+            delai: '10-12 sem', 
+            risque: 'Moyen ⚠️',
+            desc: 'Échelles, taquets, hublots Chine / Reste Europe',
+            color: '#2563eb',
+            reco: true 
+          },
+          { 
+            titre: '🇨🇳 Économique (Chine max)', 
+            montant: '~11 500€', 
+            delai: '14-16 sem', 
+            risque: 'Élevé ❌',
+            desc: 'MOQ élevés, qualité à valider, délais longs',
+            color: '#92400e' 
+          },
+        ].map(s => (
+          <div key={s.titre} style={{
+            background: s.reco ? 'rgba(37,99,235,0.05)' : 'rgba(255,255,255,0.92)',
+            border: s.reco ? '2px solid #2563eb' : '1px solid rgba(16,32,34,0.1)',
+            borderRadius: 18, padding: 20, position: 'relative'
+          }}>
+            {s.reco && (
+              <div style={{ position: 'absolute', top: -10, right: 14, background: '#2563eb', color: 'white', borderRadius: 999, padding: '3px 12px', fontSize: 11, fontWeight: 800 }}>RECOMMANDÉ</div>
+            )}
+            <h4 style={{ fontSize: 17, margin: '0 0 6px' }}>{s.titre}</h4>
+            <div style={{ fontSize: 28, fontWeight: 900, color: s.color }}>{s.montant}</div>
+            <div style={{ fontSize: 13, color: '#60716f', margin: '4px 0 8px', lineHeight: 1.4 }}>{s.desc}</div>
+            <div style={{ display: 'flex', gap: 16, fontSize: 13 }}>
+              <span>⏱ {s.delai}</span>
+              <span>⚠️ Risque {s.risque}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
       {/* ─── ACTIONS RAPIDES ─── */}
       <div className="card" style={{ padding: 16, marginBottom: 24 }}>
         <h3 className="sectionTitle" style={{ fontSize: 16, margin: '0 0 14px 0', display: 'flex', alignItems: 'center', gap: 8 }}>
