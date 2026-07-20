@@ -244,3 +244,5 @@ export function WhatsAppPage() {
     </div>
   );
 }
+
+export default WhatsAppPage;

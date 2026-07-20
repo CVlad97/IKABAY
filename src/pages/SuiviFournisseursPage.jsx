@@ -312,3 +312,5 @@ export function SuiviFournisseursPage() {
     </div>
   );
 }
+
+export default SuiviFournisseursPage;
