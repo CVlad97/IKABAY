@@ -36,6 +36,12 @@ jobs:
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
           VITE_WHATSAPP_URL: https://wa.me/596696653589
 
+      - name: Prepare GitHub Pages artifact
+        run: |
+          printf 'ikabay.store\n' > dist/CNAME
+          grep -q 'src="./assets/' dist/index.html
+          grep -q 'href="./assets/' dist/index.html
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
 

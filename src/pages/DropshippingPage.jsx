@@ -599,3 +599,5 @@ export function DropshippingPage() {
     </div>
   );
 }
+
+export default DropshippingPage;
