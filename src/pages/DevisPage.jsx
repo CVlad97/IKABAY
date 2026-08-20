@@ -1,324 +1,158 @@
-import { useState, useMemo } from 'react';
-import {
-  FileText, Calculator, Send, Printer, Copy,
-  CheckCircle, Plus, Trash2
-} from 'lucide-react';
-import { products, formatPrice } from '../data/products';
-import { waMessage, APP_EMAIL } from '../utils/constants';
+import { useMemo, useState } from 'react';
+import { AlertTriangle, CheckCircle, Copy, FileText, Mail, MessageCircle, Printer, RefreshCw, Send, Trash2 } from 'lucide-react';
+import { exactOrderLines, logisticsScenarios, sourcingMailbox } from '../data/sourcingOperations';
+import { waMessage } from '../utils/constants';
 
-function generateRef() {
-  const n = String(Math.floor(1000 + Math.random() * 9000));
-  return `DEV-${n}-IKB`;
-}
+const initialQuoteLines = [
+  { id: 'compas', product: 'Compas magnétique 135/150 mm', qty: 5, unitBuy: 350, unitSell: 455, freight: 60, source: 'Comptoir Nautique / Plastimo', status: 'RFQ envoyée' },
+  { id: 'liston', product: 'Liston PVC prépercé 55 mm — barres 6 m', qty: 66, unitBuy: 8, unitSell: 13, freight: 180, source: 'Osculati', status: 'À confirmer exact 55 mm' },
+  { id: 'liseret', product: 'Liseret compatible liston', qty: 100, unitBuy: 4, unitSell: 7, freight: 90, source: 'Osculati', status: 'RFQ envoyée' },
+  { id: 'embouts', product: 'Embouts inox 316 compatibles liston', qty: 40, unitBuy: 9, unitSell: 15, freight: 40, source: 'Osculati', status: 'RFQ envoyée' },
+  { id: 'hublots', product: 'Hublots inox/alu max 150 × 365 mm', qty: 10, unitBuy: 72, unitSell: 115, freight: 120, source: 'Osculati 81.502 / backup Gebo', status: 'Découpe à verrouiller' },
+  { id: 'bolsters', product: 'Bolster / siège baquet double', qty: 5, unitBuy: 1500, unitSell: 1950, freight: 600, source: 'Sellier FR/EU à relancer', status: 'Échantillon obligatoire' },
+  { id: 'sellerie', product: 'Sellerie bleu/gris + gris premium', qty: 5, unitBuy: 550, unitSell: 750, freight: 250, source: 'Sellier FR/EU', status: 'Nuancier + échantillon' },
+  { id: 'daviers', product: 'Davier / bow roller ancre 8 kg', qty: 5, unitBuy: 99, unitSell: 155, freight: 90, source: 'Quick / Mantus', status: 'RFQ envoyée' },
+  { id: 'echelles', product: 'Échelle inox 4 marches largeur 30 cm', qty: 10, unitBuy: 112, unitSell: 165, freight: 180, source: 'Alastin / Osculati backup', status: 'MOQ à confirmer' },
+  { id: 'taquets', product: 'Taquets inox 200 mm', qty: 35, unitBuy: 18, unitSell: 29, freight: 100, source: 'Alastin / Osculati backup', status: 'MOQ à confirmer' },
+  { id: 'loquets', product: 'Loquets inox avec/sans clé', qty: 40, unitBuy: 10, unitSell: 18, freight: 80, source: 'Wudi / Osculati backup', status: 'Plans de découpe' },
+  { id: 'pg', product: 'Porte-gobelets inox', qty: 20, unitBuy: 9, unitSell: 16, freight: 50, source: 'Alastin / Osculati backup', status: 'MOQ à confirmer' },
+  { id: 'quincaillerie', product: 'Quincaillerie / plomberie / menuiserie à ventiler', qty: 1, unitBuy: 2500, unitSell: 3300, freight: 300, source: 'À ventiler ligne par ligne', status: 'À compléter' },
+];
 
-function today() {
-  return new Date().toLocaleDateString('fr-FR', {
-    day: 'numeric', month: 'long', year: 'numeric'
-  });
-}
+const formatEUR = (value) => new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(Number(value) || 0);
+const today = () => new Date().toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' });
+const newRef = () => `DEV-${Math.floor(1000 + Math.random() * 9000)}-IKB`;
 
-export function DevisPage() {
-  const [ref] = useState(generateRef());
-  const [clientName, setClientName] = useState('');
-  const [items, setItems] = useState([]);
-  const [showAddPanel, setShowAddPanel] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState('');
-
-  // Marges configurables
-  const FRAIS_ESTIMES_RATE = 0.08;   // 8% frais estimés
-  const MARGE_ESTIMEE_RATE = 0.25;   // 25% marge
-  const ACOMPTE_RATE = 0.30;         // 30% acompte
-
-  const addProduct = () => {
-    if (!selectedProduct) return;
-    const p = products.find(pr => pr.id === selectedProduct);
-    if (!p) return;
-    setItems(prev => [...prev, {
-      id: `${p.id}-${Date.now()}`,
-      productId: p.id,
-      name: p.nameFr,
-      quantite: 1,
-      prixAchat: p.price || 0,
-      prixVente: p.price ? Math.round(p.price * 1.35) : 0,
-    }]);
-    setSelectedProduct('');
-    setShowAddPanel(false);
-  };
-
-  const updateItem = (id, field, value) => {
-    setItems(prev => prev.map(item => {
-      if (item.id !== id) return item;
-      const updated = { ...item, [field]: field === 'quantite' ? Math.max(0, parseInt(value) || 0) : parseFloat(value) || 0 };
-      return updated;
-    }));
-  };
-
-  const removeItem = (id) => {
-    setItems(prev => prev.filter(i => i.id !== id));
-  };
+export default function DevisPage() {
+  const [quoteRef, setQuoteRef] = useState(newRef());
+  const [clientName, setClientName] = useState('Joël Dufeal');
+  const [items, setItems] = useState(initialQuoteLines);
+  const [depositPct, setDepositPct] = useState(30);
 
   const totals = useMemo(() => {
-    const sousTotal = items.reduce((sum, item) => sum + (item.quantite * item.prixVente), 0);
-    const fraisEstimés = Math.round(sousTotal * FRAIS_ESTIMES_RATE);
-    const margeEstimée = Math.round(sousTotal * MARGE_ESTIMEE_RATE);
-    const totalFinal = sousTotal + fraisEstimés;
-    const acompte = Math.round(totalFinal * ACOMPTE_RATE);
-    return { sousTotal, fraisEstimés, margeEstimée, totalFinal, acompte };
-  }, [items]);
+    const buy = items.reduce((sum, item) => sum + item.qty * item.unitBuy + item.freight, 0);
+    const sell = items.reduce((sum, item) => sum + item.qty * item.unitSell + item.freight, 0);
+    const margin = sell - buy;
+    const marginPct = sell > 0 ? (margin / sell) * 100 : 0;
+    const deposit = sell * ((Number(depositPct) || 0) / 100);
+    return { buy, sell, margin, marginPct, deposit };
+  }, [items, depositPct]);
 
-  const handleEmail = () => {
-    const subject = encodeURIComponent(`Devis ${ref} — Ikabay Sourcing`);
-    const body = encodeURIComponent(
-      `Bonjour,\n\nVeuillez trouver ci-joint le devis ${ref} établi par Ikabay Sourcing.\n\nTotal : ${totals.totalFinal} €\nAcompte conseillé : ${totals.acompte} €\n\nCordialement,\nL'équipe Ikabay Sourcing`
-    );
-    window.open(`mailto:${APP_EMAIL}?subject=${subject}&body=${body}`);
+  const updateItem = (id, field, value) => {
+    setItems((prev) => prev.map((item) => item.id === id ? { ...item, [field]: field === 'product' || field === 'source' || field === 'status' ? value : Number(value) || 0 } : item));
   };
 
-  const handleWhatsApp = () => {
-    const msg = items.map(i =>
-      `- ${i.name} x${i.quantite} : ${i.prixVente}€/pc (total ${i.quantite * i.prixVente}€)`
-    ).join('\n');
-    window.open(waMessage(
-      `*Devis ${ref} — Ikabay Sourcing*\n\nClient : ${clientName || 'À définir'}\n\n${msg}\n\n*Sous-total : ${totals.sousTotal} €*\n*Frais estimés : ${totals.fraisEstimés} €*\n*Total : ${totals.totalFinal} €*\n*Acompte conseillé : ${totals.acompte} €*\n\nDevis sous réserve de disponibilité.`
-    ));
-  };
+  const removeItem = (id) => setItems((prev) => prev.filter((item) => item.id !== id));
 
-  const handlePrint = () => window.print();
+  const quoteText = useMemo(() => {
+    const lines = items.map((item) => `- ${item.product} x${item.qty} : ${formatEUR(item.unitSell)} / unité + ${formatEUR(item.freight)} frais — ${item.source}`).join('\n');
+    return `Devis ${quoteRef} — Ikabay Sourcing\nClient : ${clientName || 'À compléter'}\nDate : ${today()}\n\n${lines}\n\nTotal estimatif : ${formatEUR(totals.sell)}\nAcompte conseillé (${depositPct}%) : ${formatEUR(totals.deposit)}\n\nDevis sous réserve de disponibilité, confirmation fournisseur, photos/fiches techniques et validation finale du client.`;
+  }, [items, quoteRef, clientName, totals.sell, totals.deposit, depositPct]);
 
-  const handleDuplicate = () => {
-    setRef(generateRef());
-  };
+  const copyQuote = async () => navigator.clipboard?.writeText(quoteText);
+  const sendEmail = () => window.open(`mailto:${sourcingMailbox.operational}?subject=${encodeURIComponent(`Devis ${quoteRef} — Ikabay Sourcing`)}&body=${encodeURIComponent(quoteText)}`);
+  const sendWhatsApp = () => window.open(waMessage(quoteText));
+  const duplicate = () => setQuoteRef(newRef());
 
-  // HACK: on a besoin de setRef pour dupliquer
-  const [, setRef] = useState(ref);
-
-  const handleMarkAccepted = () => {
-    alert(`Devis ${ref} marqué comme accepté ✓`);
-  };
+  const recommended = logisticsScenarios.find((s) => s.name === 'Équilibré');
 
   return (
-    <section className="pageSection">
-      {/* ─── HEADER ─── */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 12, marginBottom: 8 }}>
-        <span className="badge" style={{ background: '#0f766e' }}>Devis</span>
-        <span style={{
-          display: 'inline-flex', alignItems: 'center', gap: 5,
-          background: '#fef3c7', color: '#92400e', borderRadius: 999,
-          padding: '6px 14px', fontSize: 13, fontWeight: 800
-        }}>
-          <FileText size={14} /> {ref}
-        </span>
-      </div>
-      <h1 style={{ margin: '0 0 4px', fontSize: 'clamp(28px, 4vw, 44px)' }}>Nouveau devis</h1>
-      <p style={{ color: '#60716f', fontWeight: 600, margin: '0 0 24px' }}>Date : {today()}</p>
-
-      {/* ─── CLIENT & REF ─── */}
-      <div style={{
-        display: 'flex', flexWrap: 'wrap', gap: 16, marginBottom: 24,
-        background: 'rgba(255,255,255,0.85)', borderRadius: 20, padding: 18,
-        border: '1px solid rgba(16,32,34,0.1)'
-      }}>
-        <div style={{ flex: '1 1 240px' }}>
-          <label style={{ fontSize: 12, fontWeight: 800, color: '#60716f', textTransform: 'uppercase', letterSpacing: '0.04em', display: 'block', marginBottom: 6 }}>Client</label>
-          <input
-            value={clientName}
-            onChange={e => setClientName(e.target.value)}
-            placeholder="Nom du client / entreprise"
-            style={{
-              width: '100%', minHeight: 48, borderRadius: 14, border: '1px solid rgba(16,32,34,0.13)',
-              padding: '0 14px', fontWeight: 700, fontSize: 15, outline: 'none', background: 'white'
-            }}
-          />
-        </div>
-        <div style={{ flex: '0 1 180px' }}>
-          <label style={{ fontSize: 12, fontWeight: 800, color: '#60716f', textTransform: 'uppercase', letterSpacing: '0.04em', display: 'block', marginBottom: 6 }}>Référence</label>
-          <div style={{
-            width: '100%', minHeight: 48, borderRadius: 14, border: '1px solid rgba(16,32,34,0.13)',
-            padding: '0 14px', fontWeight: 700, fontSize: 15, background: 'white',
-            display: 'flex', alignItems: 'center', color: '#0a4a5c'
-          }}>
-            {ref}
-          </div>
-        </div>
+    <section className="pageSection" style={{ paddingTop: 44 }}>
+      <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 14 }}>
+        <span className="badge"><FileText size={15} /> Devis client</span>
+        <span className="badge" style={{ background: '#fff7ed', color: '#9a3412' }}><AlertTriangle size={15} /> Estimation avant retours fournisseurs</span>
+        <span className="badge" style={{ background: '#dcfce7', color: '#166534' }}><CheckCircle size={15} /> Cahier des charges exact</span>
       </div>
 
-      {/* ─── ADD PRODUCT PANEL ─── */}
-      {showAddPanel && (
-        <div style={{
-          background: 'rgba(255,255,255,0.95)', borderRadius: 20, padding: 18, marginBottom: 16,
-          border: '2px solid #0f766e', display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'center'
-        }}>
-          <div style={{ flex: '1 1 280px', display: 'flex', alignItems: 'center', gap: 8,
-            background: 'white', border: '1px solid rgba(16,32,34,0.13)', borderRadius: 14,
-            padding: '0 12px', minHeight: 48 }}>
-            <Plus size={16} color="#60716f" />
-            <select
-              value={selectedProduct}
-              onChange={e => setSelectedProduct(e.target.value)}
-              style={{ border: 0, outline: 'none', width: '100%', background: 'transparent', minHeight: 46, fontWeight: 600, fontSize: 14 }}
-            >
-              <option value="">Choisir un produit...</option>
-              {products.map(p => (
-                <option key={p.id} value={p.id}>
-                  {p.nameFr} — {formatPrice(p.price)}
-                </option>
-              ))}
-            </select>
-          </div>
-          <button onClick={addProduct} disabled={!selectedProduct}
-            style={{
-              display: 'inline-flex', alignItems: 'center', gap: 6,
-              background: selectedProduct ? '#0f766e' : '#bccfcc', color: 'white', border: 0,
-              borderRadius: 14, padding: '0 20px', fontWeight: 800, cursor: selectedProduct ? 'pointer' : 'not-allowed',
-              minHeight: 48
-            }}>
-            <Plus size={16} /> Ajouter au devis
-          </button>
-          <button onClick={() => setShowAddPanel(false)}
-            style={{
-              background: 'none', border: '1px solid rgba(16,32,34,0.13)', borderRadius: 14,
-              padding: '0 16px', fontWeight: 700, cursor: 'pointer', minHeight: 48, color: '#435956'
-            }}>
-            Annuler
-          </button>
+      <h1 style={{ marginBottom: 8 }}>Devis professionnel — sourcing nautique</h1>
+      <p style={{ maxWidth: 920, color: '#516866', lineHeight: 1.6 }}>
+        Devis prérempli à partir des lignes exactes du cahier des charges. Les prix restent estimatifs tant que les fournisseurs n’ont pas renvoyé prix, MOQ, photos, fiches, CBM et délais.
+      </p>
+
+      <div className="card" style={{ padding: 18, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 14, margin: '22px 0' }}>
+        <label><strong>Client</strong><input value={clientName} onChange={(e) => setClientName(e.target.value)} style={inputStyle} /></label>
+        <label><strong>Référence</strong><input value={quoteRef} onChange={(e) => setQuoteRef(e.target.value)} style={inputStyle} /></label>
+        <label><strong>Date</strong><input value={today()} disabled style={{ ...inputStyle, background: '#f8fafc' }} /></label>
+        <label><strong>Acompte conseillé %</strong><input value={depositPct} onChange={(e) => setDepositPct(e.target.value)} type="number" style={inputStyle} /></label>
+      </div>
+
+      <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ overflowX: 'auto' }}>
+          <table style={{ width: '100%', minWidth: 1100, borderCollapse: 'collapse', fontSize: 13 }}>
+            <thead>
+              <tr style={{ background: '#f4f9f7' }}>
+                {['Produit / service', 'Qté', 'Prix achat', 'Prix vente', 'Frais', 'Marge ligne', 'Source', 'Statut', ''].map((h) => <th key={h} style={{ padding: 12, textAlign: 'left', color: '#435956', textTransform: 'uppercase', fontSize: 11 }}>{h}</th>)}
+              </tr>
+            </thead>
+            <tbody>
+              {items.map((item) => {
+                const buyLine = item.qty * item.unitBuy + item.freight;
+                const sellLine = item.qty * item.unitSell + item.freight;
+                const marginLine = sellLine - buyLine;
+                return (
+                  <tr key={item.id} style={{ borderTop: '1px solid rgba(16,32,34,.06)' }}>
+                    <td style={{ padding: 8, minWidth: 260 }}><input value={item.product} onChange={(e) => updateItem(item.id, 'product', e.target.value)} style={smallInput} /></td>
+                    <td style={{ padding: 8 }}><input value={item.qty} onChange={(e) => updateItem(item.id, 'qty', e.target.value)} type="number" style={smallInput} /></td>
+                    <td style={{ padding: 8 }}><input value={item.unitBuy} onChange={(e) => updateItem(item.id, 'unitBuy', e.target.value)} type="number" style={smallInput} /></td>
+                    <td style={{ padding: 8 }}><input value={item.unitSell} onChange={(e) => updateItem(item.id, 'unitSell', e.target.value)} type="number" style={smallInput} /></td>
+                    <td style={{ padding: 8 }}><input value={item.freight} onChange={(e) => updateItem(item.id, 'freight', e.target.value)} type="number" style={smallInput} /></td>
+                    <td style={{ padding: 12, fontWeight: 900, color: marginLine >= 0 ? '#166534' : '#dc2626' }}>{formatEUR(marginLine)}</td>
+                    <td style={{ padding: 8, minWidth: 180 }}><input value={item.source} onChange={(e) => updateItem(item.id, 'source', e.target.value)} style={smallInput} /></td>
+                    <td style={{ padding: 8, minWidth: 160 }}><input value={item.status} onChange={(e) => updateItem(item.id, 'status', e.target.value)} style={smallInput} /></td>
+                    <td style={{ padding: 8 }}><button onClick={() => removeItem(item.id)} title="Supprimer" style={iconButton}><Trash2 size={15} /></button></td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 14, marginTop: 20 }}>
+        <Metric label="Coût achat estimé" value={formatEUR(totals.buy)} />
+        <Metric label="Prix vente estimé" value={formatEUR(totals.sell)} highlight />
+        <Metric label="Marge brute estimée" value={`${formatEUR(totals.margin)} (${totals.marginPct.toFixed(1)}%)`} />
+        <Metric label="Acompte conseillé" value={formatEUR(totals.deposit)} />
+      </div>
+
+      {recommended && (
+        <div className="card" style={{ padding: 18, marginTop: 20, borderLeft: '5px solid #0f766e' }}>
+          <strong>Scénario conseillé actuel : {recommended.name}</strong>
+          <p style={{ margin: '6px 0 0', color: '#516866' }}>{recommended.strategy} — total rendu indicatif {formatEUR(recommended.total)}, délai {recommended.delay}.</p>
         </div>
       )}
 
-      {/* ─── ITEMS TABLE ─── */}
-      <div className="card" style={{ padding: 0, overflow: 'hidden', marginBottom: 20 }}>
-        <div style={{
-          padding: '16px 20px', borderBottom: '1px solid rgba(16,32,34,0.08)',
-          display: 'flex', justifyContent: 'space-between', alignItems: 'center'
-        }}>
-          <h3 style={{ fontSize: 17, display: 'flex', alignItems: 'center', gap: 8 }}>
-            <Calculator size={18} color="#0f766e" /> Lignes du devis
-          </h3>
-          <button onClick={() => setShowAddPanel(true)}
-            style={{
-              display: 'inline-flex', alignItems: 'center', gap: 6,
-              background: '#0f766e', color: 'white', border: 0, borderRadius: 12,
-              padding: '8px 14px', fontWeight: 800, fontSize: 13, cursor: 'pointer', minHeight: 38
-            }}>
-            <Plus size={15} /> Ajouter
-          </button>
-        </div>
-        {items.length === 0 ? (
-          <div style={{ padding: 40, textAlign: 'center', color: '#8aa09c', fontWeight: 600 }}>
-            Aucune ligne. Cliquez sur "Ajouter" pour insérer un produit du déstockage.
-          </div>
-        ) : (
-          <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
-              <thead>
-                <tr style={{ borderBottom: '1px solid rgba(16,32,34,0.06)', background: '#f4f9f7' }}>
-                  {['Produit', 'Quantité', 'Prix achat', 'Prix vente', 'Marge %', 'Total ligne', ''].map(h => (
-                    <th key={h} style={{ textAlign: 'left', padding: '12px 10px', fontWeight: 800, color: '#435956', fontSize: 12, textTransform: 'uppercase' }}>{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {items.map(item => {
-                  const totalLigne = item.quantite * item.prixVente;
-                  const margePct = item.prixAchat > 0
-                    ? Math.round(((item.prixVente - item.prixAchat) / item.prixVente) * 100)
-                    : 0;
-                  return (
-                    <tr key={item.id} style={{ borderBottom: '1px solid rgba(16,32,34,0.04)' }}>
-                      <td style={{ padding: '10px', fontWeight: 700, color: '#0a4a5c', minWidth: 160 }}>{item.name}</td>
-                      <td style={{ padding: '10px', minWidth: 80 }}>
-                        <input type="number" min="1" value={item.quantite}
-                          onChange={e => updateItem(item.id, 'quantite', e.target.value)}
-                          style={{ width: 60, minHeight: 36, borderRadius: 10, border: '1px solid rgba(16,32,34,0.13)', textAlign: 'center', fontWeight: 700, outline: 'none' }}
-                        />
-                      </td>
-                      <td style={{ padding: '10px', fontWeight: 600 }}>
-                        <input type="number" min="0" step="0.01" value={item.prixAchat}
-                          onChange={e => updateItem(item.id, 'prixAchat', e.target.value)}
-                          style={{ width: 80, minHeight: 36, borderRadius: 10, border: '1px solid rgba(16,32,34,0.13)', textAlign: 'center', fontWeight: 700, outline: 'none' }}
-                        /> €
-                      </td>
-                      <td style={{ padding: '10px', fontWeight: 600 }}>
-                        <input type="number" min="0" step="0.01" value={item.prixVente}
-                          onChange={e => updateItem(item.id, 'prixVente', e.target.value)}
-                          style={{ width: 80, minHeight: 36, borderRadius: 10, border: '1px solid rgba(16,32,34,0.13)', textAlign: 'center', fontWeight: 700, outline: 'none' }}
-                        /> €
-                      </td>
-                      <td style={{ padding: '10px', fontWeight: 800, color: margePct >= 25 ? '#16a34a' : margePct > 0 ? '#ea580c' : '#60716f' }}>
-                        {margePct}%
-                      </td>
-                      <td style={{ padding: '10px', fontWeight: 900, color: '#0a4a5c' }}>{totalLigne} €</td>
-                      <td style={{ padding: '10px' }}>
-                        <button onClick={() => removeItem(item.id)}
-                          style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#dc2626', padding: 6, borderRadius: 8 }}
-                        >
-                          <Trash2 size={16} />
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        )}
+      <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 22 }}>
+        <button className="btn btnPrimary" onClick={sendEmail}><Mail size={18} /> Envoyer email</button>
+        <button className="btn" onClick={sendWhatsApp}><MessageCircle size={18} /> WhatsApp</button>
+        <button className="btn" onClick={copyQuote}><Copy size={18} /> Copier</button>
+        <button className="btn" onClick={duplicate}><RefreshCw size={18} /> Dupliquer ref</button>
+        <button className="btn" onClick={() => window.print()}><Printer size={18} /> Imprimer / PDF</button>
+        <button className="btn" onClick={() => alert(`Devis ${quoteRef} marqué accepté — à confirmer après paiement acompte.`)}><Send size={18} /> Marquer accepté</button>
       </div>
 
-      {/* ─── TOTAUX ─── */}
-      <div style={{
-        display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))',
-        gap: 12, marginBottom: 24
-      }}>
-        {[
-          { label: 'Sous-total', value: `${totals.sousTotal} €`, color: '#0a4a5c' },
-          { label: 'Frais estimés (8%)', value: `${totals.fraisEstimés} €`, color: '#f97316' },
-          { label: 'Marge estimée (25%)', value: `${totals.margeEstimée} €`, color: '#16a34a' },
-          { label: 'Total final', value: `${totals.totalFinal} €`, color: '#0a4a5c', bold: true },
-          { label: 'Acompte conseillé (30%)', value: `${totals.acompte} €`, color: '#92400e' },
-        ].map(t => (
-          <div key={t.label} className="card" style={{
-            padding: 16, textAlign: 'center',
-            border: t.bold ? '2px solid #0a4a5c' : '1px solid rgba(16,32,34,0.1)',
-            background: t.bold ? 'rgba(10,74,92,0.06)' : 'rgba(255,255,255,0.88)'
-          }}>
-            <div style={{ fontSize: 12, fontWeight: 700, color: '#60716f', textTransform: 'uppercase', marginBottom: 6 }}>{t.label}</div>
-            <div style={{ fontSize: t.bold ? 26 : 22, fontWeight: 900, color: t.color }}>{t.value}</div>
-          </div>
-        ))}
+      <div className="sectionTitle" style={{ marginTop: 34 }}><h2>Lignes cahier des charges couvertes</h2></div>
+      <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+        {exactOrderLines.map((line) => <span key={line.family} className="badge" style={{ background: '#f8fafc', color: '#0a4a5c' }}>{line.family}</span>)}
       </div>
 
-      {/* ─── MENTION LÉGALE ─── */}
-      <p style={{
-        fontSize: 13, color: '#8aa09c', fontStyle: 'italic',
-        margin: '0 0 20px', textAlign: 'center'
-      }}>
-        Devis sous réserve de disponibilité, confirmation fournisseur et validation finale du client.
-      </p>
-
-      {/* ─── ACTIONS ─── */}
-      <div style={{
-        display: 'flex', flexWrap: 'wrap', gap: 10,
-        background: 'rgba(255,255,255,0.85)', borderRadius: 20, padding: 16,
-        border: '1px solid rgba(16,32,34,0.1)', justifyContent: 'center'
-      }}>
-        {[
-          { icon: <Printer size={16} />, label: 'Préparer PDF', bg: '#0a4a5c', onClick: handlePrint },
-          { icon: <Send size={16} />, label: 'Envoyer email', bg: '#0f766e', onClick: handleEmail },
-          { icon: <MessageCircle size={16} />, label: 'Envoyer WhatsApp', bg: '#25d366', onClick: handleWhatsApp },
-          { icon: <CheckCircle size={16} />, label: 'Marquer accepté', bg: '#16a34a', onClick: handleMarkAccepted },
-          { icon: <Copy size={16} />, label: 'Dupliquer', bg: '#92400e', onClick: handleDuplicate },
-        ].map(btn => (
-          <button key={btn.label} onClick={btn.onClick}
-            style={{
-              display: 'inline-flex', alignItems: 'center', gap: 6,
-              background: btn.bg, color: 'white', border: 0, borderRadius: 14,
-              padding: '10px 18px', fontWeight: 800, fontSize: 13, cursor: 'pointer', minHeight: 44
-            }}>
-            {btn.icon} {btn.label}
-          </button>
-        ))}
+      <div className="card" style={{ padding: 18, marginTop: 24, borderLeft: '5px solid #f97316' }}>
+        <strong>Mention obligatoire</strong>
+        <p style={{ margin: '6px 0 0', color: '#516866' }}>Devis sous réserve de disponibilité, confirmation fournisseur, MOQ réel, photos/fiches techniques, transport GEODIS et validation finale du client.</p>
       </div>
     </section>
   );
 }
 
-export default DevisPage;
+function Metric({ label, value, highlight }) {
+  return (
+    <div className="card" style={{ padding: 18, background: highlight ? 'linear-gradient(135deg,#0a4a5c,#0f766e)' : 'white', color: highlight ? 'white' : '#0a4a5c' }}>
+      <div style={{ fontSize: 12, fontWeight: 900, opacity: .75, textTransform: 'uppercase' }}>{label}</div>
+      <div style={{ fontSize: 26, fontWeight: 950, marginTop: 8 }}>{value}</div>
+    </div>
+  );
+}
+
+const inputStyle = { width: '100%', marginTop: 6, padding: '11px 12px', borderRadius: 12, border: '1px solid rgba(16,32,34,.14)', background: '#fff', outline: 'none' };
+const smallInput = { width: '100%', padding: '8px 9px', borderRadius: 10, border: '1px solid rgba(16,32,34,.12)', outline: 'none', background: 'white' };
+const iconButton = { border: 0, background: '#fee2e2', color: '#dc2626', borderRadius: 10, width: 34, height: 34, display: 'grid', placeItems: 'center', cursor: 'pointer' };

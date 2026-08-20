@@ -1,294 +1,159 @@
-import { useState } from 'react';
-import {
-  Ship, Package, Truck, Plane, Warehouse, MapPin,
-  CheckCircle2, Clock, AlertTriangle, Anchor, Luggage,
-  Calculator, Send, FileText
-} from 'lucide-react';
-import { APP_EMAIL, waMessage } from '../utils/constants';
+import { useMemo, useState } from 'react';
+import { AlertTriangle, Anchor, Calculator, CheckCircle2, Package, Plane, Route, Ship, Truck, Warehouse } from 'lucide-react';
+import { computeLandedCost, logisticsScenarios, sentRfqs, martiniqueCostDefaults } from '../data/sourcingOperations';
 
-/* ─── MODE ICONS ─── */
-const modeIcons = {
-  Maritime: Ship,
-  Aérien: Plane,
-  'Express aérien': Plane,
-  Terrestre: Truck,
-  MaritimeFr: Anchor,
-  Relais: Warehouse,
-};
+const relayPoints = ['Fort-de-France', 'Ducos', 'Le Lamentin', 'Rivière-Pilote', 'Sainte-Luce', 'Le Marin'];
 
-/* ─── STATUTS ─── */
-const statuses = [
-  'À récupérer',
-  'En préparation',
-  'En transit',
-  'Arrivé Martinique',
-  'En contrôle/douane',
-  'En point relais',
-  'Livré',
+const operationalShipments = [
+  { supplier: 'Osculati', origin: 'Italie / Europe', mode: 'Maritime LCL Europe', carrier: 'GEODIS / CMA CGM à confirmer', cbm: '1.0–2.0', status: 'Réponse RFQ attendue', eta: 'À calculer après devis', risk: 'Faible' },
+  { supplier: 'Comptoir Nautique', origin: 'France', mode: 'Colis / groupage Europe', carrier: 'GEODIS ou transporteur fournisseur', cbm: '0.1–0.3', status: 'Réponse RFQ attendue', eta: 'À calculer après devis', risk: 'Faible' },
+  { supplier: 'Quick Group', origin: 'Italie', mode: 'Maritime / route + groupage', carrier: 'GEODIS / forwarder EU', cbm: '0.2–0.5', status: 'Réponse RFQ attendue', eta: 'À calculer après devis', risk: 'Faible' },
+  { supplier: 'Alastin Marine', origin: 'Chine / Qingdao', mode: 'LCL maritime', carrier: 'GEODIS Chine → FDF', cbm: '2 CBM minimum', status: 'MOQ + CBM attendus', eta: '35–65 jours', risk: 'Moyen' },
+  { supplier: 'Wudi Xinxiangju', origin: 'Chine / Wudi', mode: 'Consolidation Shandong', carrier: 'Alastin ou forwarder Qingdao', cbm: 'À confirmer', status: 'MOQ + CBM attendus', eta: '35–65 jours', risk: 'Moyen' },
+  { supplier: 'Mantus Marine', origin: 'USA', mode: 'Miami forwarder / air partiel', carrier: 'À confirmer', cbm: '0.2–0.5', status: 'Transport USA à chiffrer', eta: '7–21 jours', risk: 'Moyen' },
 ];
 
-/* ─── POINTS RELAIS ─── */
-const relayPoints = [
-  'Fort-de-France',
-  'Ducos',
-  'Le Lamentin',
-  'Rivière-Pilote',
-  'Sainte-Luce',
-  'Le Marin',
-];
+const formatEUR = (value) => new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(Number(value) || 0);
 
-const statusColor = (s) => {
-  const map = {
-    'À récupérer': '#f97316',
-    'En préparation': '#2563eb',
-    'En transit': '#0891b2',
-    'Arrivé Martinique': '#7c3aed',
-    'En contrôle/douane': '#ea580c',
-    'En point relais': '#0f766e',
-    Livré: '#16a34a',
-  };
-  return map[s] || '#6b7280';
-};
+function RiskBadge({ risk }) {
+  const color = risk === 'Faible' ? '#166534' : risk === 'Moyen' ? '#9a3412' : '#dc2626';
+  const bg = risk === 'Faible' ? '#dcfce7' : risk === 'Moyen' ? '#fff7ed' : '#fee2e2';
+  return <span style={{ background: bg, color, padding: '5px 9px', borderRadius: 999, fontSize: 12, fontWeight: 800 }}>{risk}</span>;
+}
 
-const statusBg = (s) => {
-  const map = {
-    'À récupérer': '#fff7ed',
-    'En préparation': '#eff6ff',
-    'En transit': '#ecfeff',
-    'Arrivé Martinique': '#f5f3ff',
-    'En contrôle/douane': '#fff7ed',
-    'En point relais': '#f0fdf4',
-    Livré: '#f0fdf4',
-  };
-  return map[s] || '#f9fafb';
-};
-
-/* ─── SHIPMENTS DEMO ─── */
-const demoShippings = [
-  {
-    id: 1,
-    fournisseur: 'MarineTech SARL',
-    pays: 'France',
-    transporteur: 'CMA CGM',
-    tracking: 'CMAU123456789',
-    mode: 'Maritime',
-    cout: 1450,
-    delai: '21 jours',
-    eta: '28/06/2026',
-    destination: 'Fort-de-France',
-    pointRelais: 'Le Lamentin',
-    statut: 'En transit',
-  },
-  {
-    id: 2,
-    fournisseur: 'NauticParts GmbH',
-    pays: 'Allemagne',
-    transporteur: 'DHL Freight',
-    tracking: 'DHL987654321',
-    mode: 'Express aérien',
-    cout: 890,
-    delai: '5 jours',
-    eta: '18/06/2026',
-    destination: 'Fort-de-France',
-    pointRelais: 'Ducos',
-    statut: 'Arrivé Martinique',
-  },
-  {
-    id: 3,
-    fournisseur: 'BoatSupply Italia',
-    pays: 'Italie',
-    transporteur: 'MSC',
-    tracking: 'MSC456789123',
-    mode: 'Maritime',
-    cout: 620,
-    delai: '14 jours',
-    eta: '22/06/2026',
-    destination: 'Le Marin',
-    pointRelais: 'Le Marin',
-    statut: 'En préparation',
-  },
-  {
-    id: 4,
-    fournisseur: 'SeaPro BV',
-    pays: 'Pays-Bas',
-    transporteur: 'Geodis',
-    tracking: 'GEO321654987',
-    mode: 'Terrestre',
-    cout: 320,
-    delai: '7 jours',
-    eta: '15/06/2026',
-    destination: 'Sainte-Luce',
-    pointRelais: 'Sainte-Luce',
-    statut: 'Livré',
-  },
-];
-
-export function TransportPage() {
+export default function TransportPage() {
   const [calc, setCalc] = useState({
-    prixAchat: '',
-    fraisFournisseur: '',
-    transport: '',
-    marge: '30',
+    origin: 'europe',
+    mode: 'maritime',
+    purchase: '15000',
+    supplierFees: '250',
+    cbm: '2',
+    weightKg: '300',
+    marginPct: '25',
   });
 
-  const prixAchat = parseFloat(calc.prixAchat) || 0;
-  const fraisFournisseur = parseFloat(calc.fraisFournisseur) || 0;
-  const transport = parseFloat(calc.transport) || 0;
-  const margePct = parseFloat(calc.marge) || 0;
-  const coutTotal = prixAchat + fraisFournisseur + transport;
-  const margeMontant = coutTotal * (margePct / 100);
-  const prixFinal = coutTotal + margeMontant;
+  const landed = useMemo(() => computeLandedCost(calc), [calc]);
 
-  const handleCalc = (field) => (e) => {
-    setCalc((prev) => ({ ...prev, [field]: e.target.value }));
-  };
-
-  const ModeIcon = ({ mode, size = 16 }) => {
-    const Icon = modeIcons[mode] || Package;
-    return <Icon size={size} />;
-  };
+  const update = (field) => (event) => setCalc((prev) => ({ ...prev, [field]: event.target.value }));
 
   return (
-    <section className="pageSection">
-      {/* ─── HEADER ─── */}
-      <div className="badge">Logistique</div>
-      <h1 style={{ fontSize: 'clamp(28px, 4vw, 44px)', margin: '8px 0 4px' }}>
-        Transport & Suivi
-      </h1>
-      <p style={{ color: '#516866', margin: '0 0 28px', fontSize: 'clamp(14px, 2vw, 16px)' }}>
-        Coordonnez vos expéditions depuis l'Europe jusqu'à la Martinique — fret maritime, aérien,
-        terrestre et suivi en temps réel de vos livraisons.
+    <section className="pageSection" style={{ paddingTop: 44 }}>
+      <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 14 }}>
+        <span className="badge"><Ship size={15} /> Logistique Martinique</span>
+        <span className="badge" style={{ background: '#dcfce7', color: '#166534' }}><CheckCircle2 size={15} /> GEODIS prioritaire</span>
+        <span className="badge" style={{ background: '#fff7ed', color: '#9a3412' }}><AlertTriangle size={15} /> MOQ Chine inclus</span>
+      </div>
+
+      <h1 style={{ marginBottom: 8 }}>Transport & coût rendu Martinique</h1>
+      <p style={{ maxWidth: 920, color: '#516866', lineHeight: 1.6 }}>
+        Calcule le vrai coût rendu : achat HT/FOB, MOQ, volume CBM, transport, assurance, frais dossier, taxes import et marge. Le prix facial fournisseur ne suffit jamais.
       </p>
 
-      {/* ─── TABLEAU DE SUIVI ─── */}
-      <h2 style={{ fontSize: 'clamp(22px, 3.5vw, 32px)', margin: '0 0 6px' }}>
-        <Package size={24} style={{ color: '#0f766e', verticalAlign: 'middle', marginRight: 8 }} />
-        Suivi des expéditions
-      </h2>
-      <p style={{ color: '#516866', margin: '0 0 18px', fontSize: 14 }}>
-        Visualisez et gérez toutes vos expéditions en cours.
-      </p>
+      <div className="sectionTitle" style={{ marginTop: 30 }}>
+        <h2><Route size={24} /> Scénarios logistiques</h2>
+        <p>Base de comparaison avant retours fournisseurs définitifs.</p>
+      </div>
 
-      <div className="card" style={{ padding: 0, overflow: 'hidden', marginBottom: 36 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16, marginBottom: 34 }}>
+        {logisticsScenarios.map((scenario) => (
+          <div className="card" key={scenario.name} style={{ padding: 20, borderTop: `5px solid ${scenario.color}` }}>
+            <h3 style={{ margin: '0 0 8px', color: scenario.color }}>{scenario.name}</h3>
+            <p style={{ color: '#516866', minHeight: 64 }}>{scenario.strategy}</p>
+            <div style={{ display: 'grid', gap: 8, fontSize: 14 }}>
+              <div><strong>Achat :</strong> {formatEUR(scenario.purchase)}</div>
+              <div><strong>Transport :</strong> {formatEUR(scenario.transport)}</div>
+              <div><strong>Taxes/frais :</strong> {formatEUR(scenario.duties)}</div>
+              <div style={{ fontSize: 20, fontWeight: 900, color: '#0a4a5c' }}>{formatEUR(scenario.total)}</div>
+              <div><strong>Délai :</strong> {scenario.delay}</div>
+              <div><strong>Risque :</strong> <RiskBadge risk={scenario.risk.includes('Faible') ? 'Faible' : scenario.risk.includes('moyen') || scenario.risk.includes('Moyen') ? 'Moyen' : 'Élevé'} /></div>
+            </div>
+            <p style={{ color: '#60716f', fontSize: 13, lineHeight: 1.5 }}>{scenario.note}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="sectionTitle">
+        <h2><Calculator size={24} /> Calculateur coût rendu</h2>
+        <p>À utiliser dès qu’un fournisseur répond avec prix, poids et CBM.</p>
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(280px, 420px) 1fr', gap: 20 }} className="transportCalcGrid">
+        <div className="card" style={{ padding: 20 }}>
+          <div style={{ display: 'grid', gap: 14 }}>
+            <label>
+              <strong>Origine</strong>
+              <select value={calc.origin} onChange={update('origin')} style={inputStyle}>
+                <option value="europe">Europe / France / Italie</option>
+                <option value="china">Chine / Turquie / hors UE</option>
+                <option value="usa">USA</option>
+              </select>
+            </label>
+            <label>
+              <strong>Mode</strong>
+              <select value={calc.mode} onChange={update('mode')} style={inputStyle}>
+                <option value="maritime">Maritime / LCL</option>
+                <option value="air">Aérien partiel</option>
+              </select>
+            </label>
+            <label><strong>Achat marchandise HT/FOB (€)</strong><input value={calc.purchase} onChange={update('purchase')} type="number" style={inputStyle} /></label>
+            <label><strong>Frais fournisseur / emballage (€)</strong><input value={calc.supplierFees} onChange={update('supplierFees')} type="number" style={inputStyle} /></label>
+            <label><strong>Volume CBM</strong><input value={calc.cbm} onChange={update('cbm')} type="number" step="0.1" style={inputStyle} /></label>
+            <label><strong>Poids kg</strong><input value={calc.weightKg} onChange={update('weightKg')} type="number" style={inputStyle} /></label>
+            <label><strong>Marge Ikabay %</strong><input value={calc.marginPct} onChange={update('marginPct')} type="number" style={inputStyle} /></label>
+          </div>
+        </div>
+
+        <div className="card" style={{ padding: 20 }}>
+          <h3 style={{ marginTop: 0, color: '#0a4a5c' }}>Résultat estimatif</h3>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 12 }}>
+            {[
+              ['Achat', landed.purchase],
+              ['Frais fournisseur', landed.supplierFees],
+              ['Fret estimé', landed.freight],
+              ['Assurance', landed.insurance],
+              ['Taxes import', landed.importTaxes],
+              ['Frais dossier', landed.fileFee],
+              ['Livraison finale', landed.finalDelivery],
+              ['Marge', landed.marginValue],
+            ].map(([label, value]) => (
+              <div key={label} style={{ background: '#f8fafc', padding: 14, borderRadius: 14 }}>
+                <div style={{ color: '#64748b', fontSize: 12, fontWeight: 800 }}>{label}</div>
+                <div style={{ fontSize: 20, fontWeight: 900 }}>{formatEUR(value)}</div>
+              </div>
+            ))}
+          </div>
+          <div style={{ marginTop: 18, padding: 18, borderRadius: 18, background: 'linear-gradient(135deg,#0a4a5c,#0f766e)', color: 'white' }}>
+            <div style={{ opacity: .85, fontWeight: 800 }}>Prix final estimatif rendu Martinique</div>
+            <div style={{ fontSize: 'clamp(30px, 5vw, 44px)', fontWeight: 950 }}>{formatEUR(landed.finalPrice)}</div>
+          </div>
+          <p style={{ color: '#60716f', fontSize: 13, lineHeight: 1.5 }}>
+            Hypothèses : Europe {formatEUR(martiniqueCostDefaults.europeLclPerCbm)}/CBM, Chine {martiniqueCostDefaults.chinaLclPerCbmUsd}$/CBM min {martiniqueCostDefaults.chinaLclMinCbm} CBM, assurance {martiniqueCostDefaults.insurancePct}%, TVA/import hors UE {martiniqueCostDefaults.martiniqueVatPct}% + droits {martiniqueCostDefaults.importDutyPct}%.
+          </p>
+        </div>
+      </div>
+
+      <div className="sectionTitle" style={{ marginTop: 38 }}>
+        <h2><Package size={24} /> Suivi opérationnel des lots</h2>
+      </div>
+      <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
         <div style={{ overflowX: 'auto' }}>
-          <table
-            style={{
-              width: '100%',
-              borderCollapse: 'collapse',
-              fontSize: 13,
-              minWidth: 1000,
-            }}
-          >
+          <table style={{ width: '100%', minWidth: 900, borderCollapse: 'collapse', fontSize: 13 }}>
             <thead>
-              <tr style={{ borderBottom: '1px solid rgba(16,32,34,0.06)', background: '#f4f9f7' }}>
-                {[
-                  'Fournisseur',
-                  'Pays départ',
-                  'Transporteur',
-                  'N° suivi',
-                  'Mode',
-                  'Coût',
-                  'Délai',
-                  'ETA',
-                  'Destination',
-                  'Point relais',
-                  'Statut',
-                ].map((h) => (
-                  <th
-                    key={h}
-                    style={{
-                      textAlign: 'left',
-                      padding: '12px 10px',
-                      fontWeight: 800,
-                      color: '#435956',
-                      fontSize: 11,
-                      textTransform: 'uppercase',
-                      whiteSpace: 'nowrap',
-                    }}
-                  >
-                    {h}
-                  </th>
-                ))}
+              <tr style={{ background: '#f4f9f7' }}>
+                {['Fournisseur', 'Origine', 'Mode', 'Transporteur', 'CBM', 'Statut', 'ETA', 'Risque'].map((h) => <th key={h} style={{ padding: 12, textAlign: 'left', color: '#435956', textTransform: 'uppercase', fontSize: 11 }}>{h}</th>)}
               </tr>
             </thead>
             <tbody>
-              {demoShippings.map((s) => (
-                <tr
-                  key={s.id}
-                  style={{ borderBottom: '1px solid rgba(16,32,34,0.04)' }}
-                >
-                  <td style={{ padding: '12px 10px', fontWeight: 700, color: '#0a4a5c' }}>
-                    {s.fournisseur}
-                  </td>
-                  <td style={{ padding: '12px 10px', fontWeight: 600, color: '#516866' }}>
-                    {s.pays}
-                  </td>
-                  <td style={{ padding: '12px 10px', fontWeight: 600 }}>{s.transporteur}</td>
-                  <td style={{ padding: '12px 10px', fontFamily: 'monospace', fontSize: 12 }}>
-                    {s.tracking}
-                  </td>
-                  <td style={{ padding: '12px 10px' }}>
-                    <span
-                      style={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: 5,
-                        background: '#e7fbf7',
-                        color: '#0f766e',
-                        borderRadius: 999,
-                        padding: '3px 10px',
-                        fontSize: 12,
-                        fontWeight: 700,
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      <ModeIcon mode={s.mode} size={13} />
-                      {s.mode}
-                    </span>
-                  </td>
-                  <td style={{ padding: '12px 10px', fontWeight: 700 }}>{s.cout} €</td>
-                  <td style={{ padding: '12px 10px', color: '#516866' }}>{s.delai}</td>
-                  <td style={{ padding: '12px 10px', fontWeight: 600 }}>{s.eta}</td>
-                  <td style={{ padding: '12px 10px', fontWeight: 600 }}>{s.destination}</td>
-                  <td style={{ padding: '12px 10px' }}>
-                    <span
-                      style={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: 4,
-                        color: '#0f766e',
-                        fontWeight: 600,
-                      }}
-                    >
-                      <MapPin size={12} />
-                      {s.pointRelais}
-                    </span>
-                  </td>
-                  <td style={{ padding: '12px 10px' }}>
-                    <span
-                      style={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: 4,
-                        background: statusBg(s.statut),
-                        color: statusColor(s.statut),
-                        borderRadius: 999,
-                        padding: '3px 10px',
-                        fontSize: 11,
-                        fontWeight: 800,
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      {s.statut === 'Livré' && <CheckCircle2 size={12} />}
-                      {s.statut === 'En transit' && <Truck size={12} />}
-                      {s.statut === 'En préparation' && <Clock size={12} />}
-                      {s.statut === 'Arrivé Martinique' && <Warehouse size={12} />}
-                      {s.statut === 'En contrôle/douane' && <AlertTriangle size={12} />}
-                      {s.statut === 'En point relais' && <MapPin size={12} />}
-                      {s.statut === 'À récupérer' && <Package size={12} />}
-                      {s.statut}
-                    </span>
-                  </td>
+              {operationalShipments.map((s) => (
+                <tr key={s.supplier} style={{ borderTop: '1px solid rgba(16,32,34,.06)' }}>
+                  <td style={{ padding: 12, fontWeight: 900, color: '#0a4a5c' }}>{s.supplier}</td>
+                  <td style={{ padding: 12 }}>{s.origin}</td>
+                  <td style={{ padding: 12 }}>{s.mode}</td>
+                  <td style={{ padding: 12 }}>{s.carrier}</td>
+                  <td style={{ padding: 12 }}>{s.cbm}</td>
+                  <td style={{ padding: 12 }}>{s.status}</td>
+                  <td style={{ padding: 12 }}>{s.eta}</td>
+                  <td style={{ padding: 12 }}><RiskBadge risk={s.risk} /></td>
                 </tr>
               ))}
             </tbody>
@@ -296,316 +161,37 @@ export function TransportPage() {
         </div>
       </div>
 
-      {/* ─── LÉGENDE DES STATUTS ─── */}
-      <div
-        style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          gap: 8,
-          marginBottom: 36,
-          padding: '16px 18px',
-          background: 'rgba(255,255,255,0.85)',
-          border: '1px solid rgba(16,32,34,0.08)',
-          borderRadius: 16,
-        }}
-      >
-        <span style={{ fontSize: 12, fontWeight: 800, color: '#60716f', textTransform: 'uppercase', marginRight: 4 }}>
-          Statuts :
-        </span>
-        {statuses.map((st) => (
-          <span
-            key={st}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 4,
-              background: statusBg(st),
-              color: statusColor(st),
-              borderRadius: 999,
-              padding: '3px 10px',
-              fontSize: 11,
-              fontWeight: 700,
-              whiteSpace: 'nowrap',
-            }}
-          >
-            {st === 'Livré' && <CheckCircle2 size={11} />}
-            {st === 'En transit' && <Truck size={11} />}
-            {st === 'En préparation' && <Clock size={11} />}
-            {st === 'Arrivé Martinique' && <Warehouse size={11} />}
-            {st === 'En contrôle/douane' && <AlertTriangle size={11} />}
-            {st === 'En point relais' && <MapPin size={11} />}
-            {st === 'À récupérer' && <Package size={11} />}
-            {st}
-          </span>
-        ))}
+      <div className="sectionTitle" style={{ marginTop: 38 }}>
+        <h2><Warehouse size={24} /> Points relais Martinique</h2>
+      </div>
+      <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+        {relayPoints.map((point) => <span className="badge" key={point}>{point}</span>)}
       </div>
 
-      {/* ─── CALCULATEUR DE PRIX ─── */}
-      <h2 style={{ fontSize: 'clamp(22px, 3.5vw, 32px)', margin: '0 0 6px' }}>
-        <Calculator size={24} style={{ color: '#0f766e', verticalAlign: 'middle', marginRight: 8 }} />
-        Calculateur de prix final
-      </h2>
-      <p style={{ color: '#516866', margin: '0 0 18px', fontSize: 14 }}>
-        Estimez le prix final rendu Martinique à partir du prix d'achat fournisseur et des frais
-        logistiques.
-      </p>
-
-      <div className="card" style={{ padding: 24, marginBottom: 36 }}>
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
-            gap: 14,
-            marginBottom: 20,
-          }}
-        >
-          <div className="formGroup">
-            <label
-              style={{
-                display: 'block',
-                fontWeight: 800,
-                fontSize: 12,
-                color: '#435956',
-                marginBottom: 4,
-                textTransform: 'uppercase',
-              }}
-            >
-              Prix achat (€)
-            </label>
-            <input
-              className="input"
-              type="number"
-              min="0"
-              step="0.01"
-              value={calc.prixAchat}
-              onChange={handleCalc('prixAchat')}
-              placeholder="Ex: 100"
-              style={{ width: '100%', minHeight: 48, borderRadius: 14, border: '1px solid rgba(16,32,34,0.13)', padding: '0 14px', fontWeight: 600, outline: 'none', fontSize: 14 }}
-            />
-          </div>
-          <div className="formGroup">
-            <label
-              style={{
-                display: 'block',
-                fontWeight: 800,
-                fontSize: 12,
-                color: '#435956',
-                marginBottom: 4,
-                textTransform: 'uppercase',
-              }}
-            >
-              Frais fournisseur (€)
-            </label>
-            <input
-              className="input"
-              type="number"
-              min="0"
-              step="0.01"
-              value={calc.fraisFournisseur}
-              onChange={handleCalc('fraisFournisseur')}
-              placeholder="Ex: 20"
-              style={{ width: '100%', minHeight: 48, borderRadius: 14, border: '1px solid rgba(16,32,34,0.13)', padding: '0 14px', fontWeight: 600, outline: 'none', fontSize: 14 }}
-            />
-          </div>
-          <div className="formGroup">
-            <label
-              style={{
-                display: 'block',
-                fontWeight: 800,
-                fontSize: 12,
-                color: '#435956',
-                marginBottom: 4,
-                textTransform: 'uppercase',
-              }}
-            >
-              Transport (€)
-            </label>
-            <input
-              className="input"
-              type="number"
-              min="0"
-              step="0.01"
-              value={calc.transport}
-              onChange={handleCalc('transport')}
-              placeholder="Ex: 35"
-              style={{ width: '100%', minHeight: 48, borderRadius: 14, border: '1px solid rgba(16,32,34,0.13)', padding: '0 14px', fontWeight: 600, outline: 'none', fontSize: 14 }}
-            />
-          </div>
-          <div className="formGroup">
-            <label
-              style={{
-                display: 'block',
-                fontWeight: 800,
-                fontSize: 12,
-                color: '#435956',
-                marginBottom: 4,
-                textTransform: 'uppercase',
-              }}
-            >
-              Marge souhaitée (%)
-            </label>
-            <select
-              className="select"
-              value={calc.marge}
-              onChange={handleCalc('marge')}
-              style={{ width: '100%', minHeight: 48, borderRadius: 14, border: '1px solid rgba(16,32,34,0.13)', padding: '0 14px', fontWeight: 600, outline: 'none', background: 'white', fontSize: 14 }}
-            >
-              {[15, 20, 25, 30, 35, 40, 45, 50].map((p) => (
-                <option key={p} value={p}>
-                  {p}%
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-
-        {/* Résultat */}
-        <div
-          style={{
-            background: 'linear-gradient(135deg, #e7fbf7, #d0f0ec)',
-            borderRadius: 20,
-            padding: '20px 24px',
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))',
-            gap: 12,
-          }}
-        >
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: 11, fontWeight: 800, color: '#60716f', textTransform: 'uppercase', marginBottom: 4 }}>
-              Coût total
-            </div>
-            <div style={{ fontSize: 22, fontWeight: 900, color: '#0a4a5c' }}>
-              {coutTotal.toFixed(2)} €
-            </div>
-          </div>
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: 11, fontWeight: 800, color: '#60716f', textTransform: 'uppercase', marginBottom: 4 }}>
-              Marge ({margePct}%)
-            </div>
-            <div style={{ fontSize: 22, fontWeight: 900, color: '#0f766e' }}>
-              +{margeMontant.toFixed(2)} €
-            </div>
-          </div>
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: 11, fontWeight: 800, color: '#60716f', textTransform: 'uppercase', marginBottom: 4 }}>
-              Prix final estimé
-            </div>
-            <div style={{ fontSize: 28, fontWeight: 900, color: '#16a34a' }}>
-              {prixFinal.toFixed(2)} €
-            </div>
-          </div>
-        </div>
+      <div className="sectionTitle" style={{ marginTop: 38 }}>
+        <h2><Truck size={24} /> RFQ envoyées à raccorder aux lots transport</h2>
       </div>
-
-      {/* ─── POINTS RELAIS ─── */}
-      <h2 style={{ fontSize: 'clamp(22px, 3.5vw, 32px)', margin: '0 0 6px' }}>
-        <MapPin size={24} style={{ color: '#0f766e', verticalAlign: 'middle', marginRight: 8 }} />
-        Points relais Martinique
-      </h2>
-      <p style={{ color: '#516866', margin: '0 0 16px', fontSize: 14 }}>
-        Nos points de retrait disponibles en Martinique.
-      </p>
-      <div className="cardGrid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: 10, marginBottom: 36 }}>
-        {relayPoints.map((pt) => (
-          <div
-            key={pt}
-            className="card"
-            style={{
-              padding: '14px 10px',
-              textAlign: 'center',
-              background: 'rgba(255,255,255,0.88)',
-              border: '1px solid rgba(15,118,110,0.12)',
-              borderRadius: 16,
-            }}
-          >
-            <div
-              style={{
-                width: 36,
-                height: 36,
-                borderRadius: 10,
-                background: '#e7fbf7',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                margin: '0 auto 6px',
-                color: '#0f766e',
-              }}
-            >
-              <MapPin size={18} />
-            </div>
-            <div style={{ fontWeight: 800, fontSize: 13 }}>{pt}</div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 14 }}>
+        {sentRfqs.map((rfq) => (
+          <div className="card" key={rfq.subject} style={{ padding: 16 }}>
+            <strong style={{ color: '#0a4a5c' }}>{rfq.supplier}</strong>
+            <p style={{ color: '#60716f', fontSize: 13, lineHeight: 1.45 }}>{rfq.scope}</p>
+            <span style={{ fontSize: 12, color: '#0f766e', fontWeight: 800 }}>{rfq.status} — {rfq.sentAt}</span>
           </div>
         ))}
       </div>
 
-      {/* ─── CTA TRANSPORT ─── */}
-      <div
-        style={{
-          background: 'linear-gradient(135deg, #0a4a5c 0%, #0f766e 100%)',
-          borderRadius: 30,
-          padding: '36px 28px',
-          textAlign: 'center',
-          color: 'white',
-        }}
-      >
-        <h2 style={{ color: 'white', fontSize: 'clamp(24px, 4vw, 36px)', margin: '0 0 10px' }}>
-          Besoin d'un devis transport ?
-        </h2>
-        <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: 17, maxWidth: 520, margin: '0 auto 22px' }}>
-          Notre équipe logistique vous accompagne pour toutes vos expéditions vers la Caraïbe.
-          Contactez-nous pour un devis personnalisé.
-        </p>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center' }}>
-          <a
-            href={waMessage(
-              'Bonjour Ikabay, je souhaite obtenir un devis pour une expédition transport.'
-            )}
-            target="_blank"
-            rel="noreferrer"
-            className="btn btnPrimary"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 8,
-              background: '#25d366',
-              color: 'white',
-              border: 0,
-              borderRadius: 16,
-              padding: '14px 24px',
-              fontWeight: 800,
-              fontSize: 16,
-              textDecoration: 'none',
-              boxShadow: '0 12px 32px rgba(37,211,102,0.4)',
-              cursor: 'pointer',
-            }}
-          >
-            <Send size={18} /> Devis WhatsApp
-          </a>
-          <a
-            href={`mailto:${APP_EMAIL}`}
-            target="_blank"
-            rel="noreferrer"
-            className="btn"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 8,
-              background: 'rgba(255,255,255,0.12)',
-              border: '1px solid rgba(255,255,255,0.25)',
-              borderRadius: 16,
-              padding: '14px 24px',
-              fontWeight: 800,
-              fontSize: 16,
-              textDecoration: 'none',
-              color: 'white',
-            }}
-          >
-            <FileText size={18} /> {APP_EMAIL}
-          </a>
-        </div>
-      </div>
+      <style>{`@media (max-width: 900px){.transportCalcGrid{grid-template-columns:1fr!important}}`}</style>
     </section>
   );
 }
 
-export default TransportPage;
+const inputStyle = {
+  width: '100%',
+  marginTop: 6,
+  padding: '11px 12px',
+  borderRadius: 12,
+  border: '1px solid rgba(16,32,34,.14)',
+  background: '#fff',
+  outline: 'none',
+};

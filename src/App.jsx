@@ -1,4 +1,4 @@
-import { HashRouter, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import React, { Suspense, useState } from 'react';
 import { Ship, MessageCircle, Menu, X, Mail, Phone, FileText, ClipboardList, LayoutDashboard, Truck } from 'lucide-react';
 import { WHATSAPP_URL, APP_NAME, APP_EMAIL } from './utils/constants';
@@ -126,11 +126,25 @@ function LoadingFallback() {
   );
 }
 
+function NotFoundPage() {
+  return (
+    <section className="pageSection" style={{ textAlign: 'center', paddingTop: 80, paddingBottom: 100 }}>
+      <div className="badge" style={{ marginBottom: 14 }}>Page introuvable</div>
+      <h1>Cette page n’existe pas encore</h1>
+      <p style={{ color: '#516866', maxWidth: 620, margin: '0 auto 22px' }}>
+        Retournez à l’accueil Ikabay Sourcing ou utilisez le menu pour accéder au déstockage, RFQ, devis et suivi transport.
+      </p>
+      <Link to="/" className="btn btnPrimary">Retour accueil</Link>
+    </section>
+  );
+}
+
 export { Layout };
 
 export default function App() {
+  const basename = import.meta.env.BASE_URL && import.meta.env.BASE_URL !== '/' ? import.meta.env.BASE_URL : undefined;
   return (
-    <HashRouter>
+    <BrowserRouter basename={basename}>
       <Layout>
         <Suspense fallback={<LoadingFallback />}>
           <Routes>
@@ -150,9 +164,10 @@ export default function App() {
             <Route path="/suivi-fournisseurs" element={<SuiviFournisseursPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/admin" element={<AdminPage />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Suspense>
       </Layout>
-    </HashRouter>
+    </BrowserRouter>
   );
 }

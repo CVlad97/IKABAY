@@ -3,73 +3,73 @@ import {
   Store, Anchor, Truck, MessageCircle, Ship, Search,
   FileText, ClipboardCheck, BarChart3, Phone, Mail, CheckCircle, 
   Package, Globe2, Star, TrendingUp, DollarSign, ArrowRight, 
-  Tags, ShieldCheck, Users, Sparkles, MapPin, Clock
+  Tags, ShieldCheck, Users, Sparkles, MapPin, Clock, ShoppingCart
 } from 'lucide-react';
 import { WHATSAPP_URL, APP_NAME, waMessage } from '../utils/constants';
 import { Link } from 'react-router-dom';
 
 const stats = [
-  { icon: Store, value: '8', label: 'Fournisseurs actifs', detail: 'Europe + Asie' },
+  { icon: Store, value: '8', label: 'Fournisseurs verifies', detail: 'Europe + Asie' },
   { icon: Package, value: '150+', label: 'Produits au catalogue', detail: 'Nautique & industriel' },
-  { icon: Truck, value: '12', label: 'Jours delai moyen', detail: 'Via GEODIS' },
+  { icon: Truck, value: '12', label: 'Jours delai moyen', detail: 'Via fret maritime' },
   { icon: MessageCircle, value: '24/7', label: 'Support WhatsApp', detail: 'Reponse immediate' },
 ];
 
 const suppliers = [
   {
-    name: 'X-Vision Marine', country: 'France', badge: 'Premium',
-    products: 'Bolsters sur-mesure, sellerie cuir UV, sieges baquets',
-    delivery: '4-6 sem', rating: 5, color: '#0f766e',
-    desc: 'Fabricant francais de sellerie nautique haut de gamme. Sur-mesure, cuir synthetique marine grade anti-UV.',
+    name: 'SVB Allemagne', country: 'Allemagne', badge: 'TOP',
+    products: 'Taquets, eclairage, accastillage, instruments',
+    delivery: '10-15j', rating: 5, color: '#0f766e',
+    desc: 'Plus grand catalogue nautique europeen avec 50 000+ references. Offre prix ferme recue.',
+  },
+  {
+    name: 'Mantus Marine', country: 'USA', badge: 'Premium',
+    products: 'Bow rollers, ancres, accastillage securite',
+    delivery: '15-20j', rating: 5, color: '#2563eb',
+    desc: 'Reference mondiale pour les ancres et daviers. Prix confirmes : bow roller 439$ / ancre 371$.',
   },
   {
     name: 'Osculati', country: 'Italie', badge: 'Catalogue',
-    products: 'Liston, hublots, echelles, taquets, accastillage complet',
-    delivery: 'Stock 5-7j', rating: 4, color: '#2563eb',
-    desc: 'Plus grand catalogue nautique europeen. 15 000+ references, livraison DOM possible.',
+    products: 'Liston, hublots, echelles, taquets, accastillage',
+    delivery: 'Stock 5-7j', rating: 4, color: '#7c3aed',
+    desc: 'Plus grand catalogue nautique italien. Contact B2B etabli: sales@osculati.it.',
   },
   {
-    name: 'AD Nautic', country: 'France', badge: 'Partenaire',
-    products: 'Compas Plastimo, quincaillerie inox lots',
-    delivery: 'Stock 48h', rating: 4, color: '#7c3aed',
-    desc: 'Specialiste francais de l accastillage et equipement nautique. Expert DOM.',
-  },
-  {
-    name: 'Quick', country: 'Italie', badge: 'Reference',
-    products: 'Daviers ancre, bow roller, accastillage securite',
+    name: 'Quick Italy', country: 'Italie', badge: 'Reference',
+    products: 'Daviers ancre, guindeaux, accastillage',
     delivery: 'Stock 72h', rating: 5, color: '#0891b2',
-    desc: 'Reference mondiale pour les daviers et equipements d ancrage. Certifie inox 316.',
+    desc: 'Reference italienne pour les daviers et equipements d ancrage. Contact direct quick@quickitaly.com.',
   },
   {
-    name: 'Qingdao Alastin', country: 'Chine', badge: 'Economique',
-    products: 'Taquets inox 316, porte-gobelets, quincaillerie',
-    delivery: '15-20j', rating: 3, color: '#ea580c',
-    desc: 'Fabricant chinois specialiste accastillage inox 316. MOQ flexible, qualite certifiee.',
+    name: 'Besenzoni', country: 'Italie', badge: 'Luxe',
+    products: 'Echelles, sieges pilote, accastillage haut de gamme',
+    delivery: '3-4 sem', rating: 4, color: '#ea580c',
+    desc: 'Fabricant italien haut de gamme. Echelles et sieges sur-mesure. Contact info@besenzoni.it.',
   },
   {
-    name: 'GEODIS', country: 'France/Martinique', badge: 'Logistique',
-    products: 'Transport LCL France/Chine, dedouanement, tracking',
-    delivery: '8-15j', rating: 5, color: '#0f766e',
-    desc: 'Operateur logistique mondial. Agence Fort-de-France. Groupage LCL, assurance incluse.',
+    name: 'Lewmar', country: 'Royaume-Uni', badge: 'Premium',
+    products: 'Daviers, guindeaux, accastillage marine',
+    delivery: '2-3 sem', rating: 5, color: '#16a34a',
+    desc: 'Leader mondial de l accastillage marine. Contact etabli: info@lewmar.com.',
   },
 ];
 
 const categories = [
-  { icon: Anchor, name: 'Accastillage inox', count: 45, color: '#0f766e' },
-  { icon: ShieldCheck, name: 'Securite marine', count: 28, color: '#2563eb' },
-  { icon: Truck, name: 'Transport & logistique', count: 12, color: '#7c3aed' },
-  { icon: Package, name: 'Plomberie marine', count: 35, color: '#0891b2' },
-  { icon: Ship, name: 'Pilotage & navigation', count: 22, color: '#ea580c' },
-  { icon: Sparkles, name: 'Sellerie & confort', count: 18, color: '#16a34a' },
+  { icon: Anchor, name: 'Accastillage inox', count: 45, color: '#0f766e', img: '/photos/hardware.jpg' },
+  { icon: ShieldCheck, name: 'Securite marine', count: 28, color: '#2563eb', img: '/photos/navigation.jpg' },
+  { icon: Truck, name: 'Transport & logistique', count: 12, color: '#7c3aed', img: '/photos/cargo.jpg' },
+  { icon: Package, name: 'Equipement bateau', count: 35, color: '#0891b2', img: '/photos/seat.jpg' },
+  { icon: Ship, name: 'Navigation & pilotage', count: 22, color: '#ea580c', img: '/photos/compass.jpg' },
+  { icon: Sparkles, name: 'Sellerie & confort', count: 18, color: '#16a34a', img: '/photos/seat.jpg' },
 ];
 
 const featuredProducts = [
-  { name: 'Compas Plastimo 150mm', price: '186 EUR', supplier: 'AD Nautic', img: '/images/01-compas.svg' },
-  { name: 'Bolster double baquet', price: '1 690 EUR', supplier: 'X-Vision', img: '/images/04-bolster.svg' },
-  { name: 'Echelle inox 4 marches', price: '125 EUR', supplier: 'Osculati', img: '/images/06-echelle.svg' },
-  { name: 'Davier ancre Quick', price: '128 EUR', supplier: 'Quick', img: '/images/05-davier.svg' },
-  { name: 'Taquet inox 200mm', price: '18 EUR', supplier: 'Osculati', img: '/images/07-taquet.svg' },
-  { name: 'Hublot inox 150mm', price: '125 EUR', supplier: 'Osculati', img: '/images/03-hublot.svg' },
+  { name: 'Compas Plastimo 150mm', price: '186 EUR', supplier: 'SVB', img: '/photos/compass.jpg' },
+  { name: 'Taquet inox 316 200mm', price: '32,73 EUR', supplier: 'SVB', img: '/photos/hardware.jpg' },
+  { name: 'Bow roller BR1', price: '439 $', supplier: 'Mantus', img: '/photos/anchor.jpg' },
+  { name: 'Ancre M1 17lbs', price: '371 $', supplier: 'Mantus', img: '/photos/anchor.jpg' },
+  { name: 'Siege pilote double', price: 'Sur devis', supplier: 'Ullman', img: '/photos/seat.jpg' },
+  { name: 'Echelle inox 4 marches', price: '125 EUR', supplier: 'Osculati', img: '/photos/ladder.jpg' },
 ];
 
 export function HomePage() {
@@ -83,48 +83,50 @@ export function HomePage() {
   return (
     <section className="pageSection">
 
-      {/* ─── HERO SECTION ─── */}
+      {/* ─── HERO SECTION WITH REAL PHOTO ─── */}
       <div style={{
-        background: 'linear-gradient(135deg, #0f766e 0%, #0d9488 50%, #0891b2 100%)',
-        borderRadius: 28, padding: '60px 48px', marginBottom: 40,
-        color: 'white', position: 'relative', overflow: 'hidden'
+        borderRadius: 28, marginBottom: 40, position: 'relative', overflow: 'hidden',
+        minHeight: 500, display: 'flex', alignItems: 'center'
       }}>
-        <div style={{ position: 'relative', zIndex: 1, maxWidth: 600 }}>
+        <div style={{
+          position: 'absolute', inset: 0,
+          background: `url('/photos/caribbean.jpg') center/cover no-repeat`,
+          filter: 'brightness(0.4)',
+        }} />
+        <div style={{ position: 'relative', zIndex: 1, padding: '60px 48px', maxWidth: 700 }}>
           <div style={{
             display: 'inline-flex', alignItems: 'center', gap: 6,
-            background: 'rgba(255,255,255,0.15)', padding: '6px 14px',
-            borderRadius: 20, fontSize: 13, fontWeight: 700, marginBottom: 16
+            background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(10px)',
+            padding: '8px 16px', borderRadius: 20, fontSize: 13, fontWeight: 700, marginBottom: 16,
+            color: 'white', border: '1px solid rgba(255,255,255,0.2)'
           }}>
-            <Sparkles size={14} /> 8 fournisseurs verifies • Livraison DOM
+            <Sparkles size={14} /> 8 fournisseurs verifies • Livraison Martinique
           </div>
-          <h1 style={{ color: 'white', fontSize: 42, fontWeight: 900, margin: '0 0 12px', lineHeight: 1.1 }}>
+          <h1 style={{ color: 'white', fontSize: 48, fontWeight: 900, margin: '0 0 16px', lineHeight: 1.1 }}>
             Sourcing nautique<br />pour la Caraibe
           </h1>
-          <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: 18, lineHeight: 1.5, marginBottom: 24, maxWidth: 480 }}>
+          <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: 18, lineHeight: 1.6, marginBottom: 28, maxWidth: 500 }}>
             Trouvez, comparez et commandez vos equipements nautiques aux meilleurs prix. 
-            Fournisseurs Europe et Asie verifies, livraison Martinique via GEODIS.
+            Fournisseurs Europe et Asie verifies, livraison Martinique, support WhatsApp 24/7.
           </p>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-            <Link to="/catalogue" className="btn" style={{
-              background: 'white', color: '#0f766e', padding: '14px 28px',
+            <Link to="/catalogue" style={{
+              background: 'white', color: '#0f766e', padding: '16px 32px',
               borderRadius: 14, fontWeight: 800, fontSize: 15, textDecoration: 'none',
-              boxShadow: '0 12px 32px rgba(0,0,0,0.2)'
+              boxShadow: '0 12px 32px rgba(0,0,0,0.3)', display: 'flex', alignItems: 'center', gap: 8
             }}>
-              <Package size={18} /> Voir le catalogue
+              <Package size={20} /> Decouvrir le catalogue
             </Link>
             <a href={waMessage('Bonjour IKABAY ! Je souhaite un devis pour mon projet.')}
-              target="_blank" rel="noreferrer" className="btn" style={{
-                background: 'rgba(255,255,255,0.15)', color: 'white',
-                padding: '14px 28px', borderRadius: 14, fontWeight: 800, fontSize: 15,
+              target="_blank" rel="noreferrer" style={{
+                background: 'rgba(255,255,255,0.12)', backdropFilter: 'blur(10px)',
+                color: 'white', padding: '16px 32px', borderRadius: 14, fontWeight: 800, fontSize: 15,
                 textDecoration: 'none', border: '2px solid rgba(255,255,255,0.3)',
+                display: 'flex', alignItems: 'center', gap: 8
               }}>
-              <MessageCircle size={18} /> Devis WhatsApp
+              <MessageCircle size={20} /> Devis WhatsApp
             </a>
           </div>
-        </div>
-        {/* Decorative elements */}
-        <div style={{ position: 'absolute', right: -30, top: -30, opacity: 0.06, fontSize: 300, fontWeight: 900 }}>
-          <Ship size={300} />
         </div>
       </div>
 
@@ -149,9 +151,9 @@ export function HomePage() {
         })}
       </div>
 
-      {/* ─── CATEGORIES ─── */}
+      {/* ─── CATEGORIES WITH PHOTOS ─── */}
       <div className="sectionTitle">
-        <h2>Categories fournisseurs</h2>
+        <h2>Categories</h2>
         <Link to="/catalogue" style={{ color: '#0f766e', fontWeight: 700, fontSize: 14, display: 'flex', alignItems: 'center', gap: 4 }}>
           Tout voir <ArrowRight size={16} />
         </Link>
@@ -161,19 +163,29 @@ export function HomePage() {
           const Icon = cat.icon;
           return (
             <Link to="/catalogue" key={i} style={{
-              background: 'white', borderRadius: 14, padding: 20, textDecoration: 'none',
-              boxShadow: '0 2px 12px rgba(0,0,0,0.04)', cursor: 'pointer',
-              transition: 'all 0.2s', display: 'block'
+              borderRadius: 14, overflow: 'hidden', textDecoration: 'none',
+              position: 'relative', height: 160, display: 'block'
             }}>
               <div style={{
-                width: 44, height: 44, borderRadius: 12,
-                background: `${cat.color}15`, color: cat.color,
-                display: 'grid', placeItems: 'center', marginBottom: 10
+                position: 'absolute', inset: 0,
+                background: `url('${cat.img}') center/cover no-repeat`,
+                filter: 'brightness(0.5)',
+                transition: 'transform 0.3s',
+              }} />
+              <div style={{
+                position: 'relative', zIndex: 1, padding: 16, height: '100%',
+                display: 'flex', flexDirection: 'column', justifyContent: 'flex-end'
               }}>
-                <Icon size={22} />
+                <div style={{
+                  width: 40, height: 40, borderRadius: 10,
+                  background: `${cat.color}cc`, color: 'white',
+                  display: 'grid', placeItems: 'center', marginBottom: 8
+                }}>
+                  <Icon size={20} />
+                </div>
+                <div style={{ fontWeight: 700, color: 'white', fontSize: 15 }}>{cat.name}</div>
+                <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.8)' }}>{cat.count} produits</div>
               </div>
-              <div style={{ fontWeight: 700, color: '#1a2e2b', fontSize: 14 }}>{cat.name}</div>
-              <div style={{ fontSize: 12, color: '#8a9b97' }}>{cat.count} produits</div>
             </Link>
           );
         })}
@@ -199,17 +211,15 @@ export function HomePage() {
             <div style={{ flex: 1, minWidth: 200 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
                 <span style={{ fontWeight: 800, color: '#1a2e2b', fontSize: 18 }}>{sup.name}</span>
-                <span className="badge" style={{
-                  background: sup.color, fontSize: 11, padding: '3px 10px'
-                }}>{sup.badge}</span>
+                <span className="badge" style={{ background: sup.color, fontSize: 11, padding: '3px 10px' }}>{sup.badge}</span>
                 <span style={{ fontSize: 12, color: '#8a9b97' }}>
                   {[...Array(5)].map((_, i) => i < sup.rating ? '\u2605' : '\u2606').join('')}
                 </span>
               </div>
               <p style={{ fontSize: 13, color: '#60716f', margin: '0 0 6px' }}>{sup.desc}</p>
-              <div style={{ display: 'flex', gap: 16, fontSize: 12, color: '#8a9b97' }}>
+              <div style={{ display: 'flex', gap: 16, fontSize: 12, color: '#8a9b97', flexWrap: 'wrap' }}>
                 <span><Globe2 size={12} /> {sup.country}</span>
-                <span><Package size={12} /> {sup.products.substring(0, 50)}...</span>
+                <span><Package size={12} /> {sup.products}</span>
                 <span><Clock size={12} /> {sup.delivery}</span>
               </div>
             </div>
@@ -224,7 +234,7 @@ export function HomePage() {
         ))}
       </div>
 
-      {/* ─── FEATURED PRODUCTS ─── */}
+      {/* ─── FEATURED PRODUCTS WITH REAL PHOTOS ─── */}
       <div className="sectionTitle">
         <h2>Produits a la une</h2>
         <Link to="/catalogue" style={{ color: '#0f766e', fontWeight: 700, fontSize: 14, display: 'flex', alignItems: 'center', gap: 4 }}>
@@ -235,13 +245,19 @@ export function HomePage() {
         {featuredProducts.map((p, i) => (
           <div key={i} className="card" style={{ padding: 0, overflow: 'hidden' }}>
             <div style={{
-              height: 160, background: '#f0f5f3', display: 'grid',
-              placeItems: 'center', fontSize: 48
+              height: 200, 
+              background: `url('${p.img}') center/cover no-repeat`,
+              position: 'relative'
             }}>
-              {p.name.includes('Compas') ? '\u{1F9ED}' : p.name.includes('Bolster') ? '\u{1F4BA}' : p.name.includes('Echelle') ? '\u{1FA9C}' : p.name.includes('Davier') ? '\u{2693}' : p.name.includes('Taquet') ? '\u{1F529}' : '\u{1F4CD}'}
+              <div style={{
+                position: 'absolute', top: 10, right: 10,
+                background: '#0f766e', color: 'white', padding: '4px 10px',
+                borderRadius: 8, fontSize: 11, fontWeight: 700
+              }}>
+                {p.supplier}
+              </div>
             </div>
             <div style={{ padding: 16 }}>
-              <div style={{ fontSize: 11, color: '#0f766e', fontWeight: 700, marginBottom: 4 }}>{p.supplier}</div>
               <div style={{ fontWeight: 800, color: '#1a2e2b', fontSize: 15, marginBottom: 8 }}>{p.name}</div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <span style={{ fontSize: 20, fontWeight: 800, color: '#0f766e' }}>{p.price}</span>
@@ -263,11 +279,11 @@ export function HomePage() {
         <h2 style={{ textAlign: 'center', marginTop: 0 }}>Comment ca marche</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 24, marginTop: 24 }}>
           {[
-            { icon: Search, step: '1', title: 'Besoin', desc: 'Decrivez votre besoin, nous analysons' },
-            { icon: Globe2, step: '2', title: 'Sourcing', desc: 'Nous consultons nos 8 fournisseurs partenaires' },
-            { icon: BarChart3, step: '3', title: 'Comparaison', desc: 'Tableau comparatif prix / delais / qualite' },
-            { icon: ClipboardCheck, step: '4', title: 'Devis', desc: 'Jusqua 3 propositions detailles' },
-            { icon: Truck, step: '5', title: 'Livraison', desc: 'GEODIS assure le transport vers la Martinique' },
+            { icon: Search, step: '1', title: 'Besoin', desc: 'Decrivez votre besoin' },
+            { icon: Globe2, step: '2', title: 'Sourcing', desc: '8 fournisseurs consultes' },
+            { icon: BarChart3, step: '3', title: 'Comparaison', desc: 'Tableau prix / delais' },
+            { icon: ClipboardCheck, step: '4', title: 'Devis', desc: '3 propositions detailles' },
+            { icon: Truck, step: '5', title: 'Livraison', desc: 'Fret maritime Martinique' },
           ].map((item, i) => {
             const Icon = item.icon;
             return (
@@ -290,33 +306,39 @@ export function HomePage() {
 
       {/* ─── CTA WHATSAPP ─── */}
       <div style={{
-        background: 'linear-gradient(135deg, #075e54, #128C7E)',
-        borderRadius: 24, padding: '40px 48px', marginBottom: 40,
-        color: 'white', textAlign: 'center'
+        borderRadius: 24, overflow: 'hidden', marginBottom: 40,
+        position: 'relative', minHeight: 300, display: 'flex', alignItems: 'center'
       }}>
-        <MessageCircle size={40} style={{ marginBottom: 12 }} />
-        <h2 style={{ color: 'white', margin: '0 0 8px', fontSize: 26 }}>
-          Besoin d'un devis ou d'un conseil ?
-        </h2>
-        <p style={{ color: 'rgba(255,255,255,0.85)', maxWidth: 500, margin: '0 auto 20px' }}>
-          Notre equipe vous repond sous 24h sur WhatsApp. Devis gratuit, accompagnement personnalise.
-        </p>
-        <form onSubmit={handleSubmit} style={{ display: 'flex', gap: 12, maxWidth: 450, margin: '0 auto', flexWrap: 'wrap', justifyContent: 'center' }}>
-          <input type="email" placeholder="Votre email"
-            value={email} onChange={e => setEmail(e.target.value)}
-            required style={{
-              flex: 1, minWidth: 200, padding: '14px 20px',
-              borderRadius: 12, border: 'none', fontSize: 14,
-              outline: 'none'
+        <div style={{
+          position: 'absolute', inset: 0,
+          background: `url('/photos/cargo.jpg') center/cover no-repeat`,
+          filter: 'brightness(0.35)',
+        }} />
+        <div style={{
+          position: 'relative', zIndex: 1, padding: '48px', textAlign: 'center',
+          width: '100%', color: 'white'
+        }}>
+          <MessageCircle size={48} style={{ marginBottom: 12 }} />
+          <h2 style={{ color: 'white', margin: '0 0 8px', fontSize: 28 }}>
+            Besoin d'un devis ou d'un conseil ?
+          </h2>
+          <p style={{ color: 'rgba(255,255,255,0.85)', maxWidth: 500, margin: '0 auto 24px', fontSize: 16 }}>
+            Notre equipe vous repond sous 24h sur WhatsApp. Devis gratuit, accompagnement personnalise.
+          </p>
+          <form onSubmit={handleSubmit} style={{ display: 'flex', gap: 12, maxWidth: 500, margin: '0 auto', flexWrap: 'wrap', justifyContent: 'center' }}>
+            <input type="email" placeholder="Votre email" value={email} 
+              onChange={e => setEmail(e.target.value)} required style={{
+              flex: 1, minWidth: 200, padding: '14px 20px', borderRadius: 12, border: 'none', fontSize: 14
             }} />
-          <button type="submit" className="btn btnPrimary" style={{
-            padding: '14px 24px', borderRadius: 12, fontWeight: 800, fontSize: 14,
-            background: 'white', color: '#075e54', border: 'none', cursor: 'pointer'
-          }}>
-            <MessageCircle size={18} style={{ marginRight: 6 }} />
-            Recevoir le catalogue
-          </button>
-        </form>
+            <button type="submit" style={{
+              padding: '14px 24px', borderRadius: 12, fontWeight: 800, fontSize: 14,
+              background: '#25D366', color: 'white', border: 'none', cursor: 'pointer',
+              display: 'flex', alignItems: 'center', gap: 8
+            }}>
+              <MessageCircle size={18} /> Recevoir le catalogue
+            </button>
+          </form>
+        </div>
       </div>
 
       {/* ─── BOTTOM LINKS ─── */}
