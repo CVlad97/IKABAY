@@ -344,4 +344,4 @@ export function searchProducts(query) {
 
 export function formatPrice(price) {
   return price > 0 ? `${price} €` : 'Nous contacter';
-}
+}// Ikabay timestamp: 1787267664 

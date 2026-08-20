@@ -272,6 +272,16 @@ h3 { margin: 0; font-size: 20px; line-height: 1.15; }
   box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
 .btnPrimary { background: #0f766e; color: #fff; border: none; box-shadow: 0 12px 32px rgba(15,118,110,.28); }
+.btnSecondary { background: white; border: 1px solid rgba(16,32,34,.12); }
+
+.input, .select, .textArea {
+  width: 100%; padding: 12px 16px; border: 1px solid #d0dbd8; border-radius: 12px;
+  font-size: 14px; background: white; outline: none; transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+.input:focus, .select:focus, .textArea:focus { border-color: #0f766e; box-shadow: 0 0 0 3px rgba(15,118,110,0.1); }
+.textArea { resize: vertical; font-family: inherit; }
+.formGroup { margin-bottom: 0; }
 
 .placeholderContent {
   margin-top: 32px;

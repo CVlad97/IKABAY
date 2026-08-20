@@ -3,10 +3,12 @@ import {
   Store, Anchor, Truck, MessageCircle, Ship, Search,
   FileText, ClipboardCheck, BarChart3, Phone, Mail, CheckCircle, 
   Package, Globe2, Star, TrendingUp, DollarSign, ArrowRight, 
-  Tags, ShieldCheck, Users, Sparkles, MapPin, Clock, ShoppingCart
+  Tags, ShieldCheck, Users, Sparkles, MapPin, Clock, ShoppingCart,
+  Gift, Share2, Heart, Zap, Award, Percent, Copy, ThumbsUp, Calculator
 } from 'lucide-react';
 import { WHATSAPP_URL, APP_NAME, waMessage } from '../utils/constants';
 import { Link } from 'react-router-dom';
+import { VIRAL_FEATURES, calculatePoints, pointsToEUR, getLoyaltyTier } from '../data/viral';
 
 const stats = [
   { icon: Store, value: '8', label: 'Fournisseurs verifies', detail: 'Europe + Asie' },
@@ -74,210 +76,341 @@ const featuredProducts = [
 
 export function HomePage() {
   const [email, setEmail] = useState('');
+  const [copied, setCopied] = useState(false);
+  const [showReferral, setShowReferral] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     window.open(waMessage(`Bonjour IKABAY, je souhaite recevoir le catalogue complet des fournisseurs. Mon email : ${email}`));
   };
 
+  const handleCopyReferral = () => {
+    const code = 'IKABAY' + Math.random().toString(36).substring(2, 6).toUpperCase();
+    navigator.clipboard.writeText(code);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const shareOnWhatsApp = () => {
+    window.open(waMessage(VIRAL_FEATURES.sharing.message_whatsapp));
+  };
+
   return (
     <section className="pageSection">
 
-      {/* ─── HERO SECTION WITH REAL PHOTO ─── */}
+      {/* ─── REFERRAL BANNER ─── */}
       <div style={{
-        borderRadius: 28, marginBottom: 40, position: 'relative', overflow: 'hidden',
-        minHeight: 500, display: 'flex', alignItems: 'center'
+        background: 'linear-gradient(135deg, #f59e0b 0%, #f97316 100%)',
+        borderRadius: 16, padding: '16px 24px', marginBottom: 24,
+        display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap',
+        color: 'white',
+      }}>
+        <Gift size={24} />
+        <div style={{ flex: 1, minWidth: 200 }}>
+          <strong style={{ fontSize: 16 }}>🎉 Programme de parrainage</strong>
+          <p style={{ margin: '4px 0 0', fontSize: 13, opacity: 0.9 }}>
+            Parrainez un ami : {VIRAL_FEATURES.referral.prime_parrain}€ offerts pour vous + {VIRAL_FEATURES.referral.prime_filleul}€ pour votre filleul
+          </p>
+        </div>
+        <button onClick={handleCopyReferral} style={{
+          background: 'white', color: '#f97316', border: 'none', padding: '8px 20px',
+          borderRadius: 10, fontWeight: 800, fontSize: 13, cursor: 'pointer',
+          display: 'flex', alignItems: 'center', gap: 6, whiteSpace: 'nowrap'
+        }}>
+          <Copy size={16} /> {copied ? 'Copie !' : 'Obtenir mon code'}
+        </button>
+      </div>
+
+      {/* ─── HERO SECTION ─── */}
+      <div style={{
+        borderRadius: 28, marginBottom: 32, position: 'relative', overflow: 'hidden',
+        minHeight: 460, display: 'flex', alignItems: 'center'
       }}>
         <div style={{
           position: 'absolute', inset: 0,
           background: `url('/photos/caribbean.jpg') center/cover no-repeat`,
           filter: 'brightness(0.4)',
         }} />
-        <div style={{ position: 'relative', zIndex: 1, padding: '60px 48px', maxWidth: 700 }}>
+        <div style={{ position: 'relative', zIndex: 1, padding: '48px 40px', maxWidth: 700 }}>
           <div style={{
             display: 'inline-flex', alignItems: 'center', gap: 6,
             background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(10px)',
             padding: '8px 16px', borderRadius: 20, fontSize: 13, fontWeight: 700, marginBottom: 16,
             color: 'white', border: '1px solid rgba(255,255,255,0.2)'
           }}>
-            <Sparkles size={14} /> 8 fournisseurs verifies • Livraison Martinique
+            <Sparkles size={14} /> 8 fournisseurs verifies • Livraison Martinique • Prix DOM
           </div>
-          <h1 style={{ color: 'white', fontSize: 48, fontWeight: 900, margin: '0 0 16px', lineHeight: 1.1 }}>
+          <h1 style={{ color: 'white', fontSize: 42, fontWeight: 900, margin: '0 0 12px', lineHeight: 1.1 }}>
             Sourcing nautique<br />pour la Caraibe
           </h1>
-          <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: 18, lineHeight: 1.6, marginBottom: 28, maxWidth: 500 }}>
+          <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: 16, lineHeight: 1.6, marginBottom: 24, maxWidth: 500 }}>
             Trouvez, comparez et commandez vos equipements nautiques aux meilleurs prix. 
-            Fournisseurs Europe et Asie verifies, livraison Martinique, support WhatsApp 24/7.
+            Fournisseurs Europe et Asie verifies, livraison Martinique, meilleur prix garanti.
           </p>
-          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
             <Link to="/catalogue" style={{
-              background: 'white', color: '#0f766e', padding: '16px 32px',
-              borderRadius: 14, fontWeight: 800, fontSize: 15, textDecoration: 'none',
+              background: 'white', color: '#0f766e', padding: '14px 28px',
+              borderRadius: 14, fontWeight: 800, fontSize: 14, textDecoration: 'none',
               boxShadow: '0 12px 32px rgba(0,0,0,0.3)', display: 'flex', alignItems: 'center', gap: 8
             }}>
               <Package size={20} /> Decouvrir le catalogue
             </Link>
-            <a href={waMessage('Bonjour IKABAY ! Je souhaite un devis pour mon projet.')}
+            <a href={waMessage('Bonjour IKABAY ! Je souhaite un devis.')}
               target="_blank" rel="noreferrer" style={{
                 background: 'rgba(255,255,255,0.12)', backdropFilter: 'blur(10px)',
-                color: 'white', padding: '16px 32px', borderRadius: 14, fontWeight: 800, fontSize: 15,
+                color: 'white', padding: '14px 28px', borderRadius: 14, fontWeight: 800, fontSize: 14,
                 textDecoration: 'none', border: '2px solid rgba(255,255,255,0.3)',
                 display: 'flex', alignItems: 'center', gap: 8
               }}>
-              <MessageCircle size={20} /> Devis WhatsApp
+              <MessageCircle size={20} /> Devis gratuit
             </a>
           </div>
         </div>
       </div>
 
+      {/* ─── LOYALTY POINTS STRIP ─── */}
+      <div style={{
+        background: 'white', borderRadius: 16, padding: 20, marginBottom: 32,
+        display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'center',
+        boxShadow: '0 4px 20px rgba(0,0,0,0.06)',
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flex: 1, minWidth: 200 }}>
+          <Award size={28} color="#f59e0b" />
+          <div>
+            <strong>Ikabay Miles</strong>
+            <p style={{ margin: '2px 0 0', fontSize: 12, color: '#60716f' }}>
+              1€ = 1 point • 500 points = 25€ de réduction
+            </p>
+          </div>
+        </div>
+        <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
+          {VIRAL_FEATURES.loyalty.statuts.map((tier, i) => (
+            <div key={i} style={{ textAlign: 'center', padding: '4px 10px', borderRadius: 8, background: '#f8f9fa' }}>
+              <div style={{ width: 20, height: 20, borderRadius: 10, background: tier.couleur, margin: '0 auto 2px' }} />
+              <div style={{ fontSize: 11, fontWeight: 700, color: '#1a2e2b' }}>{tier.nom}</div>
+              <div style={{ fontSize: 10, color: '#8a9b97' }}>{tier.avantages}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* ─── STATS ─── */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 16, marginBottom: 40 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 12, marginBottom: 32 }}>
         {stats.map((s, i) => {
           const Icon = s.icon;
           return (
-            <div key={i} className="card" style={{ padding: 24, textAlign: 'center' }}>
+            <div key={i} className="card" style={{ padding: 20, textAlign: 'center' }}>
               <div style={{
-                width: 52, height: 52, borderRadius: 16,
+                width: 48, height: 48, borderRadius: 14,
                 background: '#e7fbf7', color: '#0f766e',
-                display: 'grid', placeItems: 'center', margin: '0 auto 12px'
+                display: 'grid', placeItems: 'center', margin: '0 auto 10px'
               }}>
-                <Icon size={26} />
+                <Icon size={24} />
               </div>
-              <strong style={{ fontSize: 30, color: '#1a2e2b', display: 'block' }}>{s.value}</strong>
-              <span style={{ fontSize: 14, fontWeight: 700, color: '#60716f' }}>{s.label}</span>
-              <p style={{ fontSize: 12, color: '#8a9b97', margin: '4px 0 0' }}>{s.detail}</p>
+              <strong style={{ fontSize: 28, color: '#1a2e2b', display: 'block' }}>{s.value}</strong>
+              <span style={{ fontSize: 13, fontWeight: 700, color: '#60716f' }}>{s.label}</span>
+              <p style={{ fontSize: 11, color: '#8a9b97', margin: '4px 0 0' }}>{s.detail}</p>
             </div>
           );
         })}
       </div>
 
-      {/* ─── CATEGORIES WITH PHOTOS ─── */}
+      {/* ─── VS CONCURRENCE ─── */}
+      <div style={{ background: 'white', borderRadius: 20, padding: 28, marginBottom: 32, boxShadow: '0 4px 24px rgba(0,0,0,0.06)' }}>
+        <h2 style={{ margin: '0 0 16px', display: 'flex', alignItems: 'center', gap: 8 }}>
+          <Zap size={22} color="#f59e0b" /> Pourquoi nous vs la concurrence ?
+        </h2>
+        <div style={{ overflowX: 'auto' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13, minWidth: 500 }}>
+            <thead>
+              <tr style={{ background: '#0f766e', color: 'white' }}>
+                <th style={{ padding: '10px 14px', textAlign: 'left' }}>Critere</th>
+                <th style={{ padding: '10px 14px', textAlign: 'center', background: '#0d9488' }}>🔥 IKABAY</th>
+                <th style={{ padding: '10px 14px', textAlign: 'center' }}>AutoDS</th>
+                <th style={{ padding: '10px 14px', textAlign: 'center' }}>Nautech</th>
+                <th style={{ padding: '10px 14px', textAlign: 'center' }}>Amazon</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[
+                ['Prix DOM (TVA 8.5%)', '✅ Applique', '❌', '✅', '❌'],
+                ['Support WhatsApp 24/7', '✅ Gratuit', '❌ Payant', '❌', '❌'],
+                ['Sourcing express 24h', '✅ Inclus', '❌', '❌', '❌'],
+                ['Parrainage 15€/10€', '✅ Oui', '❌ Non', '❌ Non', '✅ Partiel'],
+                ['Points fidelite', '✅ Ikabay Miles', '❌ Non', '❌ Non', '❌ Non'],
+                ['Meilleur prix garanti', '✅ -5%', '❌', '❌', '✅ Partiel'],
+                ['Paiement 3x/4x sans frais', '✅ Oui', '❌', '❌', '✅ Oui'],
+                ['Livraison Martinique pro', '✅ 8-12j', '❌ 15-25j', '✅ 10-15j', '❌ 20-30j'],
+                ['Frais caches', '✅ Aucun', '❌ 2% frais', '❌', '❌'],
+                ['Abonnement mensuel', '✅ 0€', '❌ 30€/mois', '❌ Sur devis', '✅ 0€'],
+              ].map((row, i) => (
+                <tr key={i} style={{ borderBottom: '1px solid #e8f0ee' }}>
+                  <td style={{ padding: '8px 14px', fontWeight: 600 }}>{row[0]}</td>
+                  <td style={{ padding: '8px 14px', textAlign: 'center', fontWeight: 700, color: '#16a34a', background: '#f0fdf4' }}>{row[1]}</td>
+                  <td style={{ padding: '8px 14px', textAlign: 'center', color: row[2].includes('✅') ? '#16a34a' : '#dc2626' }}>{row[2]}</td>
+                  <td style={{ padding: '8px 14px', textAlign: 'center', color: row[3].includes('✅') ? '#16a34a' : '#dc2626' }}>{row[3]}</td>
+                  <td style={{ padding: '8px 14px', textAlign: 'center', color: row[4].includes('✅') ? '#16a34a' : '#dc2626' }}>{row[4]}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* ─── GUARANTEES ─── */}
+      <div className="sectionTitle">
+        <h2>Nos garanties</h2>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 12, marginBottom: 32 }}>
+        {VIRAL_FEATURES.guarantees.map((g, i) => (
+          <div key={i} className="card" style={{ padding: 20 }}>
+            <div style={{ fontSize: 32, marginBottom: 8 }}>{g.icon}</div>
+            <div style={{ fontWeight: 800, fontSize: 15, color: '#1a2e2b', marginBottom: 4 }}>{g.title}</div>
+            <p style={{ fontSize: 13, color: '#60716f', margin: '0 0 8px' }}>{g.desc}</p>
+            <span className="badge" style={{ background: '#e7fbf7', color: '#0f766e', fontSize: 11, padding: '3px 8px' }}>{g.promo}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* ─── CATEGORIES ─── */}
       <div className="sectionTitle">
         <h2>Categories</h2>
         <Link to="/catalogue" style={{ color: '#0f766e', fontWeight: 700, fontSize: 14, display: 'flex', alignItems: 'center', gap: 4 }}>
           Tout voir <ArrowRight size={16} />
         </Link>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(170px, 1fr))', gap: 12, marginBottom: 40 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: 12, marginBottom: 32 }}>
         {categories.map((cat, i) => {
           const Icon = cat.icon;
           return (
             <Link to="/catalogue" key={i} style={{
               borderRadius: 14, overflow: 'hidden', textDecoration: 'none',
-              position: 'relative', height: 160, display: 'block'
+              position: 'relative', height: 150, display: 'block'
             }}>
               <div style={{
                 position: 'absolute', inset: 0,
                 background: `url('${cat.img}') center/cover no-repeat`,
                 filter: 'brightness(0.5)',
-                transition: 'transform 0.3s',
               }} />
               <div style={{
-                position: 'relative', zIndex: 1, padding: 16, height: '100%',
+                position: 'relative', zIndex: 1, padding: 14, height: '100%',
                 display: 'flex', flexDirection: 'column', justifyContent: 'flex-end'
               }}>
                 <div style={{
-                  width: 40, height: 40, borderRadius: 10,
+                  width: 36, height: 36, borderRadius: 10,
                   background: `${cat.color}cc`, color: 'white',
-                  display: 'grid', placeItems: 'center', marginBottom: 8
+                  display: 'grid', placeItems: 'center', marginBottom: 6
                 }}>
-                  <Icon size={20} />
+                  <Icon size={18} />
                 </div>
-                <div style={{ fontWeight: 700, color: 'white', fontSize: 15 }}>{cat.name}</div>
-                <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.8)' }}>{cat.count} produits</div>
+                <div style={{ fontWeight: 700, color: 'white', fontSize: 14 }}>{cat.name}</div>
+                <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.8)' }}>{cat.count} produits</div>
               </div>
             </Link>
           );
         })}
       </div>
 
-      {/* ─── SUPPLIERS SHOWCASE ─── */}
+      {/* ─── SUPPLIERS ─── */}
       <div className="sectionTitle">
-        <h2>Nos fournisseurs partenaires</h2>
+        <h2>Nos fournisseurs</h2>
         <Link to="/fournisseurs" style={{ color: '#0f766e', fontWeight: 700, fontSize: 14, display: 'flex', alignItems: 'center', gap: 4 }}>
-          Tous les fournisseurs <ArrowRight size={16} />
+          Tous <ArrowRight size={16} />
         </Link>
       </div>
-      <div style={{ display: 'grid', gap: 16, marginBottom: 40 }}>
-        {suppliers.map((sup, i) => (
-          <div key={i} className="card" style={{ padding: 24, display: 'flex', flexWrap: 'wrap', gap: 20, alignItems: 'center' }}>
-            <div style={{
-              width: 56, height: 56, borderRadius: 16,
-              background: `${sup.color}15`, color: sup.color,
-              display: 'grid', placeItems: 'center', flexShrink: 0
-            }}>
-              <Store size={28} />
+      <div style={{ display: 'grid', gap: 12, marginBottom: 32 }}>
+        {suppliers.slice(0, 3).map((sup, i) => (
+          <div key={i} className="card" style={{ padding: 20, display: 'flex', gap: 16, alignItems: 'center', flexWrap: 'wrap' }}>
+            <div style={{ width: 48, height: 48, borderRadius: 14, background: `${sup.color}15`, color: sup.color, display: 'grid', placeItems: 'center', flexShrink: 0 }}>
+              <Store size={24} />
             </div>
             <div style={{ flex: 1, minWidth: 200 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                <span style={{ fontWeight: 800, color: '#1a2e2b', fontSize: 18 }}>{sup.name}</span>
-                <span className="badge" style={{ background: sup.color, fontSize: 11, padding: '3px 10px' }}>{sup.badge}</span>
-                <span style={{ fontSize: 12, color: '#8a9b97' }}>
-                  {[...Array(5)].map((_, i) => i < sup.rating ? '\u2605' : '\u2606').join('')}
-                </span>
-              </div>
-              <p style={{ fontSize: 13, color: '#60716f', margin: '0 0 6px' }}>{sup.desc}</p>
-              <div style={{ display: 'flex', gap: 16, fontSize: 12, color: '#8a9b97', flexWrap: 'wrap' }}>
-                <span><Globe2 size={12} /> {sup.country}</span>
-                <span><Package size={12} /> {sup.products}</span>
-                <span><Clock size={12} /> {sup.delivery}</span>
-              </div>
+              <div style={{ fontWeight: 800, color: '#1a2e2b', fontSize: 16 }}>{sup.name}</div>
+              <p style={{ fontSize: 12, color: '#60716f', margin: '2px 0 0' }}>{sup.desc}</p>
             </div>
-            <Link to="/rfq" style={{
-              background: sup.color, color: 'white', padding: '10px 20px',
-              borderRadius: 10, fontWeight: 700, fontSize: 13, textDecoration: 'none',
-              display: 'flex', alignItems: 'center', gap: 6, whiteSpace: 'nowrap'
-            }}>
-              Demander un prix <ArrowRight size={14} />
+            <Link to="/rfq" style={{ background: sup.color, color: 'white', padding: '8px 16px', borderRadius: 8, fontWeight: 700, fontSize: 12, textDecoration: 'none' }}>
+              Prix <ArrowRight size={12} />
             </Link>
           </div>
         ))}
+        <Link to="/fournisseurs" style={{ textAlign: 'center', padding: 12, color: '#0f766e', fontWeight: 700, fontSize: 14 }}>
+          + 3 autres fournisseurs (Voir tout) →
+        </Link>
       </div>
 
-      {/* ─── FEATURED PRODUCTS WITH REAL PHOTOS ─── */}
+      {/* ─── FEATURED PRODUCTS ─── */}
       <div className="sectionTitle">
         <h2>Produits a la une</h2>
         <Link to="/catalogue" style={{ color: '#0f766e', fontWeight: 700, fontSize: 14, display: 'flex', alignItems: 'center', gap: 4 }}>
-          Voir tout le catalogue <ArrowRight size={16} />
+          Voir tout <ArrowRight size={16} />
         </Link>
       </div>
-      <div className="cardGrid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16, marginBottom: 40 }}>
-        {featuredProducts.map((p, i) => (
+      <div className="cardGrid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 12, marginBottom: 32 }}>
+        {featuredProducts.slice(0, 4).map((p, i) => (
           <div key={i} className="card" style={{ padding: 0, overflow: 'hidden' }}>
-            <div style={{
-              height: 200, 
-              background: `url('${p.img}') center/cover no-repeat`,
-              position: 'relative'
-            }}>
-              <div style={{
-                position: 'absolute', top: 10, right: 10,
-                background: '#0f766e', color: 'white', padding: '4px 10px',
-                borderRadius: 8, fontSize: 11, fontWeight: 700
-              }}>
+            <div style={{ height: 160, background: `url('${p.img}') center/cover no-repeat`, position: 'relative' }}>
+              <div style={{ position: 'absolute', top: 8, right: 8, background: '#0f766e', color: 'white', padding: '3px 8px', borderRadius: 6, fontSize: 10, fontWeight: 700 }}>
                 {p.supplier}
               </div>
             </div>
-            <div style={{ padding: 16 }}>
-              <div style={{ fontWeight: 800, color: '#1a2e2b', fontSize: 15, marginBottom: 8 }}>{p.name}</div>
+            <div style={{ padding: 14 }}>
+              <div style={{ fontWeight: 800, color: '#1a2e2b', fontSize: 14, marginBottom: 6 }}>{p.name}</div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: 20, fontWeight: 800, color: '#0f766e' }}>{p.price}</span>
-                <Link to="/catalogue" style={{
-                  background: '#0f766e', color: 'white', padding: '6px 14px',
-                  borderRadius: 8, fontSize: 12, fontWeight: 700, textDecoration: 'none'
-                }}>Voir</Link>
+                <span style={{ fontSize: 18, fontWeight: 800, color: '#0f766e' }}>{p.price}</span>
+                <Link to="/catalogue" style={{ background: '#0f766e', color: 'white', padding: '5px 12px', borderRadius: 8, fontSize: 11, fontWeight: 700, textDecoration: 'none' }}>Voir</Link>
               </div>
             </div>
           </div>
         ))}
       </div>
 
+      {/* ─── SHARE / VIRAL ─── */}
+      <div style={{ background: 'white', borderRadius: 20, padding: 28, marginBottom: 32, boxShadow: '0 4px 24px rgba(0,0,0,0.06)' }}>
+        <h2 style={{ margin: '0 0 16px', display: 'flex', alignItems: 'center', gap: 8 }}>
+          <Share2 size={20} color="#0f766e" /> Partagez et gagnez
+        </h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 16 }}>
+          <div style={{ padding: 20, background: '#f0fdf4', borderRadius: 14 }}>
+            <div style={{ fontSize: 28, marginBottom: 8 }}>🗣️</div>
+            <strong>Parrainage</strong>
+            <p style={{ fontSize: 13, color: '#60716f', margin: '4px 0' }}>
+              Chaque ami parraine = {VIRAL_FEATURES.referral.prime_parrain}€ pour vous + {VIRAL_FEATURES.referral.prime_filleul}€ pour lui
+            </p>
+            <button onClick={handleCopyReferral} style={{
+              background: '#0f766e', color: 'white', border: 'none', padding: '8px 18px',
+              borderRadius: 8, fontWeight: 700, fontSize: 12, cursor: 'pointer', marginTop: 8
+            }}>
+              <Copy size={14} /> {copied ? 'Code copie !' : 'Obtenir mon code'}
+            </button>
+          </div>
+          <div style={{ padding: 20, background: '#fef3c7', borderRadius: 14 }}>
+            <div style={{ fontSize: 28, marginBottom: 8 }}>⭐</div>
+            <strong>Points Ikabay Miles</strong>
+            <p style={{ fontSize: 13, color: '#60716f', margin: '4px 0' }}>
+              1€ = 1 point • 500 points = 25€ de réduction • 200 points cadeau à la 1ère commande
+            </p>
+          </div>
+          <div style={{ padding: 20, background: '#f0f5f3', borderRadius: 14 }}>
+            <div style={{ fontSize: 28, marginBottom: 8 }}>💬</div>
+            <strong>Partage WhatsApp</strong>
+            <p style={{ fontSize: 13, color: '#60716f', margin: '4px 0' }}>
+              Partagez Ikabay avec vos contacts maritimes
+            </p>
+            <button onClick={shareOnWhatsApp} style={{
+              background: '#25D366', color: 'white', border: 'none', padding: '8px 18px',
+              borderRadius: 8, fontWeight: 700, fontSize: 12, cursor: 'pointer', marginTop: 8,
+              display: 'inline-flex', alignItems: 'center', gap: 6
+            }}>
+              <Share2 size={14} /> Partager
+            </button>
+          </div>
+        </div>
+      </div>
+
       {/* ─── PROCESS ─── */}
-      <div style={{
-        background: 'white', borderRadius: 20, padding: 32, marginBottom: 40,
-        boxShadow: '0 4px 24px rgba(0,0,0,0.06)'
-      }}>
-        <h2 style={{ textAlign: 'center', marginTop: 0 }}>Comment ca marche</h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 24, marginTop: 24 }}>
+      <div style={{ background: 'white', borderRadius: 20, padding: 28, marginBottom: 32, boxShadow: '0 4px 24px rgba(0,0,0,0.06)' }}>
+        <h2 style={{ textAlign: 'center', marginTop: 0, marginBottom: 24 }}>Comment ca marche</h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 16 }}>
           {[
             { icon: Search, step: '1', title: 'Besoin', desc: 'Decrivez votre besoin' },
             { icon: Globe2, step: '2', title: 'Sourcing', desc: '8 fournisseurs consultes' },
@@ -288,16 +421,11 @@ export function HomePage() {
             const Icon = item.icon;
             return (
               <div key={i} style={{ textAlign: 'center' }}>
-                <div style={{
-                  width: 60, height: 60, borderRadius: 30,
-                  background: '#0f766e', color: 'white',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  margin: '0 auto 12px', fontSize: 22, fontWeight: 800
-                }}>
+                <div style={{ width: 52, height: 52, borderRadius: 26, background: '#0f766e', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 10px', fontSize: 20, fontWeight: 800 }}>
                   {item.step}
                 </div>
-                <div style={{ fontWeight: 700, color: '#1a2e2b', marginBottom: 4, fontSize: 15 }}>{item.title}</div>
-                <div style={{ fontSize: 13, color: '#60716f' }}>{item.desc}</div>
+                <div style={{ fontWeight: 700, color: '#1a2e2b', marginBottom: 2, fontSize: 14 }}>{item.title}</div>
+                <div style={{ fontSize: 12, color: '#60716f' }}>{item.desc}</div>
               </div>
             );
           })}
@@ -305,35 +433,22 @@ export function HomePage() {
       </div>
 
       {/* ─── CTA WHATSAPP ─── */}
-      <div style={{
-        borderRadius: 24, overflow: 'hidden', marginBottom: 40,
-        position: 'relative', minHeight: 300, display: 'flex', alignItems: 'center'
-      }}>
-        <div style={{
-          position: 'absolute', inset: 0,
-          background: `url('/photos/cargo.jpg') center/cover no-repeat`,
-          filter: 'brightness(0.35)',
-        }} />
-        <div style={{
-          position: 'relative', zIndex: 1, padding: '48px', textAlign: 'center',
-          width: '100%', color: 'white'
-        }}>
-          <MessageCircle size={48} style={{ marginBottom: 12 }} />
-          <h2 style={{ color: 'white', margin: '0 0 8px', fontSize: 28 }}>
-            Besoin d'un devis ou d'un conseil ?
-          </h2>
-          <p style={{ color: 'rgba(255,255,255,0.85)', maxWidth: 500, margin: '0 auto 24px', fontSize: 16 }}>
-            Notre equipe vous repond sous 24h sur WhatsApp. Devis gratuit, accompagnement personnalise.
+      <div style={{ borderRadius: 24, overflow: 'hidden', marginBottom: 32, position: 'relative', minHeight: 260, display: 'flex', alignItems: 'center' }}>
+        <div style={{ position: 'absolute', inset: 0, background: `url('/photos/cargo.jpg') center/cover no-repeat`, filter: 'brightness(0.35)' }} />
+        <div style={{ position: 'relative', zIndex: 1, padding: '40px 32px', textAlign: 'center', width: '100%', color: 'white' }}>
+          <MessageCircle size={40} style={{ marginBottom: 10 }} />
+          <h2 style={{ color: 'white', margin: '0 0 6px', fontSize: 24 }}>Besoin d'un devis ?</h2>
+          <p style={{ color: 'rgba(255,255,255,0.85)', maxWidth: 450, margin: '0 auto 20px', fontSize: 14 }}>
+            Reponse sous 24h. Devis gratuit. Parrainage : 15€ offerts des la 1ere commande.
           </p>
-          <form onSubmit={handleSubmit} style={{ display: 'flex', gap: 12, maxWidth: 500, margin: '0 auto', flexWrap: 'wrap', justifyContent: 'center' }}>
-            <input type="email" placeholder="Votre email" value={email} 
-              onChange={e => setEmail(e.target.value)} required style={{
-              flex: 1, minWidth: 200, padding: '14px 20px', borderRadius: 12, border: 'none', fontSize: 14
+          <form onSubmit={handleSubmit} style={{ display: 'flex', gap: 10, maxWidth: 450, margin: '0 auto', flexWrap: 'wrap', justifyContent: 'center' }}>
+            <input type="email" placeholder="Votre email" value={email} onChange={e => setEmail(e.target.value)} required style={{
+              flex: 1, minWidth: 180, padding: '12px 18px', borderRadius: 12, border: 'none', fontSize: 13
             }} />
             <button type="submit" style={{
-              padding: '14px 24px', borderRadius: 12, fontWeight: 800, fontSize: 14,
+              padding: '12px 22px', borderRadius: 12, fontWeight: 800, fontSize: 13,
               background: '#25D366', color: 'white', border: 'none', cursor: 'pointer',
-              display: 'flex', alignItems: 'center', gap: 8
+              display: 'flex', alignItems: 'center', gap: 6
             }}>
               <MessageCircle size={18} /> Recevoir le catalogue
             </button>
@@ -342,15 +457,18 @@ export function HomePage() {
       </div>
 
       {/* ─── BOTTOM LINKS ─── */}
-      <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', justifyContent: 'center', marginBottom: 20 }}>
-        <Link to="/catalogue" className="btn btnPrimary" style={{ padding: '12px 24px', borderRadius: 12, fontWeight: 800 }}>
-          <Package size={18} /> Catalogue fournisseurs
+      <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', justifyContent: 'center', marginBottom: 20 }}>
+        <Link to="/catalogue" className="btn btnPrimary" style={{ padding: '10px 20px', borderRadius: 12, fontWeight: 800, fontSize: 13 }}>
+          <Package size={16} /> Catalogue
         </Link>
-        <Link to="/devis" className="btn btnSecondary" style={{ padding: '12px 24px', borderRadius: 12, fontWeight: 800 }}>
-          <FileText size={18} /> Devis en ligne
+        <Link to="/devis" className="btn btnSecondary" style={{ padding: '10px 20px', borderRadius: 12, fontWeight: 800, fontSize: 13 }}>
+          <FileText size={16} /> Devis
         </Link>
-        <Link to="/dropshipping" className="btn btnSecondary" style={{ padding: '12px 24px', borderRadius: 12, fontWeight: 800 }}>
-          <TrendingUp size={18} /> Dropshipping
+        <Link to="/legal" className="btn btnSecondary" style={{ padding: '10px 20px', borderRadius: 12, fontWeight: 800, fontSize: 13 }}>
+          <Calculator size={16} /> Prix DOM
+        </Link>
+        <Link to="/dropshipping" className="btn btnSecondary" style={{ padding: '10px 20px', borderRadius: 12, fontWeight: 800, fontSize: 13 }}>
+          <TrendingUp size={16} /> Dropshipping
         </Link>
       </div>
 
