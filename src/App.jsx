@@ -21,6 +21,7 @@ const ContactPage = React.lazy(() => import('./pages/ContactPage'));
 const CataloguePage = React.lazy(() => import('./pages/CataloguePage'));
 const ProductDetailPage = React.lazy(() => import('./pages/ProductDetailPage'));
 const OrderConfirmPage = React.lazy(() => import('./pages/OrderConfirmPage'));
+const LegalPage = React.lazy(() => import('./pages/LegalPage'));
 
 function Layout({ children }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -40,6 +41,7 @@ function Layout({ children }) {
     { to: '/suivi-fournisseurs', label: 'Suivi' },
     { to: '/admin', label: 'Admin' },
     { to: '/contact', label: 'Contact' },
+    { to: '/legal', label: 'Fiscalité' },
   ];
 
   return (
@@ -164,6 +166,7 @@ export default function App() {
             <Route path="/suivi-fournisseurs" element={<SuiviFournisseursPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/admin" element={<AdminPage />} />
+            <Route path="/legal" element={<LegalPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Suspense>
