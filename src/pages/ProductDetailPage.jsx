@@ -7,7 +7,7 @@ import {
 } from 'lucide-react';
 import { products, categories, getProductById } from '../data/products';
 import { waMessage, WHATSAPP_URL } from '../utils/constants';
-import { ordersApi } from '../services/database';
+import { supabase, hasSupabaseConfig } from '../lib/supabase';
 
 const CATEGORY_ICONS = {
   'compas': '🧭', 'liston': '📏', 'hublots': '🪟', 'sieges': '🪑',
@@ -28,14 +28,14 @@ export function ProductDetailPage() {
   const navigate = useNavigate();
   const product = getProductById(id);
   const [showOrderModal, setShowOrderModal] = useState(false);
-  const [orderForm, setOrderForm] = useState({ name: '', telephone: '', quantity: 1 });
+  const [orderForm, setOrderForm] = useState({ name: '', telephone: '', quantity: 1, deliveryMode: 'retrait-local' });
   const [orderSubmitting, setOrderSubmitting] = useState(false);
   const [orderSuccess, setOrderSuccess] = useState(false);
   const [orderError, setOrderError] = useState('');
   const [orderNumber, setOrderNumber] = useState('');
 
   const resetOrderForm = () => {
-    setOrderForm({ name: '', telephone: '', quantity: 1 });
+    setOrderForm({ name: '', telephone: '', quantity: 1, deliveryMode: 'retrait-local' });
     setOrderSuccess(false);
     setOrderError('');
     setOrderSubmitting(false);
@@ -51,21 +51,23 @@ export function ProductDetailPage() {
     setOrderError('');
 
     try {
-      const orderPayload = {
-        product_id: product.id,
-        product_name: product.nameFr,
-        product_price: product.price || 0,
-        client_name: orderForm.name.trim(),
-        client_telephone: orderForm.telephone.trim(),
-        quantity: parseInt(orderForm.quantity) || 1,
-        status: 'nouvelle',
-        source: 'web-direct',
+      const quantity = Math.max(1, parseInt(orderForm.quantity, 10) || 1);
+      const orderNumberLocal = `CMD-${Date.now().toString(36).toUpperCase()}`;
+      const leadPayload = {
+        full_name: orderForm.name.trim(),
+        phone: orderForm.telephone.trim(),
+        subject: `Demande de commande — ${product.nameFr}`,
+        message: `Référence : ${product.id}\nQuantité : ${quantity}\nPrix indicatif : ${product.price || 0} €\nMode souhaité : ${orderForm.deliveryMode}`,
+        source: 'catalogue-web',
+        privacy_consent: true,
+        metadata: { product_id: product.id, quantity, delivery_mode: orderForm.deliveryMode },
       };
-      const { data, error } = await ordersApi.create(orderPayload);
-      if (error) {
-        console.warn('Supabase error, using local order number:', error);
+      let num = orderNumberLocal;
+      if (hasSupabaseConfig && supabase) {
+        const { data, error } = await supabase.from('leads').insert(leadPayload).select('id').single();
+        if (!error && data?.id) num = data.id;
+        if (error) console.warn('Lead catalogue non enregistré dans Supabase :', error.message);
       }
-      const num = data?.id || `CMD-${Date.now().toString(36).toUpperCase()}`;
       setOrderNumber(num);
       setOrderSuccess(true);
 
@@ -73,10 +75,11 @@ export function ProductDetailPage() {
       const orderData = {
         id: num,
         product_name: product.nameFr,
-        quantity: parseInt(orderForm.quantity) || 1,
+        quantity,
         price: product.price || 0,
         client_name: orderForm.name.trim(),
         client_telephone: orderForm.telephone.trim(),
+        delivery_mode: orderForm.deliveryMode,
         date: new Date().toLocaleDateString('fr-FR', {
           day: 'numeric', month: 'long', year: 'numeric'
         }),
@@ -87,7 +90,7 @@ export function ProductDetailPage() {
 
       // Navigate to confirmation page after short delay
       setTimeout(() => {
-        navigate(`/commande-confirmee?id=${num}&product=${encodeURIComponent(product.nameFr)}&qty=${orderForm.quantity}&price=${product.price || 0}`);
+        navigate(`/commande-confirmee?id=${num}&product=${encodeURIComponent(product.nameFr)}&qty=${quantity}&price=${product.price || 0}`);
       }, 2000);
     } catch (err) {
       setOrderError('Erreur réseau. Veuillez réessayer ou nous contacter sur WhatsApp.');
@@ -410,6 +413,19 @@ export function ProductDetailPage() {
                         borderRadius: 12, fontSize: 15, outline: 'none',
                         boxSizing: 'border-box'
                       }} />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: 13, fontWeight: 700, color: '#435956', marginBottom: 4 }}>
+                      Mode souhaité
+                    </label>
+                    <select value={orderForm.deliveryMode}
+                      onChange={e => setOrderForm(p => ({ ...p, deliveryMode: e.target.value }))}
+                      style={{ width: '100%', padding: '12px 14px', border: '1px solid #d0dbd8', borderRadius: 12, fontSize: 15, outline: 'none', boxSizing: 'border-box', background: 'white' }}>
+                      <option value="retrait-local">Retrait local — Martinique</option>
+                      <option value="express-aerien">Transport aérien express — sur devis</option>
+                      <option value="maritime-economique">Transport maritime — sur devis</option>
+                      <option value="point-relais">Point relais — à confirmer</option>
+                    </select>
                   </div>
                   <div>
                     <label style={{ display: 'block', fontSize: 13, fontWeight: 700, color: '#435956', marginBottom: 4 }}>
