@@ -116,7 +116,7 @@ export function ProductDetailPage() {
 
   const handleWhatsAppOrder = (supplier) => {
     const msg = `Bonjour ${supplier.name},\n\nJe suis Ikabay Sourcing. Je souhaite commander :\n\n*${product.nameFr}*\nRéf: ${product.id}\nQuantité: ${product.unit}\nPrix: ${supplier.price}\n\nMerci de confirmer disponibilité et délai.\n\nIkabay Sourcing`;
-    window.open(waMessage(msg), '_blank');
+    window.location.assign(waMessage(msg));
   };
 
   return (
