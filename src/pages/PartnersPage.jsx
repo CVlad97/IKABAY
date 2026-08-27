@@ -42,7 +42,7 @@ export default function PartnersPage() {
         const current = JSON.parse(localStorage.getItem('ikabay_partner_leads') || '[]');
         localStorage.setItem('ikabay_partner_leads', JSON.stringify([{ ...form, createdAt: new Date().toISOString() }, ...current].slice(0, 50)));
       } catch { /* stockage local indisponible */ }
-      window.open(waMessage(message), '_blank', 'noopener,noreferrer');
+      window.location.assign(waMessage(message));
       setStatus(saved ? 'Votre candidature a été enregistrée. WhatsApp est prêt pour finaliser l’échange.' : 'Votre demande est conservée localement. WhatsApp est prêt pour finaliser l’échange.');
       setForm({ name: '', company: '', email: '', phone: '', type: 'vendeur', description: '' });
     } finally {
