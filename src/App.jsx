@@ -18,6 +18,7 @@ const WhatsAppPage = React.lazy(() => import('./pages/WhatsAppPage'));
 const SuiviFournisseursPage = React.lazy(() => import('./pages/SuiviFournisseursPage'));
 const AdminPage = React.lazy(() => import('./pages/AdminPage'));
 const ContactPage = React.lazy(() => import('./pages/ContactPage'));
+const PartnersPage = React.lazy(() => import('./pages/PartnersPage'));
 const CataloguePage = React.lazy(() => import('./pages/CataloguePage'));
 const ProductDetailPage = React.lazy(() => import('./pages/ProductDetailPage'));
 const OrderConfirmPage = React.lazy(() => import('./pages/OrderConfirmPage'));
@@ -34,6 +35,7 @@ function Layout({ children }) {
     { to: '/dossier-jules-defel', label: 'Dossier client' },
     { to: '/devis', label: 'Devis' },
     { to: '/fournisseurs', label: 'Fournisseurs' },
+    { to: '/partenaires', label: 'Devenir partenaire' },
     { to: '/rfq', label: 'RFQ' },
     { to: '/transport', label: 'Transport' },
     { to: '/dropshipping', label: 'Dropshipping' },
@@ -158,6 +160,7 @@ export default function App() {
             <Route path="/sourcing" element={<SourcingPage />} />
             <Route path="/dossier-jules-defel" element={<DossierJulesPage />} />
             <Route path="/fournisseurs" element={<FournisseursPage />} />
+            <Route path="/partenaires" element={<PartnersPage />} />
             <Route path="/devis" element={<DevisPage />} />
             <Route path="/rfq" element={<RfqPage />} />
             <Route path="/transport" element={<TransportPage />} />
