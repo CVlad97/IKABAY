@@ -34,7 +34,7 @@ Urgence : ${form.urgence}
 Description : ${form.description}
 Livraison : ${form.livraison}
 Contact : ${form.nom} - ${form.email} - ${form.telephone}`;
-    window.open(waMessage(msg));
+    window.location.assign(waMessage(msg));
     setSubmitted(true);
     setShowForm(false);
   };
