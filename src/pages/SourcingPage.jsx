@@ -105,7 +105,7 @@ export function SourcingPage() {
         `🚚 Livraison: ${form.livraison}`;
 
       // Backup WhatsApp direct
-      window.open(waMessage(msg), '_blank');
+      window.location.assign(waMessage(msg));
 
       setSubmitted(true);
       setForm({
