@@ -76,9 +76,9 @@ jobs:
           test -n "$assets"
           while IFS= read -r asset; do
             asset="${asset#./}"
-            curl --fail --silent --show-error --location --retry 3 --retry-all-errors --head "$url/$asset" >/dev/null
+            curl --fail --silent --show-error --location --retry 3 --retry-all-errors "$url/$asset" -o /dev/null
           done <<< "$assets"
           for route in / /catalogue /sourcing /partenaires /contact /transport /legal; do
-            curl --fail --silent --show-error --location --retry 3 --retry-all-errors --head "$url$route" >/dev/null
+            curl --fail --silent --show-error --location --retry 3 --retry-all-errors "$url$route" -o /dev/null
           done
           echo "Production smoke test passed: homepage, assets and critical routes"
