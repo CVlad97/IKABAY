@@ -60,3 +60,25 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  verify:
+    name: Post-deploy smoke test
+    runs-on: ubuntu-latest
+    needs: deploy
+    steps:
+      - name: Verify production routes and assets
+        run: |
+          set -euo pipefail
+          url="https://ikabay.store"
+          html="$(curl --fail --silent --show-error --location --retry 10 --retry-delay 5 --retry-all-errors "$url/")"
+          printf '%s' "$html" | grep -q 'Ikabay'
+          assets="$(printf '%s' "$html" | grep -oE '(src|href)="[^" ]+.(js|css)"' | sed -E 's/^(src|href)="//; s/"$//' | sort -u)"
+          test -n "$assets"
+          while IFS= read -r asset; do
+            asset="${asset#./}"
+            curl --fail --silent --show-error --location --retry 3 --retry-all-errors --head "$url/$asset" >/dev/null
+          done <<< "$assets"
+          for route in / /catalogue /sourcing /partenaires /contact /transport /legal; do
+            curl --fail --silent --show-error --location --retry 3 --retry-all-errors --head "$url$route" >/dev/null
+          done
+          echo "Production smoke test passed: homepage, assets and critical routes"
