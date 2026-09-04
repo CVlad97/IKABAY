@@ -22,7 +22,7 @@ export default function AdminPage() {
   ];
 
   const nextActions = [
-    'Vérifier inbox + spam contactcvs@ikabay.store chaque jour.',
+    'Vérifier inbox + spam sourcing@ikabay.store chaque jour.',
     'Relancer Alastin/Wudi si pas de MOQ/CBM/photos sous 48h ouvrées.',
     'Relancer Osculati pour liston PVC 55 mm + embouts inox si pas de réponse.',
     'Ne pas valider hublots sans dimensions de découpe.',
