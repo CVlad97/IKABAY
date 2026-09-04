@@ -51,25 +51,29 @@ export function ProductDetailPage() {
     setOrderError('');
 
     try {
+      if (!hasSupabaseConfig || !supabase) {
+        setOrderError('Le service de commande n’est pas encore configuré. Utilisez WhatsApp pour finaliser votre demande.');
+        return;
+      }
+
       const quantity = Math.max(1, parseInt(orderForm.quantity, 10) || 1);
-      const orderNumberLocal = `CMD-${Date.now().toString(36).toUpperCase()}`;
+      const orderNumberLocal = `CMD-\${Date.now().toString(36).toUpperCase()}`;
       const leadPayload = {
         full_name: orderForm.name.trim(),
         phone: orderForm.telephone.trim(),
         subject: `Demande de commande — ${product.nameFr}`,
-        message: `Référence : ${product.id}\nQuantité : ${quantity}\nPrix indicatif : ${product.price || 0} €\nMode souhaité : ${orderForm.deliveryMode}`,
+        message: `Référence : ${product.id}\\nQuantité : ${quantity}\\nPrix indicatif : ${product.price || 0} €\\nMode souhaité : ${orderForm.deliveryMode}`,
         source: 'catalogue-web',
         privacy_consent: true,
         metadata: { product_id: product.id, quantity, delivery_mode: orderForm.deliveryMode },
       };
-      let num = orderNumberLocal;
-      if (hasSupabaseConfig && supabase) {
-        const { data, error } = await supabase.from('leads').insert(leadPayload).select('id').single();
-        if (!error && data?.id) num = data.id;
-        if (error) console.warn('Lead catalogue non enregistré dans Supabase :', error.message);
-      }
+      const { error } = await supabase.from('leads').insert(leadPayload);
+      if (error) throw error;
+
+      const num = orderNumberLocal;
       setOrderNumber(num);
       setOrderSuccess(true);
+
 
       // Store in localStorage for confirmation page
       const orderData = {
@@ -371,7 +375,7 @@ export function ProductDetailPage() {
                   <Check size={32} color="#16a34a" />
                 </div>
                 <h3 style={{ margin: '0 0 8px', color: '#16a34a', fontSize: 22 }}>
-                  Commande envoyée !
+                  Demande enregistrée !
                 </h3>
                 <p style={{ color: '#435956', fontSize: 15, margin: '0 0 6px' }}>
                   Nous vous confirmons sous 24h.
