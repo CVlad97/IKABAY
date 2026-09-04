@@ -83,13 +83,13 @@ jobs:
             echo "asset $asset_path -> $status"
             test "$status" -ge 200 2>/dev/null && test "$status" -lt 400
           done <<< "$assets"
-          for route in / /catalogue /sourcing /partenaires /contact /transport /legal; do
+          for route in / /catalogue /sourcing /partenaires /contact /transport /legal /presentation /dossier-joel-dufeal /dossier-jules-defel; do
             tmp="$(mktemp)"
             status="$(curl --silent --show-error --location --retry 3 --retry-all-errors -o "$tmp" -w "%{http_code}" "$url$route" || true)"
-            if { test "$status" -ge 200 2>/dev/null && test "$status" -lt 400; } || { test "$status" = 404 && grep -q 'id="root"' "$tmp" && grep -Eq '\.(js|css)' "$tmp"; }; then
-              echo "route $route -> $status (SPA shell valid)"
+            if { test "$status" -ge 200 2>/dev/null && test "$status" -lt 400; } && grep -q 'id="root"' "$tmp" && grep -Eq '\.(js|css)' "$tmp"; then
+              echo "route $route -> $status (SPA shell 200 valid)"
             else
-              echo "route $route -> $status (invalid response)"
+              echo "route $route -> $status (invalid direct route response)"
               rm -f "$tmp"
               exit 1
             fi
