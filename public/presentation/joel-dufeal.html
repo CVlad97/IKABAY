@@ -26,7 +26,7 @@ h2{ font-family:'Cormorant Garamond',Georgia,serif; font-size:1.6rem; color:var(
 h3{ font-family:'Montserrat',system-ui,sans-serif; font-weight:600; font-size:.95rem; color:var(--turq); margin:10px 0 6px; }
 
 .photo-box{ display:flex; gap:10px; flex-wrap:wrap; margin:10px 0; }
-.photo-box img{ width:160px; height:100px; object-fit:cover; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,.12); border:1px solid #dde4e7; }
+.photo-box img{ width:160px; height:100px; object-fit:cover; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,.12); border:1px solid #dde4e7; }\n.photo-placeholder{ width:160px; min-height:100px; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:12px; border:1px dashed #9bb8b8; border-radius:8px; background:#e8f6f5; color:#1a7a7d; font-size:.72rem; font-weight:700; }\n.photo-placeholder small{ margin-top:5px; color:#777; font-size:.65rem; font-weight:400; }
 .photo-label{ font-size:.7rem; color:#777; font-style:italic; }
 
 .table{ width:100%; border-collapse:collapse; font-size:.82rem; }
@@ -78,7 +78,7 @@ h3{ font-family:'Montserrat',system-ui,sans-serif; font-weight:600; font-size:.9
       <h3>Contrat</h3>
       <p>Incoterm : <strong>DAP Martinique</strong> (rendu droits acquittés)</p>
       <h3>Fiscalité</h3>
-      <p>TVA DOM-TOM : <strong>2,6%</strong> — Pas de TVA intérieure — Exonération IS locale</p>
+      <p>Fiscalité, octroi et frais : <strong>à confirmer</strong> selon le produit, l’incoterm et la destination</p>
       <h3>Contact</h3>
       <p>contactcvs@ikabay.store — WhatsApp : +596 696 65 35 89</p>
     </div>
@@ -115,9 +115,9 @@ h3{ font-family:'Montserrat',system-ui,sans-serif; font-weight:600; font-size:.9
 <div class="card red">
   <h2>3. Liston PVC + Liseret — Protection du Bateau</h2>
   <div class="photo-box">
-    <img src="/workspace/IKABAY/public/photos/hardware.jpg" alt="Rub rail liston PVC marine" title="Photo de référence — Osculati 87.203.00 (liston PVC prépercé), à confirmer par fournisseur">
-    <img src="/workspace/IKABAY/public/photos/anchor.jpg" alt="Liseret compatible" title="Liseret 87.201.00 — compatible 55 mm — à confirmer par fournisseur">
-    <img src="/workspace/IKABAY/public/photos/board.jpg" alt="Installation marine" title="Installation sur coque — photo de référence — à confirmer par chantier">
+    <div class="photo-placeholder" role="img" aria-label="Rub rail liston PVC marine">Rub rail liston PVC marine<small>Photo à confirmer</small></div>
+    <div class="photo-placeholder" role="img" aria-label="Liseret compatible">Liseret compatible<small>Photo à confirmer</small></div>
+    <div class="photo-placeholder" role="img" aria-label="Installation marine">Installation marine<small>Photo à confirmer</small></div>
   </div>
   <div class="two-col">
     <div>
@@ -151,8 +151,8 @@ h3{ font-family:'Montserrat',system-ui,sans-serif; font-weight:600; font-size:.9
 <div class="card">
   <h2>4. Sellerie — Bolster & Sellerie Bleu/Gris Premium</h2>
   <div class="photo-box">
-    <img src="/workspace/IKABAY/public/photos/seat.jpg" alt="Bolster marine double" title="Photo de référence — siège baquet double — X-Vision Marine ou équivalent — à confirmer">
-    <img src="/workspace/IKABAY/public/photos/cargo.jpg" alt="Sellerie marine" title="Sellerie bleu/gris premium — photo de référence — à confirmer par fournisseur">
+    <div class="photo-placeholder" role="img" aria-label="Bolster marine double">Bolster marine double<small>Photo à confirmer</small></div>
+    <div class="photo-placeholder" role="img" aria-label="Sellerie marine">Sellerie marine<small>Photo à confirmer</small></div>
   </div>
   <div class="two-col">
     <div>
@@ -190,8 +190,8 @@ h3{ font-family:'Montserrat',system-ui,sans-serif; font-weight:600; font-size:.9
 <div class="card">
   <h2>5. Mouillage & Accès — Davier & Échelle</h2>
   <div class="photo-box">
-    <img src="/workspace/IKABAY/public/photos/anchor.jpg" alt="Davier bow roller" title="Bow roller Quick Nemo — photo de référence — à confirmer par fournisseur">
-    <img src="/workspace/IKABAY/public/photos/ladder.jpg" alt="Échelle inox" title="Échelle inox 4 marches Osculati 84.840 — photo de référence — à confirmer">
+    <div class="photo-placeholder" role="img" aria-label="Davier bow roller">Davier bow roller<small>Photo à confirmer</small></div>
+    <div class="photo-placeholder" role="img" aria-label="Échelle inox">Échelle inox<small>Photo à confirmer</small></div>
   </div>
   <div class="two-col">
     <div>
@@ -230,7 +230,7 @@ h3{ font-family:'Montserrat',system-ui,sans-serif; font-weight:600; font-size:.9
 <div class="card">
   <h2>6. Navigation — Compas Vertical — Plaque de Cloison</h2>
   <div class="photo-box">
-    <img src="/workspace/IKABAY/public/photos/compass.jpg" alt="Compas magnétique Plastimo" title="Compas magnétique — Plastimo Contest — photo de référence — à confirmer par fournisseur">
+    <div class="photo-placeholder" role="img" aria-label="Compas magnétique Plastimo">Compas magnétique Plastimo<small>Photo à confirmer</small></div>
   </div>
   <div class="two-col">
     <div>
@@ -298,8 +298,8 @@ h3{ font-family:'Montserrat',system-ui,sans-serif; font-weight:600; font-size:.9
 <div class="card">
   <h2>8. Hublots — Dimensions Confirmées</h2>
   <div class="photo-box">
-    <img src="/workspace/IKABAY/public/photos/porthole.jpg" alt="Hublot porthole" title="Hublot Osculati 81.502 — photo de référence — à confirmer par fournisseur">
-    <img src="/workspace/IKABAY/public/photos/hero-boat.jpg" alt="Installation hublot" title="Installation hublot sur coque — photo de référence — à confirmer">
+    <div class="photo-placeholder" role="img" aria-label="Hublot porthole">Hublot porthole<small>Photo à confirmer</small></div>
+    <div class="photo-placeholder" role="img" aria-label="Installation hublot">Installation hublot<small>Photo à confirmer</small></div>
   </div>
   <div class="two-col">
     <div>
@@ -394,10 +394,10 @@ h3{ font-family:'Montserrat',system-ui,sans-serif; font-weight:600; font-size:.9
     <p><strong>Lien direct de la démo publique :</strong> <span style="color:#e8774e;">https://ikabay.store/#/presentation</span></p>
     <p><strong>Devis détaillé (Word) :</strong> <span style="color:#e8774e;">https://ikabay.store/#/devis</span></p>
     <p><strong>Contact WhatsApp :</strong> <span style="color:#e8774e;">+596 696 65 35 89</span></p>
-    <p>Le site est opérationnel — vous pouvez consulter toutes les photos réelles et le calculateur de marge sans connexion.</p>
+    <p>La démonstration est consultable sans connexion. Les prix, photos et disponibilités restent à confirmer avant commande.</p>
   </div>
   <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
-    <a href="#" class="btn">📄 Ouvrir le Devis Word</a>
+    <a href="/devis" class="btn">📄 Voir le devis en ligne</a>
     <a href="https://ikabay.store/#/presentation" class="btn">📊 Voir la Présentation</a>
     <a href="https://ikabay.store/#/whatsapp" class="btn">💬 Contacter sur WhatsApp</a>
   </div>
