@@ -71,7 +71,7 @@ export function ContactPage() {
       // WhatsApp notification
       const msg = `*NOUVEAU MESSAGE CONTACT*\\n\\n` +
         `👤 ${form.name}\\n📧 ${form.email}\\n📞 ${form.telephone}\\n📝 ${form.subject}\\n${form.message}`;
-      window.open(waMessage(msg), '_blank');
+      window.location.assign(waMessage(msg));
 
       setSubmitted(true);
       setForm({ name: '', email: '', telephone: '', subject: '', message: '' });
