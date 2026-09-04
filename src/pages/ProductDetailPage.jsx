@@ -57,12 +57,12 @@ export function ProductDetailPage() {
       }
 
       const quantity = Math.max(1, parseInt(orderForm.quantity, 10) || 1);
-      const orderNumberLocal = `CMD-\${Date.now().toString(36).toUpperCase()}`;
+      const orderNumberLocal = `CMD-${Date.now().toString(36).toUpperCase()}`;
       const leadPayload = {
         full_name: orderForm.name.trim(),
         phone: orderForm.telephone.trim(),
         subject: `Demande de commande — ${product.nameFr}`,
-        message: `Référence : ${product.id}\\nQuantité : ${quantity}\\nPrix indicatif : ${product.price || 0} €\\nMode souhaité : ${orderForm.deliveryMode}`,
+        message: `Référence : ${product.id}\nQuantité : ${quantity}\nPrix indicatif : ${product.price || 0} €\nMode souhaité : ${orderForm.deliveryMode}`,
         source: 'catalogue-web',
         privacy_consent: true,
         metadata: { product_id: product.id, quantity, delivery_mode: orderForm.deliveryMode },
