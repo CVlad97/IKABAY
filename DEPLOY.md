@@ -18,7 +18,7 @@ Dans Vercel → Projet → Settings → Environment Variables, ajoute :
 | `VITE_SUPABASE_ANON_KEY` | Ta clé anon Supabase (commence par `eyJ...`) |
 | `VITE_WHATSAPP_URL` | `https://wa.me/596696653589` |
 | `VITE_APP_NAME` | `Ikabay Sourcing` |
-| `VITE_APP_EMAIL` | `contactcvs@ikabay.store` |
+| `VITE_APP_EMAIL` | `sourcing@ikabay.store` |
 
 ## Étape 3 : Domaine ikabay.store
 
