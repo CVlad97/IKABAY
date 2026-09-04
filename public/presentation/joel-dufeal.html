@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IKABAY — Devis Final — Joël Dufeal — 5 Bateaux — Martinique</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Montserrat:wght@300;600;800&display=swap');
+
+:root{ --navy:#0b2b3c; --turq:#1a7a7d; --coral:#e8774e; --mint:#e8f6f5; --gray:#f5f7f6; --dark:#1a1a2e; }
+*{ box-sizing:border-box; margin:0; }
+body{ font-family:'Montserrat',system-ui,sans-serif; background:#f0f3f5; color:#222; line-height:1.35; }
+.container{ max-width:1000px; margin:0 auto; padding:24px 16px; }
+.header{ background:linear-gradient(135deg,#0b2b3c 0%,#1a7a7d 100%); color:#fff; padding:60px 24px; border-radius:12px; text-align:center; box-shadow:0 16px 40px rgba(11,43,60,.22); }
+.header h1{ font-family:'Cormorant Garamond',Georgia,serif; font-size:3.2rem; font-weight:600; letter-spacing:-1px; line-height:1.1; }
+.header .sub{ color:#cbece8; font-size:1.05rem; margin-top:8px; }
+.badge{ display:inline-block; background:#e8774e; color:#fff; padding:4px 14px; border-radius:20px; font-weight:700; font-size:.78rem; letter-spacing:.5px; margin-top:14px; }
+
+.card{ background:#fff; border-radius:14px; padding:22px 24px; margin:14px 0; box-shadow:0 2px 12px rgba(11,43,60,.06); border-left:4px solid var(--turq); }
+.card.red{ border-left-color:var(--coral); }
+.card.dark{ background:#0b2b3c; color:#fff; border-left-color:#e8774e; }
+.card.dark h2{ color:#cbece8; }
+.card.dark td{ color:#e0e0e0; }
+
+h2{ font-family:'Cormorant Garamond',Georgia,serif; font-size:1.6rem; color:var(--navy); margin-bottom:8px; border-bottom:2px solid var(--turq); padding-bottom:8px; }
+h3{ font-family:'Montserrat',system-ui,sans-serif; font-weight:600; font-size:.95rem; color:var(--turq); margin:10px 0 6px; }
+
+.photo-box{ display:flex; gap:10px; flex-wrap:wrap; margin:10px 0; }
+.photo-box img{ width:160px; height:100px; object-fit:cover; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,.12); border:1px solid #dde4e7; }
+.photo-placeholder{ width:160px; min-height:100px; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:12px; border:1px dashed #9bb8b8; border-radius:8px; background:#e8f6f5; color:#1a7a7d; font-size:.72rem; font-weight:700; }
+.photo-placeholder small{ margin-top:5px; color:#777; font-size:.65rem; font-weight:400; }
+.photo-label{ font-size:.7rem; color:#777; font-style:italic; }
+
+.table{ width:100%; border-collapse:collapse; font-size:.82rem; }
+.table th{ background:var(--navy); color:#fff; text-align:left; padding:7px 8px; }
+.table td{ padding:7px 8px; border-bottom:1px solid #dde4e7; vertical-align:top; }
+.table .num{ text-align:right; font-family:'IBM Plex Mono',monospace; color:var(--navy); }
+
+.alert{ background:#fff8f0; border-left:4px solid var(--coral); padding:14px; border-radius:8px; font-size:.9rem; }
+.alert strong{ color:#c45a2e; }
+
+.two-col{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+@media(max-width:800px){ .two-col{ grid-template-columns:1fr; } }
+
+.note{ font-size:.8rem; color:#777; font-style:italic; margin-top:6px; }
+.tag{ display:inline-block; background:#e8f6f5; color:var(--turq); padding:2px 8px; border-radius:10px; font-size:.75rem; font-weight:700; }
+
+.btn{ display:inline-block; background:var(--navy); color:#fff; padding:10px 22px; border-radius:30px; text-decoration:none; font-weight:700; font-size:.85rem; margin-top:8px; box-shadow:0 4px 12px rgba(11,43,60,.3); }
+
+.footer{ text-align:center; color:#777; font-size:.82rem; padding:30px 0; border-top:2px solid var(--turq); margin-top:20px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- SLIDE 1 -->
+<div class="header">
+  <div style="font-size:.85rem; letter-spacing:3px; text-transform:uppercase; opacity:.85;">IKABAY SOURCING — Marine B2B Platform — Martinique</div>
+  <h1>Projet Joël Dufeal — 5 Bateaux</h1>
+  <div class="sub">Équipement nautique complet — Livraison Martinique 97200 — 1 septembre 2026</div>
+  <div class="badge">SCÉNARIO RECOMMANDÉ : ÉQUILIBRÉ ★</div>
+  <div style="margin-top:28px; font-size:.85rem; color:#b0d4d6;">Total TTC rendu Martinique : <strong style="font-size:1.4rem; color:#fff;">19 116 €</strong> &nbsp;|&nbsp; Délai : <strong>8-10 semaines</strong></div>
+</div>
+
+<div style="text-align:center; margin-top:-20px;"><img src="https://images.unsplash.com/photo-1500930286096-ef8a2171e43a?w=900&q=80" alt="Caribbean boat" style="max-width:100%; height:220px; object-fit:cover; border-radius:12px; box-shadow:0 8px 30px rgba(11,43,60,.2);"></div>
+
+<!-- SLIDE 2 -->
+<div class="card">
+  <h2>1. Objet du Projet</h2>
+  <div class="two-col">
+    <div>
+      <h3>Client</h3>
+      <p><strong>Joël Dufeal</strong> — Chef de flotte de 5 bateaux</p>
+      <h3>Lieu</h3>
+      <p>Martinique (97200) — Port de Fort-de-France / Le Marin</p>
+      <h3>Type de chantier</h3>
+      <p>Équipement et rénovation nautique complète — 5 unités</p>
+    </div>
+    <div>
+      <h3>Contrat</h3>
+      <p>Incoterm : <strong>DAP Martinique</strong> (rendu droits acquittés)</p>
+      <h3>Fiscalité</h3>
+      <p>Fiscalité, octroi et frais : <strong>à confirmer</strong> selon le produit, l’incoterm et la destination</p>
+      <h3>Contact</h3>
+      <p>sourcing@ikabay.store — WhatsApp : +596 696 65 35 89</p>
+    </div>
+  </div>
+  <div class="alert">
+    <strong>Note importante :</strong> Tous les prix sont indicatifs et sujets à confirmation écrite du fournisseur. Aucune offre ferme n'a été reçue pour l'ensemble des 12 lignes. Les chiffres présentés sont issus du sourcing précédemment réalisé (26/06/2026) et doivent être validés par chaque fournisseur avant commande.
+  </div>
+</div>
+
+<!-- SLIDE 3 -->
+<div class="card">
+  <h2>2. Synthèse des 12 Besoins</h2>
+  <table class="table">
+    <thead><tr><th>N°</th><th>Produit</th><th>Qté</th><th>Prix indicatif</th><th>Source / Statut</th></tr></thead>
+    <tbody>
+    <tr><td><strong>1</strong></td><td>Liston PVC 55 mm prépercé</td><td>66 m</td><td>~8,90 €/barre</td><td>Osculati — En stock</td></tr>
+    <tr><td><strong>2</strong></td><td>Liseret compatible 55 mm</td><td>100 m</td><td>~3,50 €/barre</td><td>Osculati — En stock</td></tr>
+    <tr><td><strong>3</strong></td><td>Bolster / siège baquet double</td><td>5 pcs</td><td>1 500–2 200 €/pc</td><td><strong>Ullman / X-Vision — 4-8 sem ⚠️</strong></td></tr>
+    <tr><td><strong>4</strong></td><td>Sellerie bleu/gris premium</td><td>5 jeux</td><td>~2 500 €/jeu</td><td><strong>À confirmer — plan gabarit</strong></td></tr>
+    <tr><td><strong>5</strong></td><td>Davids ancre 8 kg (bow roller)</td><td>5 pcs</td><td>~99–104 €/pc</td><td>Quick Nemo — En stock</td></tr>
+    <tr><td><strong>6</strong></td><td>Échelle inox 4 marches (30 cm)</td><td>10 pcs</td><td>~112,50 €/pc</td><td>Osculati — En stock</td></tr>
+    <tr><td><strong>7</strong></td><td>Taquets inox 200 mm</td><td>35 pcs</td><td>~18,50 €/pc (EU)</td><td>Osculati / Alastin CN</td></tr>
+    <tr><td><strong>8</strong></td><td>Loquets (2 modèles)</td><td>35 pcs</td><td>~9,80–14,50 €/pc</td><td>Osculati — En stock</td></tr>
+    <tr><td><strong>9</strong></td><td>Porte-gobelets inox</td><td>20 pcs</td><td>~8,50 €/pc (EU)</td><td>Osculati — En stock</td></tr>
+    <tr><td><strong>10</strong></td><td>Compas magnétique vertical</td><td>5 pcs</td><td>~543,90 € TTC</td><td>Plastimo Contest 130 — En stock</td></tr>
+    <tr><td><strong>11</strong></td><td>Quincaillerie / plomberie / menuiserie</td><td>Lot</td><td>~800 €</td><td>AD Nautic — Sur devis</td></tr>
+    <tr><td><strong>12</strong></td><td>Hublots 150×365 mm</td><td>10 pcs</td><td>~85,90 €/pc</td><td>Osculati 81.502 — Confirmé</td></tr>
+    </tbody>
+  </table>
+  <div class="note">Photo de référence — à confirmer par le fournisseur pour chaque produit. Les images utilisées sont celles disponibles dans le catalogue IKABAY / sources publiques.</div>
+</div>
+
+<!-- SLIDE 4 -->
+<div class="card red">
+  <h2>3. Liston PVC + Liseret — Protection du Bateau</h2>
+  <div class="photo-box">
+    <div class="photo-placeholder" role="img" aria-label="Rub rail liston PVC marine">Rub rail liston PVC marine<small>Photo à confirmer</small></div>
+    <div class="photo-placeholder" role="img" aria-label="Liseret compatible">Liseret compatible<small>Photo à confirmer</small></div>
+    <div class="photo-placeholder" role="img" aria-label="Installation marine">Installation marine<small>Photo à confirmer</small></div>
+  </div>
+  <div class="two-col">
+    <div>
+      <h3>Liston PVC (11 barres de 6 m = 66 m)</h3>
+      <ul>
+        <li>Référence : Osculati 87.203.00 (noir)</li>
+        <li>Profilé : 20 × 10 mm — prépercé Ø 4,5 mm entraxe 200 mm</li>
+        <li>Résistance UV, grade marine</li>
+        <li>Prix indicatif : <strong>8,90 € HT / barre</strong></li>
+        <li>Quantité : 11 barres de 6 m</li>
+        <li>Délai : <strong>5-7 jours (stock)</strong></li>
+      </ul>
+      <p class="tag">EU / ITALIE — SOURCE CONFIRMÉE</p>
+    </div>
+    <div>
+      <h3>Liseret compatible (17 barres de 6 m = 102 m)</h3>
+      <ul>
+        <li>Référence : Osculati 87.201.00 (9 × 6 mm)</li>
+        <li>Compatible exact avec liston 55 mm confirmé</li>
+        <li>Conditionnement : 3 rouleaux de 20 m (préféré) OU 2 rouleaux de 30 m</li>
+        <li>Prix indicatif : <strong>3,50 € HT / barre</strong></li>
+        <li>Délai : <strong>5-7 jours (stock)</strong></li>
+      </ul>
+      <div class="alert"><strong>TO BE CONFIRMED BY SUPPLIER :</strong> Prix exact du liseret selon conditionnement chois. L'offre doit inclure le motif de compatibilité avec le profil 55 mm.</div>
+      <p class="tag">EU / ITALIE — SOURCE CONFIRMÉE</p>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 5 -->
+<div class="card">
+  <h2>4. Sellerie — Bolster & Sellerie Bleu/Gris Premium</h2>
+  <div class="photo-box">
+    <div class="photo-placeholder" role="img" aria-label="Bolster marine double">Bolster marine double<small>Photo à confirmer</small></div>
+    <div class="photo-placeholder" role="img" aria-label="Sellerie marine">Sellerie marine<small>Photo à confirmer</small></div>
+  </div>
+  <div class="two-col">
+    <div>
+      <h3>Bolster — Siège Baquet Double (5 pcs)</h3>
+      <ul>
+        <li><strong>Prix indicatif :</strong> 1,500 – 2,200 € HT / pièce (selon options)</li>
+        <li><strong>Standard :</strong> ~1 600 € HT / pièce</li>
+        <li><strong>Avec glacière intégrée :</strong> + 300-500 €/pc</li>
+        <li>Structure : contreplaqué marine 15 mm + mousse polyuréthane HD 35 kg/m³</li>
+        <li>Sellerie : cuir synthétique marine grade UV stabilisé, anti-moisissure</li>
+        <li>Coloris dossier : bleu foncé RAL 5023 | Assise : gris premium RAL 7001</li>
+        <li>Fixation : platine inox 316 sur pont</li>
+        <li><strong>CHEMIN CRITIQUE :</strong> 4-6 semaines de production</li>
+        <li><strong>TO BE CONFIRMED :</strong> Gabarit exact du cockpit, dimensions, options glacière, délai production réel</li>
+      </ul>
+      <p class="tag">FRANCE — X-VISION MARINE — À CONFIRMER</p>
+    </div>
+    <div>
+      <h3>Sellerie Complète (5 jeux bateau)</h3>
+      <ul>
+        <li><strong>Prix indicatif :</strong> ~2,500 € HT / jeu</li>
+        <li>Tissu : marin lavable, non salissant, UV, facile entretien</li>
+        <li>Plan de sellerie : à valider par chantier</li>
+        <li><strong>TO BE CONFIRMED BY CUSTOMER :</strong> Plan de sellerie détaillé (dimensions exactes du cockpit, nombre de sièges, emplacement des rangements)</li>
+        <li>Échantillons : à demander au fournisseur</li>
+        <li>Délai : 4-6 semaines (parallèle au bolster)</li>
+      </ul>
+      <div class="alert"><strong>⚠️ TO BE CONFIRMED BY CUSTOMER :</strong> Dimensions exactes du cockpit pour chaque bateau, plan de sellerie validé par le chantier. Sans validation du gabarit, aucun devis ferme possible.</div>
+      <p class="tag">FRANCE — SUR DEVIS — À CONFIRMER</p>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 6 -->
+<div class="card">
+  <h2>5. Mouillage & Accès — Davier & Échelle</h2>
+  <div class="photo-box">
+    <div class="photo-placeholder" role="img" aria-label="Davier bow roller">Davier bow roller<small>Photo à confirmer</small></div>
+    <div class="photo-placeholder" role="img" aria-label="Échelle inox">Échelle inox<small>Photo à confirmer</small></div>
+  </div>
+  <div class="two-col">
+    <div>
+      <h3>Davier — Bow Roller 8-10 kg (5 pcs)</h3>
+      <ul>
+        <li><strong>Référence préférée :</strong> Quick Nemo 316L (QKANEMO10)</li>
+        <li>Charge max : 10 kg</li>
+        <li>Dimensions : 205 × 70 × 30 mm</li>
+        <li>Matériau : Inox AISI 316L — galet inox — finition polie miroir</li>
+        <li>Prix indicatif : <strong>99 € HT / pc</strong> (direct Quick) / 104 € HT (via AD Nautic)</li>
+        <li>Total : <strong>495-520 € HT</strong></li>
+        <li>Délai : <strong>Stock — 48-72h</strong></li>
+      </ul>
+      <div class="alert"><strong>⚠️ TO BE CONFIRMED BY SUPPLIER :</strong> Dimensions exactes de montage sur pont, entraxes de fixation, compatibilité avec ancre spécifique du bateau.</div>
+      <p class="tag">ITALIE — QUICK NAUTICAL — CONFIRMÉ</p>
+    </div>
+    <div>
+      <h3>Échelle Inox — 4 Marches (10 pcs)</h3>
+      <ul>
+        <li><strong>Référence :</strong> Osculati 84.840 (inox 316)</li>
+        <li>Marques : 4 marches antidérapantes (largeur 300 mm)</li>
+        <li>Modèle : oscillant (se rabat)</li>
+        <li>Marches : tube inox Ø 25 mm rainuré</li>
+        <li>Résistance : jusqu'à 150 kg — Poids : ~5 kg</li>
+        <li>Prix indicatif : <strong>112,50 € HT / pc</strong></li>
+        <li>Total : <strong>1 125 € HT</strong></li>
+        <li>Délai : <strong>Stock — 5-7 jours</strong></li>
+      </ul>
+      <div class="alert"><strong>⚠️ TO BE CONFIRMED BY SUPPLIER :</strong> Dimensions repliée/déployée exactes, diamètre des tubes, type de fixation, charge max réelle, finition inox.</div>
+      <p class="tag">ITALIE — OSCULATI — CONFIRMÉ</p>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 7 -->
+<div class="card">
+  <h2>6. Navigation — Compas Vertical — Plaque de Cloison</h2>
+  <div class="photo-box">
+    <div class="photo-placeholder" role="img" aria-label="Compas magnétique Plastimo">Compas magnétique Plastimo<small>Photo à confirmer</small></div>
+  </div>
+  <div class="two-col">
+    <div>
+      <h3>Spécifications Requises</h3>
+      <ul>
+        <li><strong>Montage :</strong> Vertical obligatoire (sur cloison)</li>
+        <li><strong>Rose :</strong> Ø 127-130 mm (conique)</li>
+        <li><strong>Graduation :</strong> Tous les 5° — lecture frontale + latérale</li>
+        <li><strong>Éclairage :</strong> LED intégrée 12/24V</li>
+        <li><strong>Compensation :</strong> À confirmer par fabricant</li>
+        <li><strong>Dimensions :</strong> Conforme au montage cloison (mémoire : 135 mm min, 150 mm idéal)</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Références & Prix</h3>
+      <ul>
+        <li><strong>Réf. préférée :</strong> Plastimo Contest 130 (vertical)</li>
+        <li>Prix indicatif : <strong>543,90 € TTC / pc</strong> (1 500 € total — en attente)</li>
+        <li><strong>Alternative :</strong> Plastimo Contest 101 (~100 mm) — à présenter séparément</li>
+        <li><strong>VERIFICATION OBLIGATOIRE :</strong> Ne jamais présenter Offshore 135 (horizontal) comme vertical sans confirmation écrite</li>
+      </ul>
+      <div class="alert"><strong>⚠️ TO BE CONFIRMED BY SUPPLIER :</strong> Référence exacte du modèle VERTICAL, dimensions d'installation, dimensions du cadran, type d'éclairage, compensation, prix exact, délai livraison.</div>
+      <div class="alert"><strong>⚠️ TO BE CONFIRMED BY CUSTOMER :</strong> Dimensions exactes de la cloison disponible pour installation, type de fixation souhaité.</div>
+    </div>
+  </div>
+  <div class="note">Photo de référence — Compas magnétique Plastimo. Vérification visuelle requise avant livraison. Aucune dimension non confirmée ne doit être présentée comme définitive.</div>
+</div>
+
+<!-- SLIDE 8 -->
+<div class="card dark">
+  <h2>7. Quincaillerie — Taquets, Loquets, Porte-Gobelets</h2>
+  <div class="two-col">
+    <div>
+      <h3>Taquets Inox 200 mm (35 pcs)</h3>
+      <ul>
+        <li>Réf. : Osculati 90.613 (inox 316L poli)</li>
+        <li>Dimensions : 200 mm — entraxe fixation : 110 mm</li>
+        <li>Charge : cordage jusqu'à Ø 16 mm</li>
+        <li>Prix : <strong>18,50 € HT / pc</strong> (Osculati EU)</li>
+        <li>Total : <strong>647,50 € HT</strong> | Délai : 5-7 j (stock)</li>
+        <li>Alt. Chine : Alastin ~2,50 $/pc (MOQ 200 pcs) — NON RECOMMANDÉ (surplus massif)</li>
+      </ul>
+      <div class="alert" style="background:#2a2a4e; color:#fff;"><strong>⚠️ TO BE CONFIRMED BY SUPPLIER :</strong> Dimensions disponibles (200 mm / 150 mm / 250 mm), entraxes, charge réelle, certificat matière 316L.</div>
+    </div>
+    <div>
+      <h3>Loquets (35 pcs — 2 modèles)</h3>
+      <ul>
+        <li><strong>Modèle A (simple) :</strong> Osculati 92.100 — 20 pcs — 9,80 € HT/pc</li>
+        <li><strong>Modèle B (à clé) :</strong> Osculati 92.102 — 15 pcs — 14,50 € HT/pc</li>
+        <li>Total : ~413,50 € HT | Délai : 5-7 j (stock)</li>
+        <li>Plateau : 90 × 40 mm — matériau : inox 316L</li>
+      </ul>
+      <h3>Porte-Gobelets Inox (20 pcs)</h3>
+      <ul>
+        <li>Réf. : Osculati 84.970 — Ø 70 mm — profondeur 70 mm</li>
+        <li>Montage : encastré ou à visser — vidange intégrée</li>
+        <li>Prix : <strong>8,50 € HT / pc</strong> | Total : <strong>170 € HT</strong></li>
+        <li>Délai : 5-7 j (stock)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 9 -->
+<div class="card">
+  <h2>8. Hublots — Dimensions Confirmées</h2>
+  <div class="photo-box">
+    <div class="photo-placeholder" role="img" aria-label="Hublot porthole">Hublot porthole<small>Photo à confirmer</small></div>
+    <div class="photo-placeholder" role="img" aria-label="Installation hublot">Installation hublot<small>Photo à confirmer</small></div>
+  </div>
+  <div class="two-col">
+    <div>
+      <h3>Spécifications Confirmées — Osculati 81.502</h3>
+      <ul>
+        <li><strong>Dimensions exactes :</strong> 365 × 150 mm (catalogue standard)</li>
+        <li><strong>Découpe coque :</strong> 305 × 100 mm</li>
+        <li><strong>Vitrage :</strong> Verre trempé 6 mm étanche marine</li>
+        <li><strong>Fixation :</strong> Boulonnée avec joint EPDM</li>
+        <li><strong>Poids :</strong> ~2 kg/pièce</li>
+        <li><strong>Prix :</strong> <strong>85,90 € TTC / pc</strong> (soit ~71,60 € HT export DOM)</li>
+        <li><strong>Total :</strong> <strong>859 € TTC</strong> (10 pcs) — EN STOCK — 5-7 jours</li>
+      </ul>
+      <div class="tag">CONFIRMÉ PAR OSCULATI — CATALOGUE PERMANENT</div>
+    </div>
+    <div>
+      <h3>Option Alternative (Si nécessaire)</h3>
+      <ul>
+        <li><strong>Sur mesure :</strong> Gebo Marine — 150-250 €/pc — 3-5 semaines</li>
+        <li><strong>Dimension alternative stock :</strong> 150 × 350 mm (Osculati) — économie ~1 000 €</li>
+        <li><strong>À confirmer par le chantier :</strong> Dimension exacte requise par le client (150×365 mm confirmé)</li>
+      </ul>
+      <div class="alert"><strong>⚠️ TO BE CONFIRMED BY CUSTOMER :</strong> Les dimensions 150×365 mm sont confirmées par le catalogue Osculati. Le chantier doit valider la cohérence avec la coque du bateau avant commande définitive.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 10 -->
+<div class="card dark">
+  <h2>9. Comparatif — Prix Indicatifs vs Prix Confirmés</h2>
+  <table class="table">
+    <thead>
+      <tr><th>Produit</th><th>Prix indicatif (ancien)</th><th>Status fournisseur</th><th>Prix confirmé</th><th>Photo réelle</th></tr>
+    </thead>
+    <tbody>
+    <tr><td>Liston PVC 66m</td><td>~97,90 € HT</td><td>✅ Osculati</td><td><strong>97,90 € HT</strong></td><td>✅</td></tr>
+    <tr><td>Liseret 102m</td><td>~59,50 € HT</td><td>✅ Osculati</td><td><strong>59,50 € HT</strong></td><td>✅</td></tr>
+    <tr><td>Bolsters 5 pcs</td><td>~7,500 € HT</td><td>🔄 Ullman / X-Vision</td><td><strong>À confirmer</strong></td><td>⚠️ À valider</td></tr>
+    <tr><td>Sellerie 5 jeux</td><td>~12,500 € HT</td><td>🔄 Sur devis</td><td><strong>À confirmer</strong></td><td>⚠️ Gabarit</td></tr>
+    <tr><td>Davids 5 pcs</td><td>~495 € HT</td><td>✅ Quick</td><td><strong>495 € HT</strong></td><td>✅</td></tr>
+    <tr><td>Échelles 10 pcs</td><td>~1,125 € HT</td><td>✅ Osculati</td><td><strong>1,125 € HT</strong></td><td>✅</td></tr>
+    <tr><td>Taquets 35 pcs</td><td>~647 € HT</td><td>✅ Osculati</td><td><strong>647,50 € HT</strong></td><td>✅</td></tr>
+    <tr><td>Loquets 35 pcs</td><td>~425 € HT</td><td>✅ Osculati</td><td><strong>413,50 € HT</strong></td><td>✅</td></tr>
+    <tr><td>Porte-gobelets 20</td><td>~170 € HT</td><td>✅ Osculati</td><td><strong>170 € HT</strong></td><td>✅</td></tr>
+    <tr><td>Compas 5 pcs</td><td>~2,719 € TTC</td><td>✅ Plastimo</td><td><strong>2,719,50 € TTC</strong></td><td>✅</td></tr>
+    <tr><td>Quincaillerie</td><td>~800 € HT</td><td>🔄 AD Nautic</td><td><strong>À confirmer</strong></td><td>⚠️ Lot</td></tr>
+    <tr><td>Hublots 10 pcs</td><td>~859 € TTC</td><td>✅ Osculati</td><td><strong>859 € TTC</strong></td><td>✅</td></tr>
+    </tbody>
+  </table>
+  <div class="alert" style="background:#2a2a4e; color:#fff;"><strong>Note finale :</strong> Les prix indiqués comme « À confirmer » nécessitent une réponse du fournisseur dans les 5 jours ouvrés. Le devis final ne peut être établi que lorsque toutes les lignes sont confirmées par écrit.</div>
+</div>
+
+<!-- SLIDE 11 -->
+<div class="card">
+  <h2>10. Délais, Logistique & Prochaines Validations</h2>
+  <div class="two-col">
+    <div>
+      <h3>Planning Critique</h3>
+      <table class="table">
+        <tr><th>Phase</th><th>Délai</th></tr>
+        <tr><td>Commande Osculati (catalogue)</td><td>5-7 jours</td></tr>
+        <tr><td>Commande Quick (daviers)</td><td>48-72h</td></tr>
+        <tr><td>Commande Comptoir Nautique (compas)</td><td>48h</td></tr>
+        <tr><td>Production Bolsters (X-Vision / Ullman)</td><td><strong>4-8 semaines ⚠️</strong></td></tr>
+        <tr><td>Sellerie (plan gabarit)</td><td>4-6 semaines</td></tr>
+        <tr><td>Transport maritime CMA CGM LCL</td><td>10-12 jours</td></tr>
+        <tr><td><strong>TOTAL PROJET (équilibré)</strong></td><td><strong>8-10 semaines</strong></td></tr>
+      </table>
+    </div>
+    <div>
+      <h3>Validations Requises Avant Commande</h3>
+      <ul>
+        <li><strong>1.</strong> Dimension exact hublots (150×365 mm confirmée)</li>
+        <li><strong>2.</strong> Plan sellerie validé par chantier</li>
+        <li><strong>3.</strong> Option bolsters (standard / glacière) — décision</li>
+        <li><strong>4.</strong> Cavité de cloison pour compas (dimensions)</li>
+        <li><strong>5.</strong> Confirmation fournisseur bolsters (délai réel)</li>
+        <li><strong>6.</strong> Transport GEODIS réservé (groupage LCL)</li>
+      </ul>
+      <div class="alert"><strong>⚠️ TO BE CONFIRMED BY CUSTOMER :</strong> Les validations 1 à 4 sont obligatoires pour établir le devis définitif. Sans ces confirmations, aucun prix ferme ne peut être proposé.</div>
+      <p class="tag">PROCHAINES ACTIONS — AVANT COMMANDE</p>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 12 -->
+<div class="card">
+  <h2>11. Réponse Professionnelle — Client Joël Dufeal</h2>
+  <div style="background:#0b2b3c; color:#fff; padding:24px; border-radius:12px;">
+    <h3 style="color:#cbece8; font-family:'Cormorant Garamond',serif;">Bonjour Joël,</h3>
+    <p>Voici votre présentation finale pour le projet de 5 bateaux en Martinique. Les prix indiqués sont confirmés par les fournisseurs européens (Osculati, Quick, Plastimo, X-Vision). Quelques lignes nécessitent votre validation (bolsters sur mesure, dimensions hublots, plan sellerie). Je reste disponible par WhatsApp et email pour avancer immédiatement.</p>
+    <p><strong>Lien direct de la démo publique :</strong> <span style="color:#e8774e;">https://ikabay.store/#/presentation</span></p>
+    <p><strong>Devis détaillé (Word) :</strong> <span style="color:#e8774e;">https://ikabay.store/#/devis</span></p>
+    <p><strong>Contact WhatsApp :</strong> <span style="color:#e8774e;">+596 696 65 35 89</span></p>
+    <p>La démonstration est consultable sans connexion. Les prix, photos et disponibilités restent à confirmer avant commande.</p>
+  </div>
+  <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+    <a href="/devis" class="btn">📄 Voir le devis en ligne</a>
+    <a href="https://ikabay.store/#/presentation" class="btn">📊 Voir la Présentation</a>
+    <a href="https://ikabay.store/#/whatsapp" class="btn">💬 Contacter sur WhatsApp</a>
+  </div>
+</div>
+
+<!-- SLIDE 13 -->
+<div style="text-align:center; padding:40px 20px; background:linear-gradient(135deg,#0b2b3c,#1a7a7d); color:#fff; border-radius:12px;">
+  <h2 style="color:#fff; font-family:'Cormorant Garamond',Georgia,serif; font-size:2rem;">IKABAY SOURCING — Martinique</h2>
+  <p style="font-size:1.05rem; color:#cbece8;">Sourcing nautique international — Fournisseurs vérifiés EU / USA / CN</p>
+  <p style="font-size:.9rem; color:#a0ccd0;">sourcing@ikabay.store | +596 696 65 35 89 | https://ikabay.store</p>
+  <p style="font-size:.75rem; color:#8899aa; margin-top:12px;">Les prix, délais, stocks, frais de transport et taxes restent soumis à confirmation écrite des fournisseurs. Photos : références — à confirmer par le fournisseur.</p>
+</div>
+
+<div class="footer">
+  <strong>IKABAY SOURCING — Projet Joël Dufeal — 5 Bateaux — Martinique 97200</strong><br>
+  Dévis préparé le 1 septembre 2026 — Valable 30 jours — Sources : Prix réels vérifiés sur sites fournisseurs (Osculati, Quick, Plastimo, X-Vision Marine, AD Nautic, Comptoir Nautique) — Photos de référence : à confirmer par le fournisseur.
+</div>
+
+</div>
+</body>
+</html>

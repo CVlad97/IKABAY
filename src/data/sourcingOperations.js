@@ -1,7 +1,7 @@
 export const sourcingMailbox = {
   official: 'sourcing@ikabay.store',
-  operational: 'contactcvs@ikabay.store',
-  note: "sourcing@ikabay.store est l'adresse cible, mais l'envoi opérationnel actuel est contactcvs@ikabay.store tant que l'auth SMTP Hostinger n'est pas corrigée.",
+  operational: 'sourcing@ikabay.store',
+  note: "sourcing@ikabay.store est l'adresse cible, mais l'envoi opérationnel actuel est sourcing@ikabay.store tant que l'auth SMTP Hostinger n'est pas corrigée.",
 };
 
 export const exactOrderLines = [
@@ -22,12 +22,12 @@ export const exactOrderLines = [
 ];
 
 export const sentRfqs = [
-  { supplier: 'Osculati', to: 'info@osculati.com', subject: 'RFQ - Liston PVC 55 mm + liseret + hublots + embouts inox - Export Martinique', sentAt: '2026-07-03 17:03 UTC', account: 'contactcvs@ikabay.store', scope: 'Liston 55 mm, liseret, embouts inox, hublots, échelles, taquets, loquets, porte-gobelets', status: 'Envoyé' },
-  { supplier: 'Alastin Marine / Qingdao', to: 'andyzhang@alastin-marine.com', subject: 'RFQ - SS316 marine hardware exact order - cleats ladders cup holders - Caribbean supply', sentAt: '2026-07-28 19:02 UTC', account: 'contactcvs@ikabay.store', scope: 'Taquets, échelles, porte-gobelets, manilles, visserie inox 316', status: 'Envoyé' },
-  { supplier: 'Wudi Xinxiangju', to: 'sdwdxincheng@163.com', subject: 'RFQ - SS316 marine flush latches exact order - with and without key', sentAt: '2026-07-28 19:02 UTC', account: 'contactcvs@ikabay.store', scope: 'Loquets inox avec/sans clé + charnières option', status: 'Envoyé' },
-  { supplier: 'Quick Group', to: 'info@quickgroup.com', subject: 'RFQ - Bow Roller Nemo 10 QKANEMO10 x5 - exact quote Martinique', sentAt: '2026-07-28 19:02 UTC', account: 'contactcvs@ikabay.store', scope: 'Davier Quick Nemo 10 x5', status: 'Envoyé' },
-  { supplier: 'Mantus Marine', to: 'info@mantusanchors.com', subject: 'RFQ - Bow roller for 8 kg anchor - 5 units - exact quote Caribbean delivery', sentAt: '2026-07-28 19:03 UTC', account: 'contactcvs@ikabay.store', scope: 'Bow roller / davier pour ancre 8 kg', status: 'Envoyé' },
-  { supplier: 'Comptoir Nautique', to: 'contact@comptoirnautique.fr', subject: 'Demande de devis - Compas Plastimo 135/150 mm x5 - Export Martinique', sentAt: '2026-07-28 19:03 UTC', account: 'contactcvs@ikabay.store', scope: 'Compas Plastimo Contest 150 / Neptune 135 x5', status: 'Envoyé' },
+  { supplier: 'Osculati', to: 'info@osculati.com', subject: 'RFQ - Liston PVC 55 mm + liseret + hublots + embouts inox - Export Martinique', sentAt: '2026-07-03 17:03 UTC', account: 'sourcing@ikabay.store', scope: 'Liston 55 mm, liseret, embouts inox, hublots, échelles, taquets, loquets, porte-gobelets', status: 'Envoyé' },
+  { supplier: 'Alastin Marine / Qingdao', to: 'andyzhang@alastin-marine.com', subject: 'RFQ - SS316 marine hardware exact order - cleats ladders cup holders - Caribbean supply', sentAt: '2026-07-28 19:02 UTC', account: 'sourcing@ikabay.store', scope: 'Taquets, échelles, porte-gobelets, manilles, visserie inox 316', status: 'Envoyé' },
+  { supplier: 'Wudi Xinxiangju', to: 'sdwdxincheng@163.com', subject: 'RFQ - SS316 marine flush latches exact order - with and without key', sentAt: '2026-07-28 19:02 UTC', account: 'sourcing@ikabay.store', scope: 'Loquets inox avec/sans clé + charnières option', status: 'Envoyé' },
+  { supplier: 'Quick Group', to: 'info@quickgroup.com', subject: 'RFQ - Bow Roller Nemo 10 QKANEMO10 x5 - exact quote Martinique', sentAt: '2026-07-28 19:02 UTC', account: 'sourcing@ikabay.store', scope: 'Davier Quick Nemo 10 x5', status: 'Envoyé' },
+  { supplier: 'Mantus Marine', to: 'info@mantusanchors.com', subject: 'RFQ - Bow roller for 8 kg anchor - 5 units - exact quote Caribbean delivery', sentAt: '2026-07-28 19:03 UTC', account: 'sourcing@ikabay.store', scope: 'Bow roller / davier pour ancre 8 kg', status: 'Envoyé' },
+  { supplier: 'Comptoir Nautique', to: 'contact@comptoirnautique.fr', subject: 'Demande de devis - Compas Plastimo 135/150 mm x5 - Export Martinique', sentAt: '2026-07-28 19:03 UTC', account: 'sourcing@ikabay.store', scope: 'Compas Plastimo Contest 150 / Neptune 135 x5', status: 'Envoyé' },
 ];
 
 export const supplierScores = [

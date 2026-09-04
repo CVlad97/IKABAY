@@ -34,7 +34,15 @@ Urgence : ${form.urgence}
 Description : ${form.description}
 Livraison : ${form.livraison}
 Contact : ${form.nom} - ${form.email} - ${form.telephone}`;
-    window.location.assign(waMessage(msg));
+    // Open WhatsApp first (no signup, low-friction), then offer email as a fallback.
+    window.open(waMessage(msg), '_blank', 'noopener,noreferrer');
+    const subject = encodeURIComponent(`Demande de devis — ${form.categorie || 'Nautique'} — ${form.nom}`);
+    const body = encodeURIComponent(msg);
+    setTimeout(() => {
+      if (window.confirm('Vous n\'utilisez pas WhatsApp ? Cliquez OK pour nous envoyer la demande par email à sourcing@ikabay.store')) {
+        window.location.href = `mailto:sourcing@ikabay.store?subject=${subject}&body=${body}`;
+      }
+    }, 800);
     setSubmitted(true);
     setShowForm(false);
   };

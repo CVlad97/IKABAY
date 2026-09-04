@@ -14,26 +14,26 @@ const STAGES = [
 ];
 
 const DUMMY_PRODUCTS = [
-  { ref: 'JD-COMPAS-01', name: 'Compas magnétique Contest 150', qte: 5, pu: 543.90, pa: 543.90, marge: '0%', total: 2719.50, dispo: 'Disponible', comment: 'Plastimo — Stock 48h', fournisseur: 'Comptoir Nautique 🇫🇷' },
-  { ref: 'JD-LISTON-02', name: 'Liston PVC prépercé (barre 6m)', qte: 11, pu: 8.90, pa: 8.90, marge: '0%', total: 97.90, dispo: 'Disponible', comment: 'Osculati 87.203.00 — Stock', fournisseur: 'Osculati 🇮🇹' },
-  { ref: 'JD-LISERET-03', name: 'Liseret compatible liston', qte: 17, pu: 3.50, pa: 3.50, marge: '0%', total: 59.50, dispo: 'Disponible', comment: 'Osculati 87.201.00 — Stock', fournisseur: 'Osculati 🇮🇹' },
-  { ref: 'JD-HUBLOT-04', name: 'Hublot ovale inox 365x150mm', qte: 10, pu: 85.90, pa: 85.90, marge: '0%', total: 859.00, dispo: 'Disponible', comment: 'Osculati 81.502 — Standard', fournisseur: 'Osculati 🇮🇹' },
-  { ref: 'JD-BOLSTER-05', name: 'Bolster double baquet + sellerie', qte: 5, pu: 1800, pa: 0, marge: 'Sur devis', total: 9000, dispo: 'Sur devis', comment: 'Ullman Dynamics 🇸🇪 — Attente devis', fournisseur: 'Ullman Dynamics 🇸🇪' },
-  { ref: 'JD-DAVIER-06', name: 'Davier bow roller 8-10kg', qte: 5, pu: 99, pa: 99, marge: '0%', total: 495, dispo: 'Disponible', comment: 'Quick Nemo — Stock 72h', fournisseur: 'Quick Nautical 🇮🇹' },
-  { ref: 'JD-ECHELLE-07', name: 'Échelle inox 4 marches 30cm', qte: 10, pu: 112.50, pa: 112.50, marge: '0%', total: 1125, dispo: 'Disponible', comment: 'Osculati 84.840 — Stock', fournisseur: 'Osculati 🇮🇹' },
-  { ref: 'JD-TAQUET-08', name: 'Taquet inox 200mm', qte: 35, pu: 18.50, pa: 18.50, marge: '0%', total: 647.50, dispo: 'Disponible', comment: 'Osculati 90.613 — Stock', fournisseur: 'Osculati 🇮🇹' },
-  { ref: 'JD-LOQUET-09', name: 'Loquets inox (simple + à clé)', qte: 35, pu: 12.15, pa: 12.15, marge: '0%', total: 425.25, dispo: 'Disponible', comment: 'Osculati 92.100/102 — Stock', fournisseur: 'Osculati 🇮🇹' },
-  { ref: 'JD-GOBELET-10', name: 'Porte-gobelet inox', qte: 20, pu: 8.50, pa: 8.50, marge: '0%', total: 170, dispo: 'Disponible', comment: 'Osculati 84.970 — Stock', fournisseur: 'Osculati 🇮🇹' },
-  { ref: 'JD-QUINCAIL-11', name: 'Lot quincaillerie marine 5 bateaux', qte: 1, pu: 800, pa: 0, marge: 'Sur devis', total: 800, dispo: 'Sur devis', comment: 'AD Nautic — Attente confirmation', fournisseur: 'AD Nautic 🇫🇷' },
+  { ref: 'JD-COMPAS-01', name: 'Compas magnétique Contest 150', qte: 5, pu: 543.90, pa: 543.90, marge: '15%', total: 2719.50, dispo: 'Disponible', comment: 'Plastimo — Stock 48h', fournisseur: 'Comptoir Nautique 🇫🇷' },
+  { ref: 'JD-LISTON-02', name: 'Liston PVC prépercé (barre 6m)', qte: 11, pu: 8.90, pa: 8.90, marge: '15%', total: 97.90, dispo: 'Disponible', comment: 'Osculati 87.203.00 — Stock', fournisseur: 'Osculati 🇮🇹' },
+  { ref: 'JD-LISERET-03', name: 'Liseret compatible liston', qte: 17, pu: 3.50, pa: 3.50, marge: '15%', total: 59.50, dispo: 'Disponible', comment: 'Osculati 87.201.00 — Stock', fournisseur: 'Osculati 🇮🇹' },
+  { ref: 'JD-HUBLOT-04', name: 'Hublot ovale inox 365x150mm', qte: 10, pu: 85.90, pa: 85.90, marge: '15%', total: 859.00, dispo: 'Disponible', comment: 'Osculati 81.502 — Standard', fournisseur: 'Osculati 🇮🇹' },
+  { ref: 'JD-BOLSTER-05', name: 'Bolster double baquet + sellerie', qte: 5, pu: 1800, pa: 0, marge: 'À confirmer', total: 9000, dispo: 'Sur devis', comment: 'Ullman Dynamics 🇸🇪 — Attente devis', fournisseur: 'Ullman Dynamics 🇸🇪' },
+  { ref: 'JD-DAVIER-06', name: 'Davier bow roller 8-10kg', qte: 5, pu: 99, pa: 99, marge: '15%', total: 495, dispo: 'Disponible', comment: 'Quick Nemo — Stock 72h', fournisseur: 'Quick Nautical 🇮🇹' },
+  { ref: 'JD-ECHELLE-07', name: 'Échelle inox 4 marches 30cm', qte: 10, pu: 112.50, pa: 112.50, marge: '15%', total: 1125, dispo: 'Disponible', comment: 'Osculati 84.840 — Stock', fournisseur: 'Osculati 🇮🇹' },
+  { ref: 'JD-TAQUET-08', name: 'Taquet inox 200mm', qte: 35, pu: 18.50, pa: 18.50, marge: '15%', total: 647.50, dispo: 'Disponible', comment: 'Osculati 90.613 — Stock', fournisseur: 'Osculati 🇮🇹' },
+  { ref: 'JD-LOQUET-09', name: 'Loquets inox (simple + à clé)', qte: 35, pu: 12.15, pa: 12.15, marge: '15%', total: 425.25, dispo: 'Disponible', comment: 'Osculati 92.100/102 — Stock', fournisseur: 'Osculati 🇮🇹' },
+  { ref: 'JD-GOBELET-10', name: 'Porte-gobelet inox', qte: 20, pu: 8.50, pa: 8.50, marge: '15%', total: 170, dispo: 'Disponible', comment: 'Osculati 84.970 — Stock', fournisseur: 'Osculati 🇮🇹' },
+  { ref: 'JD-QUINCAIL-11', name: 'Lot quincaillerie marine 5 bateaux', qte: 1, pu: 800, pa: 0, marge: 'À confirmer', total: 800, dispo: 'Sur devis', comment: 'AD Nautic — Attente confirmation', fournisseur: 'AD Nautic 🇫🇷' },
 ];
 
-export function DossierJulesPage() {
+export function DossierJoelPage() {
   const [activeStep] = useState(5); // offres reçues
   const [comment, setComment] = useState('');
 
   const handleWhatsApp = () => {
     window.open(waMessage(
-      'Bonjour Jules, voici les dernières infos sur votre dossier sourcing nautique. Contactez-nous pour plus de détails.'
+      'Bonjour Joel, voici les dernières infos sur votre dossier sourcing nautique. Contactez-nous pour plus de détails.'
     ));
   };
 
@@ -54,7 +54,7 @@ export function DossierJulesPage() {
         <div style={{ width: 52, height: 52, borderRadius: 16, background: '#e7fbf7', display: 'grid', placeItems: 'center', color: '#0f766e' }}>
           <User size={28} />
         </div>
-        <h1 style={{ margin: 0, fontSize: 'clamp(28px, 4vw, 44px)' }}>Jules Defel</h1>
+        <h1 style={{ margin: 0, fontSize: 'clamp(28px, 4vw, 44px)' }}>Joël Dufeal</h1>
       </div>
       <p style={{ color: '#60716f', fontWeight: 600, margin: '0 0 28px 68px' }}>
         Dossier suivi par Ikabay Sourcing &mdash; <a href="mailto:sourcing@ikabay.store" style={{ color: '#0f766e', fontWeight: 800, textDecoration: 'none' }}>sourcing@ikabay.store</a>
@@ -300,4 +300,4 @@ export function DossierJulesPage() {
   );
 }
 
-export default DossierJulesPage;
+export default DossierJoelPage;

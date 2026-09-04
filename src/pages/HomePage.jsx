@@ -98,6 +98,15 @@ export function HomePage() {
   return (
     <section className="pageSection">
 
+      {/* ─── DOM-TOM COMMERCIAL BANNER ─── */}
+      <div style={{ background: 'linear-gradient(90deg, #0b2b3c 0%, #1a7a7d 60%, #e8774e 100%)', color: '#fff', padding: '10px 20px', textAlign: 'center', fontSize: 13, fontWeight: 700, letterSpacing: 0.4, borderRadius: 12, marginBottom: 18, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, flexWrap: 'wrap' }}>
+        <span>📍 Martinique 97200 — Livraison rendue</span>
+        <span style={{ opacity: 0.7 }}>|</span>
+        <span>Fiscalité et frais réels selon produit et destination — à confirmer</span>
+        <span style={{ opacity: 0.7 }}>|</span>
+        <a href="https://wa.me/596696653589" target="_blank" rel="noreferrer" style={{ color: '#fff', textDecoration: 'underline', fontWeight: 800 }}>WhatsApp +596 696 65 35 89 →</a>
+      </div>
+
       {/* ─── REFERRAL BANNER ─── */}
       <div style={{
         background: 'linear-gradient(135deg, #f59e0b 0%, #f97316 100%)',
@@ -138,14 +147,14 @@ export function HomePage() {
             padding: '8px 16px', borderRadius: 20, fontSize: 13, fontWeight: 700, marginBottom: 16,
             color: 'white', border: '1px solid rgba(255,255,255,0.2)'
           }}>
-            <Sparkles size={14} /> 8 fournisseurs verifies • Livraison Martinique • Prix DOM
+            <Sparkles size={14} /> Fournisseurs vérifiés • Livraison Martinique • Prix DOM
           </div>
           <h1 style={{ color: 'white', fontSize: 42, fontWeight: 900, margin: '0 0 12px', lineHeight: 1.1 }}>
             Sourcing nautique<br />pour la Caraibe
           </h1>
           <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: 16, lineHeight: 1.6, marginBottom: 24, maxWidth: 500 }}>
-            Trouvez, comparez et commandez vos equipements nautiques aux meilleurs prix. 
-            Fournisseurs Europe et Asie verifies, livraison Martinique, meilleur prix garanti.
+            Trouvez, comparez et commandez vos equipements nautiques avec un prix étudié et transparent. 
+            Fournisseurs Europe et Asie verifies, livraison Martinique, frais réels clarifiés.
           </p>
           <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
             <Link to="/catalogue" style={{
@@ -233,12 +242,12 @@ export function HomePage() {
             </thead>
             <tbody>
               {[
-                ['Prix DOM (TVA 8.5%)', '✅ Applique', '❌', '✅', '❌'],
+                ['Fiscalité DOM', '✅ Applique', '❌', '✅', '❌'],
                 ['Support WhatsApp 24/7', '✅ Gratuit', '❌ Payant', '❌', '❌'],
                 ['Sourcing express 24h', '✅ Inclus', '❌', '❌', '❌'],
                 ['Parrainage 15€/10€', '✅ Oui', '❌ Non', '❌ Non', '✅ Partiel'],
                 ['Points fidelite', '✅ Ikabay Miles', '❌ Non', '❌ Non', '❌ Non'],
-                ['Meilleur prix garanti', '✅ -5%', '❌', '❌', '✅ Partiel'],
+                ['Prix étudié et transparent', '✅ À confirmer', '❌', '❌', '✅ Partiel'],
                 ['Paiement 3x/4x sans frais', '✅ Oui', '❌', '❌', '✅ Oui'],
                 ['Livraison Martinique pro', '✅ 8-12j', '❌ 15-25j', '✅ 10-15j', '❌ 20-30j'],
                 ['Frais caches', '✅ Aucun', '❌ 2% frais', '❌', '❌'],
