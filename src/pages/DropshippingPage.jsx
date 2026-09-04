@@ -5,13 +5,16 @@ import {
   Truck, ExternalLink, BarChart3, RefreshCw, ArrowRight,
   Globe2, Store, Zap, ZapOff, Download, Upload, Tag
 } from 'lucide-react';
-import { DROPSHIPPING_SOURCES, DROPSHIPPING_PRODUCTS, calcIkabayPrice, calcNetMargin } from '../data/dropshipping';
+import { DROPSHIPPING_SOURCES, DROPSHIPPING_PRODUCTS, DROPSHIPPING_INTEGRATIONS, calcIkabayPrice, calcNetMargin } from '../data/dropshipping';
 import { APP_NAME } from '../utils/constants';
 
 const STATUS_COLORS = {
   'en-test': '#f97316',
   'actif': '#16a34a',
-  'inactif': '#6b7280'
+  'inactif': '#6b7280',
+  'démo': '#64748b',
+  'à-configurer': '#f97316',
+  'non-connecté': '#64748b'
 };
 
 const STOCK_COLORS = {
@@ -123,14 +126,14 @@ export function DropshippingPage() {
             Dropshipping Multi-Partenaires
           </h1>
           <p style={{ color: 'rgba(255,255,255,0.85)', margin: '8px 0 0', fontSize: 16, maxWidth: 500 }}>
-            Alternative low-cost à AutoDS. {totalSources} sources connectées, {totalProducts} produits agrégés.
+            Catalogue multi-partenaires prêt à être relié à une passerelle serveur. Les {totalProducts} produits actuels sont des exemples non synchronisés.
           </p>
           <div style={{ marginTop: 16, display: 'flex', gap: 12 }}>
             <span style={{
               background: 'rgba(255,255,255,0.2)', padding: '6px 14px', borderRadius: 20,
               fontSize: 13, fontWeight: 700
             }}>
-              0€ d'abonnement mensuel
+              Mode démonstration — API non connectée
             </span>
             <span style={{
               background: 'rgba(255,255,255,0.2)', padding: '6px 14px', borderRadius: 20,
@@ -146,6 +149,11 @@ export function DropshippingPage() {
         }}>
           <Package size={200} />
         </div>
+      </div>
+
+      <div style={{ background: '#fff7ed', border: '1px solid #fed7aa', color: '#9a3412', borderRadius: 14, padding: '14px 18px', marginBottom: 24, display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+        <AlertCircle size={20} style={{ flex: '0 0 auto', marginTop: 1 }} />
+        <div><strong>Important avant lancement :</strong> cette page est en mode démonstration. Aucun prix, stock, délai ou ordre affiché ici ne doit être considéré comme confirmé par Zendrop, AutoDS ou CJ.</div>
       </div>
 
       {/* Stats */}
@@ -174,6 +182,7 @@ export function DropshippingPage() {
         <div>
           <div className="sectionTitle">
             <h2>Sources Dropshipping</h2>
+            <p>Les sources ci-dessous sont des données locales de démonstration ; une connexion réelle nécessite le backend décrit dans la documentation.</p>
           </div>
           <div className="cardGrid">
             {DROPSHIPPING_SOURCES.map(source => {
@@ -217,6 +226,24 @@ export function DropshippingPage() {
                 </div>
               );
             })}
+          </div>
+
+          <div className="sectionTitle" style={{ marginTop: 32 }}>
+            <h2>Intégrations fournisseurs</h2>
+            <p>État vérifié de la préparation, pas une confirmation de connexion.</p>
+          </div>
+          <div className="cardGrid">
+            {DROPSHIPPING_INTEGRATIONS.map(provider => (
+              <div key={provider.id} className="card" style={{ padding: 20 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, alignItems: 'start' }}>
+                  <div><div style={{ fontWeight: 800, fontSize: 16, color: '#1a2e2b' }}>{provider.name}</div><div style={{ fontSize: 12, color: '#60716f', marginTop: 4 }}>{provider.mode}</div></div>
+                  <span className="badge" style={{ background: STATUS_COLORS[provider.status], fontSize: 11 }}>{provider.status}</span>
+                </div>
+                <p style={{ fontSize: 13, color: '#60716f', lineHeight: 1.5 }}>{provider.note}</p>
+                <div style={{ fontSize: 12, color: '#8a9b97', marginBottom: 12 }}>Configuration : {provider.requiredSecret}</div>
+                <a href={provider.docsUrl} target="_blank" rel="noreferrer" className="btn btnSecondary" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 12 }}><ExternalLink size={14} /> Documentation officielle</a>
+              </div>
+            ))}
           </div>
 
           {/* Workflow */}
@@ -576,28 +603,18 @@ export function DropshippingPage() {
         marginTop: 40, padding: 24, background: '#f0f5f3', borderRadius: 16,
         textAlign: 'center', fontSize: 14, color: '#60716f'
       }}>
-        <strong style={{ color: '#1a2e2b' }}>Comparaison vs AutoDS</strong>
+        <strong style={{ color: '#1a2e2b' }}>Transparence intégration</strong>
         <div style={{ display: 'flex', justifyContent: 'center', gap: 40, marginTop: 12, flexWrap: 'wrap' }}>
           <div>
-            <div style={{ fontWeight: 700, color: '#16a34a', fontSize: 18 }}>0€</div>
-            <div style={{ fontSize: 12 }}>Abonnement mensuel IKABAY</div>
+            <div style={{ fontWeight: 700, color: '#64748b', fontSize: 18 }}>Démo</div>
+            <div style={{ fontSize: 12 }}>Catalogue local non synchronisé</div>
           </div>
           <div>
-            <div style={{ fontWeight: 700, color: '#dc2626', fontSize: 18 }}>~30€/mois</div>
-            <div style={{ fontSize: 12 }}>AutoDS starter</div>
+            <div style={{ fontWeight: 700, color: '#f97316', fontSize: 18 }}>API</div>
+            <div style={{ fontSize: 12 }}>Accès fournisseur à configurer</div>
           </div>
           <div>
-            <div style={{ fontWeight: 700, color: '#16a34a', fontSize: 18 }}>100%</div>
-            <div style={{ fontSize: 12 }}>Marge conservée par IKABAY</div>
+            <div style={{ fontWeight: 700, color: '#64748b', fontSize: 18 }}>0</div>
+            <div style={{ fontSize: 12 }}>Commande automatique active</div>
           </div>
           <div>
-            <div style={{ fontWeight: 700, color: '#dc2626', fontSize: 18 }}>~50%</div>
-            <div style={{ fontSize: 12 }}>Marge prélevée par AutoDS</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-export default DropshippingPage;
