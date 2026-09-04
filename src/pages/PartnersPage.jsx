@@ -20,31 +20,34 @@ export default function PartnersPage() {
     event.preventDefault();
     setSending(true);
     setStatus('');
-    const message = `Bonjour Ikabay, je souhaite devenir partenaire.\n\nNom : ${form.name}\nEntreprise : ${form.company || 'Non renseignée'}\nType : ${form.type}\nEmail : ${form.email}\nTéléphone : ${form.phone}\nDescription : ${form.description}`;
+    const message = `Bonjour Ikabay, je souhaite devenir partenaire.\\n\\nNom : ${form.name}\\nEntreprise : ${form.company || 'Non renseignée'}\\nType : ${form.type}\\nEmail : ${form.email}\\nTéléphone : ${form.phone}\\nDescription : ${form.description}`;
     try {
+      if (!hasSupabaseConfig || !supabase) {
+        window.open(waMessage(message), '_blank', 'noopener,noreferrer');
+        setStatus('WhatsApp est ouvert. Aucun enregistrement serveur n’est disponible pour le moment.');
+        return;
+      }
+
       const payload = {
         full_name: form.name,
         phone: form.phone,
         email: form.email,
         subject: `Candidature partenaire — ${form.type}`,
-        message: `${message}\nEntreprise : ${form.company || 'Non renseignée'}`,
+        message: `${message}\\nEntreprise : ${form.company || 'Non renseignée'}`,
         source: 'partenaires-web',
         privacy_consent: true,
         metadata: { partner_type: form.type, company: form.company },
       };
-      let saved = false;
-      if (hasSupabaseConfig && supabase) {
-        const { error } = await supabase.from('leads').insert(payload);
-        saved = !error;
-        if (error) console.warn('Candidature partenaire non enregistrée dans Supabase :', error.message);
-      }
-      try {
-        const current = JSON.parse(localStorage.getItem('ikabay_partner_leads') || '[]');
-        localStorage.setItem('ikabay_partner_leads', JSON.stringify([{ ...form, createdAt: new Date().toISOString() }, ...current].slice(0, 50)));
-      } catch { /* stockage local indisponible */ }
-      window.location.assign(waMessage(message));
-      setStatus(saved ? 'Votre candidature a été enregistrée. WhatsApp est prêt pour finaliser l’échange.' : 'Votre demande est conservée localement. WhatsApp est prêt pour finaliser l’échange.');
+      const { error } = await supabase.from('leads').insert(payload);
+      if (error) throw error;
+
+      window.open(waMessage(message), '_blank', 'noopener,noreferrer');
+      setStatus('Votre candidature a été enregistrée. WhatsApp est ouvert pour finaliser l’échange.');
       setForm({ name: '', company: '', email: '', phone: '', type: 'vendeur', description: '' });
+    } catch (error) {
+      console.error('Candidature partenaire non enregistrée :', error);
+      window.open(waMessage(message), '_blank', 'noopener,noreferrer');
+      setStatus('WhatsApp est ouvert, mais l’enregistrement serveur a échoué. Ne considérez pas la demande comme enregistrée.');
     } finally {
       setSending(false);
     }
