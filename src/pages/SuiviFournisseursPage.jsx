@@ -116,7 +116,7 @@ export function SuiviFournisseursPage() {
           Suivi des fournisseurs
         </h1>
         <p style={{ color: 'rgba(255,255,255,0.85)', margin: '8px 0 0', fontSize: 15 }}>
-          8 RFQ envoyes le 24/06/2026 depuis contactcvs@ikabay.store
+          8 RFQ envoyes le 24/06/2026 depuis sourcing@ikabay.store
         </p>
       </div>
 
@@ -303,7 +303,7 @@ export function SuiviFournisseursPage() {
             Un cron job envoie une relance automatique aux fournisseurs qui n'ont pas repondu sous 7 jours.
           </p>
           <div style={{ marginTop: 20, background: '#1e293b', borderRadius: 12, padding: 16, fontFamily: "'Fira Code', monospace", fontSize: 13, color: '#e2e8f0', maxWidth: 500, margin: '20px auto 0' }}>
-            <div><span style={{ color: '#a5f3fc' }}>IKABAY_EMAIL_USER</span>=contactcvs@ikabay.store</div>
+            <div><span style={{ color: '#a5f3fc' }}>IKABAY_EMAIL_USER</span>=sourcing@ikabay.store</div>
             <div><span style={{ color: '#a5f3fc' }}>IKABAY_SMTP_HOST</span>=smtp.hostinger.com</div>
             <div><span style={{ color: '#a5f3fc' }}>Cron</span>: tous les jours a 9h</div>
           </div>
