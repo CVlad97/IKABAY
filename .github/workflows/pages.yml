@@ -95,4 +95,9 @@ jobs:
             fi
             rm -f "$tmp"
           done
+          for route in /presentation/joel-dufeal.html; do
+            status="$(curl --silent --show-error --location --retry 3 --retry-all-errors -o /dev/null -w "%{http_code}" "$url$route" || true)"
+            echo "static route $route -> $status"
+            test "$status" -ge 200 2>/dev/null && test "$status" -lt 400
+          done
           echo "Production smoke test passed: homepage, assets and critical routes"
