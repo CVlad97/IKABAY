@@ -39,8 +39,8 @@ Contact : ${form.nom} - ${form.email} - ${form.telephone}`;
     const subject = encodeURIComponent(`Demande de devis — ${form.categorie || 'Nautique'} — ${form.nom}`);
     const body = encodeURIComponent(msg);
     setTimeout(() => {
-      if (window.confirm('Vous n\'utilisez pas WhatsApp ? Cliquez OK pour nous envoyer la demande par email à contactcvs@ikabay.store')) {
-        window.location.href = `mailto:contactcvs@ikabay.store?subject=${subject}&body=${body}`;
+      if (window.confirm('Vous n\'utilisez pas WhatsApp ? Cliquez OK pour nous envoyer la demande par email à sourcing@ikabay.store')) {
+        window.location.href = `mailto:sourcing@ikabay.store?subject=${subject}&body=${body}`;
       }
     }, 800);
     setSubmitted(true);
