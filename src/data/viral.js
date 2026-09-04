@@ -36,9 +36,9 @@ export const VIRAL_FEATURES = {
   guarantees: [
     {
       icon: '🎯',
-      title: 'Meilleur prix garanti',
-      desc: 'Trouvez moins cher ailleurs ? On vous rembourse la différence sous 48h.',
-      promo: 'Garantie -5% vs concurrence',
+      title: 'Prix très compétitifs',
+      desc: 'Nous cherchons un positionnement tarifaire bas et transparent selon disponibilité et frais réels.',
+      promo: 'Positionnement prix étudié',
     },
     {
       icon: '🚚',

@@ -34,7 +34,16 @@ Urgence : ${form.urgence}
 Description : ${form.description}
 Livraison : ${form.livraison}
 Contact : ${form.nom} - ${form.email} - ${form.telephone}`;
-    window.open(waMessage(msg));
+    // Open WhatsApp (no signup, low-friction)
+    window.open(waMessage(msg), '_blank');
+    // Also offer mailto: as a backup for clients who don't use WhatsApp
+    const subject = encodeURIComponent(`Demande de devis — ${form.categorie || 'Nautique'} — ${form.nom}`);
+    const body = encodeURIComponent(msg);
+    setTimeout(() => {
+      if (window.confirm('Vous n\'utilisez pas WhatsApp ? Cliquez OK pour nous envoyer la demande par email à contactcvs@ikabay.store')) {
+        window.location.href = `mailto:contactcvs@ikabay.store?subject=${subject}&body=${body}`;
+      }
+    }, 800);
     setSubmitted(true);
     setShowForm(false);
   };
