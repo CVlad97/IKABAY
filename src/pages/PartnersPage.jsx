@@ -20,7 +20,7 @@ export default function PartnersPage() {
     event.preventDefault();
     setSending(true);
     setStatus('');
-    const message = `Bonjour Ikabay, je souhaite devenir partenaire.\\n\\nNom : ${form.name}\\nEntreprise : ${form.company || 'Non renseignée'}\\nType : ${form.type}\\nEmail : ${form.email}\\nTéléphone : ${form.phone}\\nDescription : ${form.description}`;
+    const message = `Bonjour Ikabay, je souhaite devenir partenaire.\n\nNom : ${form.name}\nEntreprise : ${form.company || 'Non renseignée'}\nType : ${form.type}\nEmail : ${form.email}\nTéléphone : ${form.phone}\nDescription : ${form.description}`;
     try {
       if (!hasSupabaseConfig || !supabase) {
         window.open(waMessage(message), '_blank', 'noopener,noreferrer');
@@ -33,7 +33,7 @@ export default function PartnersPage() {
         phone: form.phone,
         email: form.email,
         subject: `Candidature partenaire — ${form.type}`,
-        message: `${message}\\nEntreprise : ${form.company || 'Non renseignée'}`,
+        message: `${message}\nEntreprise : ${form.company || 'Non renseignée'}`,
         source: 'partenaires-web',
         privacy_consent: true,
         metadata: { partner_type: form.type, company: form.company },
