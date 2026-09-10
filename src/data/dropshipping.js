@@ -1,5 +1,35 @@
-// IKABAY Dropshipping — Données partenaires démo (fallback)
-// Utilisé quand Supabase n'est pas configuré
+// IKABAY Dropshipping — données de démonstration (fallback)
+// Ces données ne sont jamais une preuve de stock ou de prix en temps réel.
+
+export const DROPSHIPPING_INTEGRATIONS = [
+  {
+    id: 'cj',
+    name: 'CJ Dropshipping',
+    status: 'à-configurer',
+    mode: 'API officielle',
+    docsUrl: 'https://developers.cjdropshipping.com/en/api/introduction.html',
+    note: 'Le meilleur premier candidat pour catalogue, commandes, logistique et suivi via API.',
+    requiredSecret: 'CJ_ACCESS_TOKEN'
+  },
+  {
+    id: 'zendrop',
+    name: 'Zendrop',
+    status: 'non-connecté',
+    mode: 'Plateformes prises en charge',
+    docsUrl: 'https://support.zendrop.com/en/articles/8176418-zendrop-e-commerce-platform-integrations',
+    note: 'Zendrop documente Shopify, TikTok Shop US, ClickFunnels et Wix. Ikabay devra passer par une plateforme prise en charge ou un accès API confirmé.',
+    requiredSecret: 'Accès Zendrop/API à confirmer'
+  },
+  {
+    id: 'autods',
+    name: 'AutoDS',
+    status: 'non-connecté',
+    mode: 'API avec accès requis',
+    docsUrl: 'https://help.autods.com/en/articles/12699964-autods-api-feature-automate-product-imports-orders-and-sourcing',
+    note: 'L’automatisation personnalisée exige l’accès API AutoDS et un backend sécurisé.',
+    requiredSecret: 'AUTODS_API_KEY'
+  }
+];
 
 export const DROPSHIPPING_SOURCES = [
   {
