@@ -618,3 +618,10 @@ export function DropshippingPage() {
             <div style={{ fontSize: 12 }}>Commande automatique active</div>
           </div>
           <div>
+            <div style={{ fontSize: 12 }}>Flux manuel à ce stade</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
