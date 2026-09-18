@@ -8,7 +8,6 @@ import './styles.css';
 const HomePage = React.lazy(() => import('./pages/HomePage'));
 const DestockagePage = React.lazy(() => import('./pages/DestockagePage'));
 const SourcingPage = React.lazy(() => import('./pages/SourcingPage'));
-const DossierJoelPage = React.lazy(() => import('./pages/DossierJoelPage'));
 const FournisseursPage = React.lazy(() => import('./pages/FournisseursPage'));
 const DevisPage = React.lazy(() => import('./pages/DevisPage'));
 const RfqPage = React.lazy(() => import('./pages/RfqPage'));
@@ -21,7 +20,6 @@ const CataloguePage = React.lazy(() => import('./pages/CataloguePage'));
 const ProductDetailPage = React.lazy(() => import('./pages/ProductDetailPage'));
 const OrderConfirmPage = React.lazy(() => import('./pages/OrderConfirmPage'));
 const LegalPage = React.lazy(() => import('./pages/LegalPage'));
-const PresentationPage = React.lazy(() => import('./pages/PresentationPage'));
 
 function Layout({ children }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -31,7 +29,6 @@ function Layout({ children }) {
     { to: '/catalogue', label: 'Catalogue' },
     { to: '/destockage', label: 'Déstockage' },
     { to: '/sourcing', label: 'Sourcing' },
-    { to: '/dossier-joel-dufeal', label: 'Dossier client' },
     { to: '/devis', label: 'Devis' },
     { to: '/fournisseurs', label: 'Fournisseurs' },
     { to: '/partenaires', label: 'Devenir partenaire' },
@@ -41,7 +38,6 @@ function Layout({ children }) {
     { to: '/whatsapp', label: 'WhatsApp' },
     { to: '/contact', label: 'Contact' },
     { to: '/legal', label: 'Fiscalité' },
-    { to: '/presentation', label: 'Présentation' },
   ];
 
   return (
@@ -156,8 +152,6 @@ export default function App() {
             <Route path="/commande-confirmee" element={<OrderConfirmPage />} />
             <Route path="/destockage" element={<DestockagePage />} />
             <Route path="/sourcing" element={<SourcingPage />} />
-            <Route path="/dossier-joel-dufeal" element={<DossierJoelPage />} />
-            <Route path="/dossier-jules-defel" element={<DossierJoelPage />} />
             <Route path="/fournisseurs" element={<FournisseursPage />} />
             <Route path="/partenaires" element={<PartnersPage />} />
             <Route path="/devis" element={<DevisPage />} />
@@ -167,7 +161,6 @@ export default function App() {
             <Route path="/whatsapp" element={<WhatsAppPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/legal" element={<LegalPage />} />
-            <Route path="/presentation" element={<PresentationPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Suspense>
