@@ -27,17 +27,11 @@ function Layout({ children }) {
   const navLinks = [
     { to: '/', label: 'Accueil' },
     { to: '/catalogue', label: 'Catalogue' },
-    { to: '/destockage', label: 'Déstockage' },
     { to: '/sourcing', label: 'Sourcing' },
     { to: '/devis', label: 'Devis' },
-    { to: '/fournisseurs', label: 'Fournisseurs' },
-    { to: '/partenaires', label: 'Devenir partenaire' },
-    { to: '/rfq', label: 'RFQ' },
     { to: '/transport', label: 'Transport' },
-    { to: '/dropshipping', label: 'Dropshipping' },
-    { to: '/whatsapp', label: 'WhatsApp' },
+    { to: '/partenaires', label: 'Partenaires' },
     { to: '/contact', label: 'Contact' },
-    { to: '/legal', label: 'Fiscalité' },
   ];
 
   return (
