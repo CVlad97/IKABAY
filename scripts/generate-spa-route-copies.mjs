@@ -21,8 +21,6 @@ const staticRoutes = [
   'destockage',
   'dropshipping',
   'whatsapp',
-  'suivi-fournisseurs',
-  'admin',
 ];
 
 const productRoutes = products.map(({ id }) => `produit/${id}`);
