@@ -11,50 +11,20 @@ import { Link } from 'react-router-dom';
 import { VIRAL_FEATURES, calculatePoints, pointsToEUR, getLoyaltyTier } from '../data/viral';
 
 const stats = [
-  { icon: Store, value: '8', label: 'Fournisseurs verifies', detail: 'Europe + Asie' },
-  { icon: Package, value: '150+', label: 'Produits au catalogue', detail: 'Nautique & industriel' },
-  { icon: Truck, value: '12', label: 'Jours delai moyen', detail: 'Via fret maritime' },
-  { icon: MessageCircle, value: '24/7', label: 'Support WhatsApp', detail: 'Reponse immediate' },
-];
+  { icon: MapPin, value: 'Martinique', label: 'Base opérationnelle', detail: 'Caraïbe étudiée au cas par cas' },
+  { icon: Package, value: 'Catalogue', label: 'Produits & sourcing', detail: 'Prix et disponibilité à confirmer' },
+  { icon: Search, value: 'Sourcing', label: 'Recherche multi-fournisseurs', detail: 'Selon votre besoin' },
+  { icon: MessageCircle, value: 'WhatsApp', label: 'Canal commercial direct', detail: 'Échange humain avant validation' },
+]
 
 const suppliers = [
-  {
-    name: 'SVB Allemagne', country: 'Allemagne', badge: 'TOP',
-    products: 'Taquets, eclairage, accastillage, instruments',
-    delivery: '10-15j', rating: 5, color: '#0f766e',
-    desc: 'Plus grand catalogue nautique europeen avec 50 000+ references. Offre prix ferme recue.',
-  },
-  {
-    name: 'Mantus Marine', country: 'USA', badge: 'Premium',
-    products: 'Bow rollers, ancres, accastillage securite',
-    delivery: '15-20j', rating: 5, color: '#2563eb',
-    desc: 'Reference mondiale pour les ancres et daviers. Prix confirmes : bow roller 439$ / ancre 371$.',
-  },
-  {
-    name: 'Osculati', country: 'Italie', badge: 'Catalogue',
-    products: 'Liston, hublots, echelles, taquets, accastillage',
-    delivery: 'Stock 5-7j', rating: 4, color: '#7c3aed',
-    desc: 'Plus grand catalogue nautique italien. Contact B2B etabli: sales@osculati.it.',
-  },
-  {
-    name: 'Quick Italy', country: 'Italie', badge: 'Reference',
-    products: 'Daviers ancre, guindeaux, accastillage',
-    delivery: 'Stock 72h', rating: 5, color: '#0891b2',
-    desc: 'Reference italienne pour les daviers et equipements d ancrage. Contact direct quick@quickitaly.com.',
-  },
-  {
-    name: 'Besenzoni', country: 'Italie', badge: 'Luxe',
-    products: 'Echelles, sieges pilote, accastillage haut de gamme',
-    delivery: '3-4 sem', rating: 4, color: '#ea580c',
-    desc: 'Fabricant italien haut de gamme. Echelles et sieges sur-mesure. Contact info@besenzoni.it.',
-  },
-  {
-    name: 'Lewmar', country: 'Royaume-Uni', badge: 'Premium',
-    products: 'Daviers, guindeaux, accastillage marine',
-    delivery: '2-3 sem', rating: 5, color: '#16a34a',
-    desc: 'Leader mondial de l accastillage marine. Contact etabli: info@lewmar.com.',
-  },
-];
+  { name: 'SVB', country: 'Allemagne', color: '#0f766e', desc: 'Source identifiée pour le nautisme. Prix, stock et délai sont reconfirmés avant devis.' },
+  { name: 'Mantus Marine', country: 'USA', color: '#2563eb', desc: 'Source identifiée pour l’ancrage et l’accastillage. Conditions à reconfirmer avant commande.' },
+  { name: 'Osculati', country: 'Italie', color: '#7c3aed', desc: 'Source catalogue identifiée pour l’accastillage. Disponibilité et tarif à vérifier au moment du besoin.' },
+  { name: 'Quick Group', country: 'Italie', color: '#0891b2', desc: 'Source identifiée pour équipements d’ancrage. Conditions commerciales à confirmer.' },
+  { name: 'Besenzoni', country: 'Italie', color: '#ea580c', desc: 'Source identifiée pour équipements nautiques. Devis et délais à confirmer.' },
+  { name: 'Lewmar', country: 'Royaume-Uni', color: '#16a34a', desc: 'Source identifiée pour l’accastillage marine. Devis et disponibilité à confirmer.' },
+]
 
 const categories = [
   { icon: Anchor, name: 'Accastillage inox', count: 45, color: '#0f766e', img: '/photos/hardware.jpg' },
@@ -66,13 +36,13 @@ const categories = [
 ];
 
 const featuredProducts = [
-  { name: 'Compas Plastimo 150mm', price: '186 EUR', supplier: 'SVB', img: '/photos/compass.jpg' },
-  { name: 'Taquet inox 316 200mm', price: '32,73 EUR', supplier: 'SVB', img: '/photos/hardware.jpg' },
-  { name: 'Bow roller BR1', price: '439 $', supplier: 'Mantus', img: '/photos/anchor.jpg' },
-  { name: 'Ancre M1 17lbs', price: '371 $', supplier: 'Mantus', img: '/photos/anchor.jpg' },
-  { name: 'Siege pilote double', price: 'Sur devis', supplier: 'Ullman', img: '/photos/seat.jpg' },
-  { name: 'Echelle inox 4 marches', price: '125 EUR', supplier: 'Osculati', img: '/photos/ladder.jpg' },
-];
+  { name: 'Compas marine', price: 'Prix à confirmer', supplier: 'Catalogue', img: '/photos/compass.jpg' },
+  { name: 'Taquet inox 316', price: 'Prix à confirmer', supplier: 'Catalogue', img: '/photos/hardware.jpg' },
+  { name: 'Davier / bow roller', price: 'Sur devis', supplier: 'Sourcing', img: '/photos/anchor.jpg' },
+  { name: 'Équipement d’ancrage', price: 'Sur devis', supplier: 'Sourcing', img: '/photos/anchor.jpg' },
+  { name: 'Siège pilote', price: 'Sur devis', supplier: 'Sourcing', img: '/photos/seat.jpg' },
+  { name: 'Échelle inox', price: 'Prix à confirmer', supplier: 'Catalogue', img: '/photos/ladder.jpg' },
+]
 
 export function HomePage() {
   const [email, setEmail] = useState('');
@@ -100,34 +70,11 @@ export function HomePage() {
 
       {/* ─── DOM-TOM COMMERCIAL BANNER ─── */}
       <div style={{ background: 'linear-gradient(90deg, #0b2b3c 0%, #1a7a7d 60%, #e8774e 100%)', color: '#fff', padding: '10px 20px', textAlign: 'center', fontSize: 13, fontWeight: 700, letterSpacing: 0.4, borderRadius: 12, marginBottom: 18, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, flexWrap: 'wrap' }}>
-        <span>📍 Martinique 97200 — Livraison rendue</span>
+        <span>📍 Base Martinique — livraison selon produit et destination</span>
         <span style={{ opacity: 0.7 }}>|</span>
         <span>Fiscalité et frais réels selon produit et destination — à confirmer</span>
         <span style={{ opacity: 0.7 }}>|</span>
         <a href="https://wa.me/596696653589" target="_blank" rel="noreferrer" style={{ color: '#fff', textDecoration: 'underline', fontWeight: 800 }}>WhatsApp +596 696 65 35 89 →</a>
-      </div>
-
-      {/* ─── REFERRAL BANNER ─── */}
-      <div style={{
-        background: 'linear-gradient(135deg, #f59e0b 0%, #f97316 100%)',
-        borderRadius: 16, padding: '16px 24px', marginBottom: 24,
-        display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap',
-        color: 'white',
-      }}>
-        <Gift size={24} />
-        <div style={{ flex: 1, minWidth: 200 }}>
-          <strong style={{ fontSize: 16 }}>🎉 Programme de parrainage</strong>
-          <p style={{ margin: '4px 0 0', fontSize: 13, opacity: 0.9 }}>
-            Parrainez un ami : {VIRAL_FEATURES.referral.prime_parrain}€ offerts pour vous + {VIRAL_FEATURES.referral.prime_filleul}€ pour votre filleul
-          </p>
-        </div>
-        <button onClick={handleCopyReferral} style={{
-          background: 'white', color: '#f97316', border: 'none', padding: '8px 20px',
-          borderRadius: 10, fontWeight: 800, fontSize: 13, cursor: 'pointer',
-          display: 'flex', alignItems: 'center', gap: 6, whiteSpace: 'nowrap'
-        }}>
-          <Copy size={16} /> {copied ? 'Copie !' : 'Obtenir mon code'}
-        </button>
       </div>
 
       {/* ─── HERO SECTION ─── */}
@@ -147,14 +94,14 @@ export function HomePage() {
             padding: '8px 16px', borderRadius: 20, fontSize: 13, fontWeight: 700, marginBottom: 16,
             color: 'white', border: '1px solid rgba(255,255,255,0.2)'
           }}>
-            <Sparkles size={14} /> Fournisseurs vérifiés • Livraison Martinique • Prix DOM
+            <Sparkles size={14} /> Sourcing multi-fournisseurs • Base Martinique • Conditions confirmées au devis
           </div>
           <h1 style={{ color: 'white', fontSize: 42, fontWeight: 900, margin: '0 0 12px', lineHeight: 1.1 }}>
             Sourcing nautique<br />pour la Caraibe
           </h1>
           <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: 16, lineHeight: 1.6, marginBottom: 24, maxWidth: 500 }}>
-            Trouvez, comparez et commandez vos equipements nautiques avec un prix étudié et transparent. 
-            Fournisseurs Europe et Asie verifies, livraison Martinique, frais réels clarifiés.
+            Trouvez et comparez des options pour vos équipements nautiques et techniques.
+            Les prix, stocks, délais, frais et conditions sont reconfirmés avant toute validation.
           </p>
           <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
             <Link to="/catalogue" style={{
@@ -171,35 +118,9 @@ export function HomePage() {
                 textDecoration: 'none', border: '2px solid rgba(255,255,255,0.3)',
                 display: 'flex', alignItems: 'center', gap: 8
               }}>
-              <MessageCircle size={20} /> Devis gratuit
+              <MessageCircle size={20} /> Demander un devis
             </a>
           </div>
-        </div>
-      </div>
-
-      {/* ─── LOYALTY POINTS STRIP ─── */}
-      <div style={{
-        background: 'white', borderRadius: 16, padding: 20, marginBottom: 32,
-        display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'center',
-        boxShadow: '0 4px 20px rgba(0,0,0,0.06)',
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flex: 1, minWidth: 200 }}>
-          <Award size={28} color="#f59e0b" />
-          <div>
-            <strong>Ikabay Miles</strong>
-            <p style={{ margin: '2px 0 0', fontSize: 12, color: '#60716f' }}>
-              1€ = 1 point • 500 points = 25€ de réduction
-            </p>
-          </div>
-        </div>
-        <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
-          {VIRAL_FEATURES.loyalty.statuts.map((tier, i) => (
-            <div key={i} style={{ textAlign: 'center', padding: '4px 10px', borderRadius: 8, background: '#f8f9fa' }}>
-              <div style={{ width: 20, height: 20, borderRadius: 10, background: tier.couleur, margin: '0 auto 2px' }} />
-              <div style={{ fontSize: 11, fontWeight: 700, color: '#1a2e2b' }}>{tier.nom}</div>
-              <div style={{ fontSize: 10, color: '#8a9b97' }}>{tier.avantages}</div>
-            </div>
-          ))}
         </div>
       </div>
 
@@ -222,63 +143,6 @@ export function HomePage() {
             </div>
           );
         })}
-      </div>
-
-      {/* ─── VS CONCURRENCE ─── */}
-      <div style={{ background: 'white', borderRadius: 20, padding: 28, marginBottom: 32, boxShadow: '0 4px 24px rgba(0,0,0,0.06)' }}>
-        <h2 style={{ margin: '0 0 16px', display: 'flex', alignItems: 'center', gap: 8 }}>
-          <Zap size={22} color="#f59e0b" /> Pourquoi nous vs la concurrence ?
-        </h2>
-        <div style={{ overflowX: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13, minWidth: 500 }}>
-            <thead>
-              <tr style={{ background: '#0f766e', color: 'white' }}>
-                <th style={{ padding: '10px 14px', textAlign: 'left' }}>Critere</th>
-                <th style={{ padding: '10px 14px', textAlign: 'center', background: '#0d9488' }}>🔥 IKABAY</th>
-                <th style={{ padding: '10px 14px', textAlign: 'center' }}>AutoDS</th>
-                <th style={{ padding: '10px 14px', textAlign: 'center' }}>Nautech</th>
-                <th style={{ padding: '10px 14px', textAlign: 'center' }}>Amazon</th>
-              </tr>
-            </thead>
-            <tbody>
-              {[
-                ['Fiscalité DOM', '✅ Applique', '❌', '✅', '❌'],
-                ['Support WhatsApp 24/7', '✅ Gratuit', '❌ Payant', '❌', '❌'],
-                ['Sourcing express 24h', '✅ Inclus', '❌', '❌', '❌'],
-                ['Parrainage 15€/10€', '✅ Oui', '❌ Non', '❌ Non', '✅ Partiel'],
-                ['Points fidelite', '✅ Ikabay Miles', '❌ Non', '❌ Non', '❌ Non'],
-                ['Prix étudié et transparent', '✅ À confirmer', '❌', '❌', '✅ Partiel'],
-                ['Paiement 3x/4x sans frais', '✅ Oui', '❌', '❌', '✅ Oui'],
-                ['Livraison Martinique pro', '✅ 8-12j', '❌ 15-25j', '✅ 10-15j', '❌ 20-30j'],
-                ['Frais caches', '✅ Aucun', '❌ 2% frais', '❌', '❌'],
-                ['Abonnement mensuel', '✅ 0€', '❌ 30€/mois', '❌ Sur devis', '✅ 0€'],
-              ].map((row, i) => (
-                <tr key={i} style={{ borderBottom: '1px solid #e8f0ee' }}>
-                  <td style={{ padding: '8px 14px', fontWeight: 600 }}>{row[0]}</td>
-                  <td style={{ padding: '8px 14px', textAlign: 'center', fontWeight: 700, color: '#16a34a', background: '#f0fdf4' }}>{row[1]}</td>
-                  <td style={{ padding: '8px 14px', textAlign: 'center', color: row[2].includes('✅') ? '#16a34a' : '#dc2626' }}>{row[2]}</td>
-                  <td style={{ padding: '8px 14px', textAlign: 'center', color: row[3].includes('✅') ? '#16a34a' : '#dc2626' }}>{row[3]}</td>
-                  <td style={{ padding: '8px 14px', textAlign: 'center', color: row[4].includes('✅') ? '#16a34a' : '#dc2626' }}>{row[4]}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      {/* ─── GUARANTEES ─── */}
-      <div className="sectionTitle">
-        <h2>Nos garanties</h2>
-      </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 12, marginBottom: 32 }}>
-        {VIRAL_FEATURES.guarantees.map((g, i) => (
-          <div key={i} className="card" style={{ padding: 20 }}>
-            <div style={{ fontSize: 32, marginBottom: 8 }}>{g.icon}</div>
-            <div style={{ fontWeight: 800, fontSize: 15, color: '#1a2e2b', marginBottom: 4 }}>{g.title}</div>
-            <p style={{ fontSize: 13, color: '#60716f', margin: '0 0 8px' }}>{g.desc}</p>
-            <span className="badge" style={{ background: '#e7fbf7', color: '#0f766e', fontSize: 11, padding: '3px 8px' }}>{g.promo}</span>
-          </div>
-        ))}
       </div>
 
       {/* ─── CATEGORIES ─── */}
@@ -313,7 +177,7 @@ export function HomePage() {
                   <Icon size={18} />
                 </div>
                 <div style={{ fontWeight: 700, color: 'white', fontSize: 14 }}>{cat.name}</div>
-                <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.8)' }}>{cat.count} produits</div>
+                <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.8)' }}>Voir le catalogue</div>
               </div>
             </Link>
           );
@@ -322,9 +186,9 @@ export function HomePage() {
 
       {/* ─── SUPPLIERS ─── */}
       <div className="sectionTitle">
-        <h2>Nos fournisseurs</h2>
-        <Link to="/fournisseurs" style={{ color: '#0f766e', fontWeight: 700, fontSize: 14, display: 'flex', alignItems: 'center', gap: 4 }}>
-          Tous <ArrowRight size={16} />
+        <h2>Sources fournisseurs étudiées</h2>
+        <Link to="/sourcing" style={{ color: '#0f766e', fontWeight: 700, fontSize: 14, display: 'flex', alignItems: 'center', gap: 4 }}>
+          Demander une recherche <ArrowRight size={16} />
         </Link>
       </div>
       <div style={{ display: 'grid', gap: 12, marginBottom: 32 }}>
@@ -337,13 +201,13 @@ export function HomePage() {
               <div style={{ fontWeight: 800, color: '#1a2e2b', fontSize: 16 }}>{sup.name}</div>
               <p style={{ fontSize: 12, color: '#60716f', margin: '2px 0 0' }}>{sup.desc}</p>
             </div>
-            <Link to="/rfq" style={{ background: sup.color, color: 'white', padding: '8px 16px', borderRadius: 8, fontWeight: 700, fontSize: 12, textDecoration: 'none' }}>
-              Prix <ArrowRight size={12} />
+            <Link to="/sourcing" style={{ background: sup.color, color: 'white', padding: '8px 16px', borderRadius: 8, fontWeight: 700, fontSize: 12, textDecoration: 'none' }}>
+              Demander <ArrowRight size={12} />
             </Link>
           </div>
         ))}
-        <Link to="/fournisseurs" style={{ textAlign: 'center', padding: 12, color: '#0f766e', fontWeight: 700, fontSize: 14 }}>
-          + 3 autres fournisseurs (Voir tout) →
+        <Link to="/sourcing" style={{ textAlign: 'center', padding: 12, color: '#0f766e', fontWeight: 700, fontSize: 14 }}>
+          Besoin d’une autre référence ? Lancez une demande de sourcing →
         </Link>
       </div>
 
@@ -373,59 +237,16 @@ export function HomePage() {
         ))}
       </div>
 
-      {/* ─── SHARE / VIRAL ─── */}
-      <div style={{ background: 'white', borderRadius: 20, padding: 28, marginBottom: 32, boxShadow: '0 4px 24px rgba(0,0,0,0.06)' }}>
-        <h2 style={{ margin: '0 0 16px', display: 'flex', alignItems: 'center', gap: 8 }}>
-          <Share2 size={20} color="#0f766e" /> Partagez et gagnez
-        </h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 16 }}>
-          <div style={{ padding: 20, background: '#f0fdf4', borderRadius: 14 }}>
-            <div style={{ fontSize: 28, marginBottom: 8 }}>🗣️</div>
-            <strong>Parrainage</strong>
-            <p style={{ fontSize: 13, color: '#60716f', margin: '4px 0' }}>
-              Chaque ami parraine = {VIRAL_FEATURES.referral.prime_parrain}€ pour vous + {VIRAL_FEATURES.referral.prime_filleul}€ pour lui
-            </p>
-            <button onClick={handleCopyReferral} style={{
-              background: '#0f766e', color: 'white', border: 'none', padding: '8px 18px',
-              borderRadius: 8, fontWeight: 700, fontSize: 12, cursor: 'pointer', marginTop: 8
-            }}>
-              <Copy size={14} /> {copied ? 'Code copie !' : 'Obtenir mon code'}
-            </button>
-          </div>
-          <div style={{ padding: 20, background: '#fef3c7', borderRadius: 14 }}>
-            <div style={{ fontSize: 28, marginBottom: 8 }}>⭐</div>
-            <strong>Points Ikabay Miles</strong>
-            <p style={{ fontSize: 13, color: '#60716f', margin: '4px 0' }}>
-              1€ = 1 point • 500 points = 25€ de réduction • 200 points cadeau à la 1ère commande
-            </p>
-          </div>
-          <div style={{ padding: 20, background: '#f0f5f3', borderRadius: 14 }}>
-            <div style={{ fontSize: 28, marginBottom: 8 }}>💬</div>
-            <strong>Partage WhatsApp</strong>
-            <p style={{ fontSize: 13, color: '#60716f', margin: '4px 0' }}>
-              Partagez Ikabay avec vos contacts maritimes
-            </p>
-            <button onClick={shareOnWhatsApp} style={{
-              background: '#25D366', color: 'white', border: 'none', padding: '8px 18px',
-              borderRadius: 8, fontWeight: 700, fontSize: 12, cursor: 'pointer', marginTop: 8,
-              display: 'inline-flex', alignItems: 'center', gap: 6
-            }}>
-              <Share2 size={14} /> Partager
-            </button>
-          </div>
-        </div>
-      </div>
-
       {/* ─── PROCESS ─── */}
       <div style={{ background: 'white', borderRadius: 20, padding: 28, marginBottom: 32, boxShadow: '0 4px 24px rgba(0,0,0,0.06)' }}>
         <h2 style={{ textAlign: 'center', marginTop: 0, marginBottom: 24 }}>Comment ca marche</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 16 }}>
           {[
             { icon: Search, step: '1', title: 'Besoin', desc: 'Decrivez votre besoin' },
-            { icon: Globe2, step: '2', title: 'Sourcing', desc: '8 fournisseurs consultes' },
+            { icon: Globe2, step: '2', title: 'Sourcing', desc: 'Recherche de sources adaptées' },
             { icon: BarChart3, step: '3', title: 'Comparaison', desc: 'Tableau prix / delais' },
-            { icon: ClipboardCheck, step: '4', title: 'Devis', desc: '3 propositions detailles' },
-            { icon: Truck, step: '5', title: 'Livraison', desc: 'Fret maritime Martinique' },
+            { icon: ClipboardCheck, step: '4', title: 'Devis', desc: 'Proposition selon options disponibles' },
+            { icon: Truck, step: '5', title: 'Livraison', desc: 'Transport confirmé avant validation' },
           ].map((item, i) => {
             const Icon = item.icon;
             return (
@@ -448,7 +269,7 @@ export function HomePage() {
           <MessageCircle size={40} style={{ marginBottom: 10 }} />
           <h2 style={{ color: 'white', margin: '0 0 6px', fontSize: 24 }}>Besoin d'un devis ?</h2>
           <p style={{ color: 'rgba(255,255,255,0.85)', maxWidth: 450, margin: '0 auto 20px', fontSize: 14 }}>
-            Reponse sous 24h. Devis gratuit. Parrainage : 15€ offerts des la 1ere commande.
+            Échange commercial via WhatsApp ou email. Prix, disponibilité, transport et conditions sont confirmés au devis.
           </p>
           <form onSubmit={handleSubmit} style={{ display: 'flex', gap: 10, maxWidth: 450, margin: '0 auto', flexWrap: 'wrap', justifyContent: 'center' }}>
             <input type="email" placeholder="Votre email" value={email} onChange={e => setEmail(e.target.value)} required style={{
@@ -475,9 +296,6 @@ export function HomePage() {
         </Link>
         <Link to="/legal" className="btn btnSecondary" style={{ padding: '10px 20px', borderRadius: 12, fontWeight: 800, fontSize: 13 }}>
           <Calculator size={16} /> Prix DOM
-        </Link>
-        <Link to="/dropshipping" className="btn btnSecondary" style={{ padding: '10px 20px', borderRadius: 12, fontWeight: 800, fontSize: 13 }}>
-          <TrendingUp size={16} /> Dropshipping
         </Link>
       </div>
 
