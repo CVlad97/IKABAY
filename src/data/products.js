@@ -1,5 +1,5 @@
-// Ikabay Sourcing — Produits sourcing nautique (Projet Joël Dufeal)
-// Prix réels vérifiés sur sites fournisseurs — Juillet 2026
+// Ikabay Sourcing — Catalogue produits nautiques
+// Références indicatives : prix et disponibilité à reconfirmer avant devis.
 
 export const categories = [
   { id: 'securite', name: 'Sécurité', icon: 'Shield' },
