@@ -38,6 +38,7 @@ jobs:
 
       - name: Prepare GitHub Pages artifact
         run: |
+          rm -rf dist/presentation
           printf 'ikabay.store\n' > dist/CNAME
           grep -q 'src="./assets/' dist/index.html
           grep -q 'href="./assets/' dist/index.html
