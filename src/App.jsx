@@ -33,19 +33,11 @@ function Layout({ children }) {
     { to: '/catalogue', label: 'Catalogue' },
     { to: '/destockage', label: 'Déstockage' },
     { to: '/sourcing', label: 'Sourcing' },
-    { to: '/dossier-joel-dufeal', label: 'Dossier client' },
-    { to: '/devis', label: 'Devis' },
-    { to: '/fournisseurs', label: 'Fournisseurs' },
-    { to: '/partenaires', label: 'Devenir partenaire' },
-    { to: '/rfq', label: 'RFQ' },
+    { to: '/devis', label: 'Demander un devis' },
     { to: '/transport', label: 'Transport' },
-    { to: '/dropshipping', label: 'Dropshipping' },
-    { to: '/whatsapp', label: 'WhatsApp' },
-    { to: '/suivi-fournisseurs', label: 'Suivi' },
-    { to: '/admin', label: 'Admin' },
+    { to: '/partenaires', label: 'Partenaires' },
     { to: '/contact', label: 'Contact' },
-    { to: '/legal', label: 'Fiscalité' },
-    { to: '/presentation', label: 'Présentation' },
+    { to: '/legal', label: 'Infos & fiscalité' },
   ];
 
   return (
@@ -54,7 +46,7 @@ function Layout({ children }) {
         <div className="navInner">
           <Link to="/" className="logo" onClick={() => setMenuOpen(false)}>
             <Ship size={28} />
-            <span>Ikabay Sourcing</span>
+            <span>IKABAY</span>
           </Link>
 
           <button
@@ -149,6 +141,7 @@ export { Layout };
 
 export default function App() {
   const basename = import.meta.env.BASE_URL && import.meta.env.BASE_URL !== '/' ? import.meta.env.BASE_URL : undefined;
+  const internalPagesEnabled = import.meta.env.VITE_ENABLE_INTERNAL_PAGES === 'true';
   return (
     <BrowserRouter basename={basename}>
       <Layout>
@@ -160,20 +153,20 @@ export default function App() {
             <Route path="/commande-confirmee" element={<OrderConfirmPage />} />
             <Route path="/destockage" element={<DestockagePage />} />
             <Route path="/sourcing" element={<SourcingPage />} />
-            <Route path="/dossier-joel-dufeal" element={<DossierJoelPage />} />
-            <Route path="/dossier-jules-defel" element={<DossierJoelPage />} />
-            <Route path="/fournisseurs" element={<FournisseursPage />} />
+            {internalPagesEnabled && (<Route path="/dossier-joel-dufeal" element={<DossierJoelPage />} />)}
+            {internalPagesEnabled && (<Route path="/dossier-jules-defel" element={<DossierJoelPage />} />)}
+            {internalPagesEnabled && (<Route path="/fournisseurs" element={<FournisseursPage />} />)}
             <Route path="/partenaires" element={<PartnersPage />} />
             <Route path="/devis" element={<DevisPage />} />
-            <Route path="/rfq" element={<RfqPage />} />
+            {internalPagesEnabled && (<Route path="/rfq" element={<RfqPage />} />)}
             <Route path="/transport" element={<TransportPage />} />
-            <Route path="/dropshipping" element={<DropshippingPage />} />
-            <Route path="/whatsapp" element={<WhatsAppPage />} />
-            <Route path="/suivi-fournisseurs" element={<SuiviFournisseursPage />} />
+            {internalPagesEnabled && (<Route path="/dropshipping" element={<DropshippingPage />} />)}
+            {internalPagesEnabled && (<Route path="/whatsapp" element={<WhatsAppPage />} />)}
+            {internalPagesEnabled && (<Route path="/suivi-fournisseurs" element={<SuiviFournisseursPage />} />)}
             <Route path="/contact" element={<ContactPage />} />
-            <Route path="/admin" element={<AdminPage />} />
+            {internalPagesEnabled && (<Route path="/admin" element={<AdminPage />} />)}
             <Route path="/legal" element={<LegalPage />} />
-            <Route path="/presentation" element={<PresentationPage />} />
+            {internalPagesEnabled && (<Route path="/presentation" element={<PresentationPage />} />)}
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Suspense>
