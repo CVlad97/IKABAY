@@ -28,8 +28,8 @@ export function OrderConfirmPage() {
   }, []);
 
   const displayOrder = order || {
-    id: orderId || 'CMD-' + Date.now().toString(36).toUpperCase(),
-    product_name: product || 'Produit commandé',
+    id: orderId || 'DEM-' + Date.now().toString(36).toUpperCase(),
+    product_name: product || 'Produit demandé',
     quantity: parseInt(qty) || 1,
     price: parseFloat(price) || 0,
     date: new Date().toLocaleDateString('fr-FR', {
@@ -54,7 +54,7 @@ export function OrderConfirmPage() {
           fontSize: 14, fontWeight: 800, marginBottom: 20
         }}>
           <CheckCircle size={18} />
-          Confirmation
+          Demande reçue
         </div>
 
         {/* Icon */}
@@ -68,10 +68,10 @@ export function OrderConfirmPage() {
         </div>
 
         <h1 style={{ fontSize: 'clamp(24px, 4vw, 32px)', color: '#0a4a5c', margin: '0 0 8px' }}>
-          Commande confirmée !
+          Votre demande a bien été transmise
         </h1>
         <p style={{ color: '#60716f', fontSize: 16, margin: '0 0 24px' }}>
-          Merci pour votre commande. Nous vous confirmons sous 24h par WhatsApp ou email.
+          Aucun paiement n’a été effectué. IKABAY doit encore confirmer disponibilité, prix final, transport et conditions avant toute commande.
         </p>
 
         {/* Order number */}
@@ -80,7 +80,7 @@ export function OrderConfirmPage() {
           marginBottom: 24, display: 'inline-block'
         }}>
           <span style={{ fontSize: 12, color: '#60716f', fontWeight: 600, display: 'block', marginBottom: 4 }}>
-            Numéro de commande
+            Référence de demande
           </span>
           <span style={{
             fontSize: 20, fontWeight: 900, color: '#0a4a5c',
@@ -101,7 +101,7 @@ export function OrderConfirmPage() {
             textTransform: 'uppercase', margin: '0 0 16px',
             display: 'flex', alignItems: 'center', gap: 6
           }}>
-            <ShoppingCart size={14} /> Résumé de la commande
+            <ShoppingCart size={14} /> Résumé de la demande
           </h4>
           <div style={{ display: 'grid', gap: 12 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14 }}>
@@ -133,7 +133,7 @@ export function OrderConfirmPage() {
         </div>
 
         {/* WhatsApp support button */}
-        <a href={waMessage(`Bonjour Ikabay, je suis ${displayOrder.client_name || ''} et j'ai passé commande (réf: ${displayOrder.id}). Suivi SVP.`)}
+        <a href={waMessage(`Bonjour IKABAY, je suis ${displayOrder.client_name || ''} et je souhaite poursuivre ma demande (réf: ${displayOrder.id}).`)}
           target="_blank" rel="noreferrer"
           style={{
             display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
@@ -141,7 +141,7 @@ export function OrderConfirmPage() {
             padding: '14px 28px', fontWeight: 800, fontSize: 16, cursor: 'pointer',
             textDecoration: 'none', width: '100%', marginBottom: 12
           }}>
-          <MessageCircle size={20} /> Suivi sur WhatsApp
+          <MessageCircle size={20} /> Continuer sur WhatsApp
         </a>
 
         {/* Back to catalogue */}
