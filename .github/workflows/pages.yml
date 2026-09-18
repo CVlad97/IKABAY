@@ -40,8 +40,8 @@ jobs:
         run: |
           rm -rf dist/presentation
           printf 'ikabay.store\n' > dist/CNAME
-          grep -q 'src="./assets/' dist/index.html
-          grep -q 'href="./assets/' dist/index.html
+          grep -q 'src="/assets/' dist/index.html
+          grep -q 'href="/assets/' dist/index.html
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
@@ -78,10 +78,12 @@ jobs:
           echo "Assets found:"
           printf "%s\n" "$assets"
           while IFS= read -r asset; do
-            asset="${asset#./}"
-            asset_path="$(printf "%s" "$asset" | sed "s#^\\./##")"
-            status="$(curl --silent --show-error --location --retry 3 --retry-all-errors -o /dev/null -w "%{http_code}" "$url/$asset_path" || true)"
-            echo "asset $asset_path -> $status"
+            case "$asset" in
+              /*) asset_url="$url$asset" ;;
+              *) asset_url="$url/${asset#./}" ;;
+            esac
+            status="$(curl --silent --show-error --location --retry 3 --retry-all-errors -o /dev/null -w "%{http_code}" "$asset_url" || true)"
+            echo "asset $asset_url -> $status"
             test "$status" -ge 200 2>/dev/null && test "$status" -lt 400
           done <<< "$assets"
           for route in / /catalogue /sourcing /partenaires /contact /transport /legal; do
