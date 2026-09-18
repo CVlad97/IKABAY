@@ -4,7 +4,7 @@
 export const VIRAL_FEATURES = {
   // ===== PARRAINAGE =====
   referral: {
-    enabled: true,
+    enabled: false,
     prime_parrain: 15,     // 15€ de réduction pour le parrain
     prime_filleul: 10,     // 10€ de réduction pour le filleul
     seuil_declenchement: 1, // Déclenché dès la 1ère commande du filleul
@@ -15,7 +15,7 @@ export const VIRAL_FEATURES = {
 
   // ===== POINTS FIDÉLITÉ =====
   loyalty: {
-    enabled: true,
+    enabled: false,
     nom: 'Ikabay Miles',
     points_par_euro: 1,         // 1 point par euro dépensé
     valeur_point_en_centimes: 5, // 1 point = 0,05€ de réduction
@@ -36,45 +36,33 @@ export const VIRAL_FEATURES = {
   guarantees: [
     {
       icon: '🎯',
-      title: 'Prix très compétitifs',
-      desc: 'Nous cherchons un positionnement tarifaire bas et transparent selon disponibilité et frais réels.',
-      promo: 'Positionnement prix étudié',
+      title: 'Prix étudié et transparent',
+      desc: 'Le prix, les frais identifiés et les hypothèses sont clarifiés avant validation du devis.',
+      promo: 'Sur devis',
     },
     {
       icon: '🚚',
-      title: 'Livraison express DOM',
-      desc: 'Expédition sous 24h. Livraison Martinique en 8-12 jours maritimes.',
-      promo: 'Gratuite dès 150€',
+      title: 'Livraison Martinique',
+      desc: 'Le mode de transport et le délai sont confirmés selon le fournisseur, le produit et la destination.',
+      promo: 'Délai à confirmer',
     },
     {
       icon: '💬',
-      title: 'Support WhatsApp 24/7',
-      desc: 'Un vrai commercial nautique à votre écoute. Réponse < 1h ouvrée.',
-      promo: 'Sans engagement',
+      title: 'Contact WhatsApp',
+      desc: 'Un canal direct est disponible pour les demandes de devis, de sourcing et de suivi.',
+      promo: 'Contact direct',
     },
     {
-      icon: '💳',
-      title: 'Paiement 3x ou 4x sans frais',
-      desc: 'Payez en plusieurs fois par carte bancaire. Dès 100€ d\'achat.',
-      promo: 'Dès 100€',
-    },
-    {
-      icon: '🛡️',
-      title: 'Garantie conformité 2 ans',
-      desc: 'Tous nos produits sont garantis conformes aux normes CE et marine.',
-      promo: 'Art. L217-4 C. conso.',
-    },
-    {
-      icon: '⚡',
-      title: 'Sourcing express 24h',
-      desc: 'Urgent ? Trouvé en 24h avec notre réseau de 42 fournisseurs vérifiés.',
-      promo: 'Devis gratuit',
+      icon: '⚓',
+      title: 'Sourcing nautique',
+      desc: 'Recherche multi-fournisseurs avec références et liens quand ils sont disponibles et vérifiés.',
+      promo: 'Demande gratuite',
     },
   ],
 
   // ===== PARTAGE SOCIAL =====
   sharing: {
-    message_whatsapp: '🚢 Ikabay Sourcing — Équipement nautique pour la Caraïbe !\n\nJe viens de découvrir cette plateforme incroyable pour le sourcing nautique. Prix imbattables, livraison Martinique, support WhatsApp.\n\n👉 https://ikabay.store\n\nUtilise mon code PARRAINAGE pour -10€ sur ta première commande :',
+    message_whatsapp: '🚢 Ikabay Sourcing — Équipement nautique pour la Caraïbe !\n\nJe viens de découvrir IKABAY pour le sourcing nautique : catalogue, demandes de devis et livraison Martinique selon disponibilité.\n\n👉 https://ikabay.store',
     message_email: "Découvrez Ikabay Sourcing — le sourcing nautique pour la Caraïbe. Prix compétitifs, fournisseurs vérifiés, livraison Martinique.",
   },
 };
