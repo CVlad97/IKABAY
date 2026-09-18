@@ -100,7 +100,7 @@ export function HomePage() {
 
       {/* ─── DOM-TOM COMMERCIAL BANNER ─── */}
       <div style={{ background: 'linear-gradient(90deg, #0b2b3c 0%, #1a7a7d 60%, #e8774e 100%)', color: '#fff', padding: '10px 20px', textAlign: 'center', fontSize: 13, fontWeight: 700, letterSpacing: 0.4, borderRadius: 12, marginBottom: 18, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, flexWrap: 'wrap' }}>
-        <span>📍 Martinique 97200 — Livraison rendue</span>
+        <span>📍 Martinique — Livraison sur devis</span>
         <span style={{ opacity: 0.7 }}>|</span>
         <span>Fiscalité et frais réels selon produit et destination — à confirmer</span>
         <span style={{ opacity: 0.7 }}>|</span>
