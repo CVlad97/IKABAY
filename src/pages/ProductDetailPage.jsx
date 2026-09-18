@@ -119,7 +119,7 @@ export function ProductDetailPage() {
   const category = categories.find(c => c.id === product.category);
 
   const handleWhatsAppOrder = (supplier) => {
-    const msg = `Bonjour ${supplier.name},\n\nJe suis Ikabay Sourcing. Je souhaite commander :\n\n*${product.nameFr}*\nRéf: ${product.id}\nQuantité: ${product.unit}\nPrix: ${supplier.price}\n\nMerci de confirmer disponibilité et délai.\n\nIkabay Sourcing`;
+    const msg = `Bonjour IKABAY, je souhaite commander :\n\n*${product.nameFr}*\nRéf: ${product.id}\nOffre fournisseur repérée : ${supplier.name} — ${supplier.price}\n\nMerci de me confirmer la disponibilité, le prix final et le délai.`;
     window.location.assign(waMessage(msg));
   };
 
@@ -378,7 +378,7 @@ export function ProductDetailPage() {
                   Demande enregistrée !
                 </h3>
                 <p style={{ color: '#435956', fontSize: 15, margin: '0 0 6px' }}>
-                  Nous vous confirmons sous 24h.
+                  Nous revenons vers vous après vérification de la disponibilité et du prix final.
                 </p>
                 <p style={{ color: '#60716f', fontSize: 13, margin: '0 0 20px' }}>
                   Réf: <strong>{orderNumber}</strong>
