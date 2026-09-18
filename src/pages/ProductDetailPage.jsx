@@ -51,11 +51,6 @@ export function ProductDetailPage() {
     setOrderError('');
 
     try {
-      if (!hasSupabaseConfig || !supabase) {
-        setOrderError('Le service de commande n’est pas encore configuré. Utilisez WhatsApp pour finaliser votre demande.');
-        return;
-      }
-
       const quantity = Math.max(1, parseInt(orderForm.quantity, 10) || 1);
       const orderNumberLocal = `CMD-${Date.now().toString(36).toUpperCase()}`;
       const leadPayload = {
@@ -67,8 +62,14 @@ export function ProductDetailPage() {
         privacy_consent: true,
         metadata: { product_id: product.id, quantity, delivery_mode: orderForm.deliveryMode },
       };
-      const { error } = await supabase.from('leads').insert(leadPayload);
-      if (error) throw error;
+      if (hasSupabaseConfig && supabase) {
+        try {
+          const { error } = await supabase.from('leads').insert(leadPayload);
+          if (error) console.warn('Enregistrement Supabase indisponible :', error.message);
+        } catch (dbError) {
+          console.warn('Enregistrement Supabase indisponible :', dbError);
+        }
+      }
 
       const num = orderNumberLocal;
       setOrderNumber(num);
@@ -248,7 +249,7 @@ export function ProductDetailPage() {
                 padding: '12px 24px', fontWeight: 800, fontSize: 15, cursor: 'pointer',
                 textDecoration: 'none', boxShadow: '0 8px 24px rgba(234,88,12,0.3)'
               }}>
-              <Send size={18} /> Commander maintenant
+              <Send size={18} /> Demander la commande
             </button>
             <a href={waMessage(`Bonjour Ikabay, je suis intéressé par ${product.nameFr} (${product.id}).`)}
               target="_blank" rel="noreferrer"
@@ -320,7 +321,7 @@ export function ProductDetailPage() {
                     border: 0, borderRadius: 12,
                     padding: '10px', fontWeight: 700, fontSize: 13, cursor: 'pointer'
                   }}>
-                  <MessageCircle size={15} /> Commander via WhatsApp
+                  <MessageCircle size={15} /> Demander via WhatsApp
                 </button>
               </div>
             );
@@ -375,15 +376,15 @@ export function ProductDetailPage() {
                   <Check size={32} color="#16a34a" />
                 </div>
                 <h3 style={{ margin: '0 0 8px', color: '#16a34a', fontSize: 22 }}>
-                  Demande enregistrée !
+                  Demande préparée
                 </h3>
                 <p style={{ color: '#435956', fontSize: 15, margin: '0 0 6px' }}>
-                  Nous revenons vers vous après vérification de la disponibilité et du prix final.
+                  Finalisez la transmission via WhatsApp. IKABAY confirme ensuite disponibilité, prix final et délai.
                 </p>
                 <p style={{ color: '#60716f', fontSize: 13, margin: '0 0 20px' }}>
                   Réf: <strong>{orderNumber}</strong>
                 </p>
-                <a href={waMessage(`Bonjour Ikabay, je viens de commander ${product.nameFr} (réf: ${orderNumber}). Suivi de commande SVP.`)}
+                <a href={waMessage(`Bonjour Ikabay, je souhaite finaliser ma demande pour ${product.nameFr} (réf: ${orderNumber}). Suivi de commande SVP.`)}
                   target="_blank" rel="noreferrer"
                   style={{
                     display: 'inline-flex', alignItems: 'center', gap: 8,
@@ -398,7 +399,7 @@ export function ProductDetailPage() {
               /* ─── FORM STATE ─── */
               <>
                 <h3 style={{ margin: '0 0 4px', color: '#0a4a5c', fontSize: 22 }}>
-                  Commander
+                  Demander la commande
                 </h3>
                 <p style={{ color: '#60716f', fontSize: 14, margin: '0 0 20px' }}>
                   {product.nameFr} — {product.price > 0 ? `${product.price} €` : 'Sur devis'}
@@ -469,7 +470,7 @@ export function ProductDetailPage() {
                       opacity: orderSubmitting ? 0.7 : 1, marginTop: 4
                     }}>
                     {orderSubmitting ? <Loader size={20} className="loadingSpin" /> : <Send size={20} />}
-                    {orderSubmitting ? 'Envoi en cours…' : 'Confirmer la commande'}
+                    {orderSubmitting ? 'Envoi en cours…' : 'Envoyer la demande'}
                   </button>
                 </form>
               </>

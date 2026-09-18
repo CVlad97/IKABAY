@@ -9,7 +9,7 @@ import { supabase, hasSupabaseConfig } from '../lib/supabase';
 const faqs = [
   {
     q: 'Comment fonctionne le sourcing Ikabay ?',
-    a: 'Vous nous décrivez votre besoin via le formulaire ou WhatsApp. Notre équipe mobilise son réseau de fournisseurs vérifiés pour trouver le produit idéal. Vous recevez jusqu\'à 3 devis comparés sous 48 à 72h ouvrées.',
+    a: 'Vous nous décrivez votre besoin via le formulaire ou WhatsApp. IKABAY recherche auprès de fournisseurs adaptés et vous transmet les options disponibles selon leurs retours.',
   },
   {
     q: 'Quels types de produits pouvez-vous sourcer ?',
@@ -21,15 +21,15 @@ const faqs = [
   },
   {
     q: 'Y a-t-il des frais pour une demande de sourcing ?',
-    a: 'La demande de sourcing et les devis sont totalement gratuits. Vous ne payez qu\'au moment de valider votre commande. Aucun engagement, aucun frais caché.',
+    a: 'La demande de sourcing et l’étude initiale sont sans engagement. Les prix, frais et conditions applicables sont précisés avant validation.',
   },
   {
     q: 'Livrez-vous dans toute la Caraïbe ?',
-    a: 'Oui ! Nous couvrons la Martinique, la Guadeloupe, la Guyane, Saint-Martin, Saint-Barthélemy et les autres îles de la Caraïbe. Transport maritime, aérien ou point relais selon votre besoin.',
+    a: 'Nous étudions les livraisons vers la Martinique et d’autres destinations caribéennes selon le produit, le fournisseur et le transporteur. La faisabilité est confirmée au devis.',
   },
   {
     q: 'Puis-je suivre l\'avancement de ma demande ?',
-    a: 'Absolument. Chaque dossier reçoit un identifiant unique et vous pouvez suivre son évolution à tout moment via votre espace dédié ou directement par WhatsApp avec votre chargé de suivi.',
+    a: 'Le suivi est actuellement assuré principalement par WhatsApp et email. Une référence de demande peut être utilisée pour faciliter les échanges.',
   },
 ];
 

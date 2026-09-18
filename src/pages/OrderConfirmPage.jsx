@@ -68,7 +68,7 @@ export function OrderConfirmPage() {
         </div>
 
         <h1 style={{ fontSize: 'clamp(24px, 4vw, 32px)', color: '#0a4a5c', margin: '0 0 8px' }}>
-          Commande confirmée !
+          Demande de commande créée
         </h1>
         <p style={{ color: '#60716f', fontSize: 16, margin: '0 0 24px' }}>
           Merci pour votre demande. IKABAY confirme disponibilité, prix final et délai avant validation définitive.
@@ -80,7 +80,7 @@ export function OrderConfirmPage() {
           marginBottom: 24, display: 'inline-block'
         }}>
           <span style={{ fontSize: 12, color: '#60716f', fontWeight: 600, display: 'block', marginBottom: 4 }}>
-            Numéro de commande
+            Référence de demande
           </span>
           <span style={{
             fontSize: 20, fontWeight: 900, color: '#0a4a5c',
@@ -101,7 +101,7 @@ export function OrderConfirmPage() {
             textTransform: 'uppercase', margin: '0 0 16px',
             display: 'flex', alignItems: 'center', gap: 6
           }}>
-            <ShoppingCart size={14} /> Résumé de la commande
+            <ShoppingCart size={14} /> Résumé de la demande
           </h4>
           <div style={{ display: 'grid', gap: 12 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14 }}>
@@ -133,7 +133,7 @@ export function OrderConfirmPage() {
         </div>
 
         {/* WhatsApp support button */}
-        <a href={waMessage(`Bonjour Ikabay, je suis ${displayOrder.client_name || ''} et j'ai passé commande (réf: ${displayOrder.id}). Suivi SVP.`)}
+        <a href={waMessage(`Bonjour Ikabay, je suis ${displayOrder.client_name || ''} et j'ai créé une demande de commande (réf: ${displayOrder.id}). Suivi SVP.`)}
           target="_blank" rel="noreferrer"
           style={{
             display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
