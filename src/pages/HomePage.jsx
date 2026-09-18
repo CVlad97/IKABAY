@@ -226,7 +226,7 @@ export function HomePage() {
 
       {/* ─── GUARANTEES ─── */}
       <div className="sectionTitle">
-        <h2>Nos garanties</h2>
+        <h2>Nos engagements de service</h2>
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 12, marginBottom: 32 }}>
         {VIRAL_FEATURES.guarantees.map((g, i) => (
@@ -406,7 +406,7 @@ export function HomePage() {
           <MessageCircle size={40} style={{ marginBottom: 10 }} />
           <h2 style={{ color: 'white', margin: '0 0 6px', fontSize: 24 }}>Besoin d'un devis ?</h2>
           <p style={{ color: 'rgba(255,255,255,0.85)', maxWidth: 450, margin: '0 auto 20px', fontSize: 14 }}>
-            Reponse sous 24h. Devis gratuit. Parrainage : 15€ offerts des la 1ere commande.
+            Demande de devis gratuite. Réponse selon la complexité du besoin et la disponibilité fournisseur.
           </p>
           <form onSubmit={handleSubmit} style={{ display: 'flex', gap: 10, maxWidth: 450, margin: '0 auto', flexWrap: 'wrap', justifyContent: 'center' }}>
             <input type="email" placeholder="Votre email" value={email} onChange={e => setEmail(e.target.value)} required style={{

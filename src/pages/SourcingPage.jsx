@@ -129,7 +129,7 @@ export function SourcingPage() {
         <h1 style={{ fontSize: 'clamp(36px, 7vw, 68px)' }}>Sourcing<br />Opérationnel</h1>
         <p style={{ maxWidth: 620, margin: '12px auto 0', fontSize: 'clamp(16px, 2vw, 19px)' }}>
           Vous avez un besoin spécifique ? Notre équipe mobilise son réseau de partenaires vérifiés
-          pour trouver le produit idéal au meilleur prix, livré en Martinique ou dans la Caraïbe.
+          pour trouver une solution adaptée au besoin, avec prix et transport clarifiés avant validation.
         </p>
       </div>
 
@@ -384,18 +384,18 @@ export function SourcingPage() {
             />
           </div>
 
-          {/* File upload placeholder */}
+          {/* Pièces jointes via WhatsApp */}
           <div style={{
             marginBottom: 18, padding: 20, borderRadius: 14,
             border: '2px dashed rgba(15,118,110,0.3)', background: 'rgba(231,251,247,0.4)',
-            textAlign: 'center', cursor: 'pointer'
+            textAlign: 'center', cursor: 'default'
           }}>
             <Upload size={28} color="#0f766e" style={{ marginBottom: 6 }} />
             <p style={{ margin: 0, fontWeight: 700, color: '#0f766e', fontSize: 14 }}>
-              Ajouter un fichier (devis, photo, cahier des charges...)
+              Pièces jointes (devis, photo, cahier des charges)
             </p>
             <p style={{ margin: '4px 0 0', fontSize: 12, color: '#60716f' }}>
-              Format accepté : PDF, JPG, PNG — max 10 Mo
+              Après l’envoi du formulaire, joignez vos fichiers dans la conversation WhatsApp ouverte automatiquement.
             </p>
           </div>
 
@@ -410,7 +410,7 @@ export function SourcingPage() {
                 fontWeight: 700, fontSize: 14
               }}>
                 <CheckCircle size={20} />
-                Demande envoyée ! Nous vous répondrons sous 24h.
+                Demande transmise. Nous revenons vers vous après analyse.
               </div>
             )}
 
@@ -458,10 +458,10 @@ export function SourcingPage() {
       {/* ─── KANBAN VIEW ─── */}
       <div style={{ marginBottom: 36 }}>
         <h2 style={{ fontSize: 'clamp(22px, 3.5vw, 32px)', marginBottom: 18 }}>
-          Suivi de vos dossiers
+          Étapes de traitement
         </h2>
         <p style={{ color: '#516866', fontSize: 15, marginBottom: 16 }}>
-          Visualisez l'état d'avancement de vos demandes de sourcing en temps réel.
+          Voici les étapes habituelles de traitement d’une demande de sourcing.
         </p>
         <div style={{
           display: 'grid',
@@ -498,7 +498,7 @@ export function SourcingPage() {
                 background: '#f4f7f5', borderRadius: 999, padding: '3px 8px',
                 display: 'inline-block'
               }}>
-                0 dossier
+                Processus
               </div>
             </div>
           ))}
@@ -511,10 +511,10 @@ export function SourcingPage() {
         borderRadius: 30, padding: '36px 28px', textAlign: 'center', color: 'white'
       }}>
         <h2 style={{ color: 'white', fontSize: 'clamp(24px, 4vw, 36px)', margin: '0 0 10px' }}>
-          Une question immédiate ?
+          Une question ?
         </h2>
         <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: 17, maxWidth: 500, margin: '0 auto 22px' }}>
-          Notre équipe est disponible 7j/7 par WhatsApp pour répondre à toutes vos demandes.
+          Contactez IKABAY directement sur WhatsApp pour compléter votre demande ou transmettre une pièce jointe.
         </p>
         <a
           href={WHATSAPP_URL}

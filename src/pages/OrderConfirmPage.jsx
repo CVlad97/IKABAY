@@ -71,7 +71,7 @@ export function OrderConfirmPage() {
           Commande confirmée !
         </h1>
         <p style={{ color: '#60716f', fontSize: 16, margin: '0 0 24px' }}>
-          Merci pour votre commande. Nous vous confirmons sous 24h par WhatsApp ou email.
+          Merci pour votre demande. IKABAY confirme disponibilité, prix final et délai avant validation définitive.
         </p>
 
         {/* Order number */}

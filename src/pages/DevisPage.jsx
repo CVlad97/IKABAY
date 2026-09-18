@@ -156,7 +156,7 @@ Contact : ${form.nom} - ${form.email} - ${form.telephone}`;
           <CheckCircle size={64} color="#16a34a" style={{ marginBottom: 16 }} />
           <h2 style={{ margin: '0 0 8px', color: '#1a2e2b' }}>Demande envoyee !</h2>
           <p style={{ fontSize: 14, color: '#60716f', marginBottom: 24 }}>
-            Votre demande de devis a ete transmise a notre equipe. Vous recevrez une reponse sous 24h sur WhatsApp.
+            Votre demande de devis a ete transmise. Nous revenons vers vous sur WhatsApp apres analyse.
           </p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link to="/catalogue" className="btn btnPrimary" style={{ padding: '12px 24px', borderRadius: 10, fontWeight: 700, textDecoration: 'none' }}>
@@ -175,7 +175,7 @@ Contact : ${form.nom} - ${form.email} - ${form.telephone}`;
         <div>
           <strong style={{ color: '#1a2e2b', fontSize: 14 }}>Delai de traitement</strong>
           <p style={{ fontSize: 13, color: '#60716f', margin: '4px 0 0' }}>
-            Notre equipe vous repond sous 24h avec jusqua 3 propositions comparees. 
+            Notre equipe compare les options disponibles et vous transmet les propositions pertinentes selon les retours fournisseurs. 
             Le sourcing complet prend 48-72h pour les produits standards.
           </p>
         </div>

@@ -17,7 +17,7 @@ const faqs = [
   },
   {
     q: 'Quels sont les délais de traitement ?',
-    a: 'Une demande standard est qualifiée sous 24h. Les premiers devis arrivent sous 48-72h ouvrées. Pour les urgences, notre option "Sourcing express" garantit une réponse en 24h.',
+    a: 'Le délai dépend de la complexité du besoin et du retour des fournisseurs. Pour une demande urgente, indiquez clairement votre échéance afin que nous puissions prioriser l’analyse.',
   },
   {
     q: 'Y a-t-il des frais pour une demande de sourcing ?',
@@ -89,7 +89,7 @@ export function ContactPage() {
       <div style={{ marginBottom: 32 }}>
         <div className="badge" style={{ marginBottom: 12 }}>Contact</div>
         <h1>Contactez-nous</h1>
-        <p>Une question, un projet ? Notre équipe vous répond sous 24h ouvrées.</p>
+        <p>Une question, un projet ? Envoyez votre demande et nous revenons vers vous après analyse.</p>
       </div>
 
       <div style={{
@@ -217,7 +217,7 @@ export function ContactPage() {
                   fontWeight: 700, fontSize: 14
                 }}>
                   <CheckCircle size={20} />
-                  Message envoyé ! Nous vous répondrons sous 24h.
+                  Message enregistré. Nous revenons vers vous dès que possible.
                 </div>
               )}
               {error && (
