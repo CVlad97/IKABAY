@@ -11,10 +11,10 @@ import { Link } from 'react-router-dom';
 import { VIRAL_FEATURES, calculatePoints, pointsToEUR, getLoyaltyTier } from '../data/viral';
 
 const stats = [
-  { icon: Store, value: '8', label: 'Fournisseurs verifies', detail: 'Europe + Asie' },
-  { icon: Package, value: '150+', label: 'Produits au catalogue', detail: 'Nautique & industriel' },
-  { icon: Truck, value: '12', label: 'Jours delai moyen', detail: 'Via fret maritime' },
-  { icon: MessageCircle, value: '24/7', label: 'Support WhatsApp', detail: 'Reponse immediate' },
+  { icon: Store, value: 'Multi-source', label: 'Fournisseurs référencés', detail: 'Europe + international' },
+  { icon: Package, value: 'Catalogue', label: 'Produits référencés', detail: 'Fiches consultables' },
+  { icon: Truck, value: 'Sur devis', label: 'Délais transport', detail: 'Selon origine et destination' },
+  { icon: MessageCircle, value: 'Direct', label: 'Contact WhatsApp', detail: 'Réponse selon disponibilité' },
 ];
 
 const suppliers = [
@@ -100,7 +100,7 @@ export function HomePage() {
 
       {/* ─── DOM-TOM COMMERCIAL BANNER ─── */}
       <div style={{ background: 'linear-gradient(90deg, #0b2b3c 0%, #1a7a7d 60%, #e8774e 100%)', color: '#fff', padding: '10px 20px', textAlign: 'center', fontSize: 13, fontWeight: 700, letterSpacing: 0.4, borderRadius: 12, marginBottom: 18, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, flexWrap: 'wrap' }}>
-        <span>📍 Martinique 97200 — Livraison rendue</span>
+        <span>📍 Martinique — Livraison sur devis</span>
         <span style={{ opacity: 0.7 }}>|</span>
         <span>Fiscalité et frais réels selon produit et destination — à confirmer</span>
         <span style={{ opacity: 0.7 }}>|</span>
@@ -108,7 +108,7 @@ export function HomePage() {
       </div>
 
       {/* ─── REFERRAL BANNER ─── */}
-      <div style={{
+      {VIRAL_FEATURES.referral.enabled && <div style={{
         background: 'linear-gradient(135deg, #f59e0b 0%, #f97316 100%)',
         borderRadius: 16, padding: '16px 24px', marginBottom: 24,
         display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap',
@@ -128,7 +128,7 @@ export function HomePage() {
         }}>
           <Copy size={16} /> {copied ? 'Copie !' : 'Obtenir mon code'}
         </button>
-      </div>
+      </div>}
 
       {/* ─── HERO SECTION ─── */}
       <div style={{
@@ -147,14 +147,14 @@ export function HomePage() {
             padding: '8px 16px', borderRadius: 20, fontSize: 13, fontWeight: 700, marginBottom: 16,
             color: 'white', border: '1px solid rgba(255,255,255,0.2)'
           }}>
-            <Sparkles size={14} /> Fournisseurs vérifiés • Livraison Martinique • Prix DOM
+            <Sparkles size={14} /> Sourcing multi-fournisseurs • Livraison Martinique sur devis • Frais clarifiés
           </div>
           <h1 style={{ color: 'white', fontSize: 42, fontWeight: 900, margin: '0 0 12px', lineHeight: 1.1 }}>
             Sourcing nautique<br />pour la Caraibe
           </h1>
           <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: 16, lineHeight: 1.6, marginBottom: 24, maxWidth: 500 }}>
             Trouvez, comparez et commandez vos equipements nautiques avec un prix étudié et transparent. 
-            Fournisseurs Europe et Asie verifies, livraison Martinique, frais réels clarifiés.
+            Sourcing Europe et international, livraison Martinique sur devis, frais réels clarifiés avant validation.
           </p>
           <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
             <Link to="/catalogue" style={{
@@ -178,7 +178,7 @@ export function HomePage() {
       </div>
 
       {/* ─── LOYALTY POINTS STRIP ─── */}
-      <div style={{
+      {VIRAL_FEATURES.loyalty.enabled && <div style={{
         background: 'white', borderRadius: 16, padding: 20, marginBottom: 32,
         display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'center',
         boxShadow: '0 4px 20px rgba(0,0,0,0.06)',
@@ -201,7 +201,7 @@ export function HomePage() {
             </div>
           ))}
         </div>
-      </div>
+      </div>}
 
       {/* ─── STATS ─── */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 12, marginBottom: 32 }}>
@@ -222,48 +222,6 @@ export function HomePage() {
             </div>
           );
         })}
-      </div>
-
-      {/* ─── VS CONCURRENCE ─── */}
-      <div style={{ background: 'white', borderRadius: 20, padding: 28, marginBottom: 32, boxShadow: '0 4px 24px rgba(0,0,0,0.06)' }}>
-        <h2 style={{ margin: '0 0 16px', display: 'flex', alignItems: 'center', gap: 8 }}>
-          <Zap size={22} color="#f59e0b" /> Pourquoi nous vs la concurrence ?
-        </h2>
-        <div style={{ overflowX: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13, minWidth: 500 }}>
-            <thead>
-              <tr style={{ background: '#0f766e', color: 'white' }}>
-                <th style={{ padding: '10px 14px', textAlign: 'left' }}>Critere</th>
-                <th style={{ padding: '10px 14px', textAlign: 'center', background: '#0d9488' }}>🔥 IKABAY</th>
-                <th style={{ padding: '10px 14px', textAlign: 'center' }}>AutoDS</th>
-                <th style={{ padding: '10px 14px', textAlign: 'center' }}>Nautech</th>
-                <th style={{ padding: '10px 14px', textAlign: 'center' }}>Amazon</th>
-              </tr>
-            </thead>
-            <tbody>
-              {[
-                ['Fiscalité DOM', '✅ Applique', '❌', '✅', '❌'],
-                ['Support WhatsApp 24/7', '✅ Gratuit', '❌ Payant', '❌', '❌'],
-                ['Sourcing express 24h', '✅ Inclus', '❌', '❌', '❌'],
-                ['Parrainage 15€/10€', '✅ Oui', '❌ Non', '❌ Non', '✅ Partiel'],
-                ['Points fidelite', '✅ Ikabay Miles', '❌ Non', '❌ Non', '❌ Non'],
-                ['Prix étudié et transparent', '✅ À confirmer', '❌', '❌', '✅ Partiel'],
-                ['Paiement 3x/4x sans frais', '✅ Oui', '❌', '❌', '✅ Oui'],
-                ['Livraison Martinique pro', '✅ 8-12j', '❌ 15-25j', '✅ 10-15j', '❌ 20-30j'],
-                ['Frais caches', '✅ Aucun', '❌ 2% frais', '❌', '❌'],
-                ['Abonnement mensuel', '✅ 0€', '❌ 30€/mois', '❌ Sur devis', '✅ 0€'],
-              ].map((row, i) => (
-                <tr key={i} style={{ borderBottom: '1px solid #e8f0ee' }}>
-                  <td style={{ padding: '8px 14px', fontWeight: 600 }}>{row[0]}</td>
-                  <td style={{ padding: '8px 14px', textAlign: 'center', fontWeight: 700, color: '#16a34a', background: '#f0fdf4' }}>{row[1]}</td>
-                  <td style={{ padding: '8px 14px', textAlign: 'center', color: row[2].includes('✅') ? '#16a34a' : '#dc2626' }}>{row[2]}</td>
-                  <td style={{ padding: '8px 14px', textAlign: 'center', color: row[3].includes('✅') ? '#16a34a' : '#dc2626' }}>{row[3]}</td>
-                  <td style={{ padding: '8px 14px', textAlign: 'center', color: row[4].includes('✅') ? '#16a34a' : '#dc2626' }}>{row[4]}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
       </div>
 
       {/* ─── GUARANTEES ─── */}

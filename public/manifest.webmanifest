@@ -1,0 +1,19 @@
+{
+  "name": "IKABAY Sourcing",
+  "short_name": "IKABAY",
+  "description": "Sourcing, devis et logistique pour la Martinique et la Caraïbe.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#fff8ed",
+  "theme_color": "#0a4a5c",
+  "lang": "fr",
+  "icons": [
+    {
+      "src": "/app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
