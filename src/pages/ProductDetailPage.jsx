@@ -18,7 +18,7 @@ const CATEGORY_ICONS = {
 };
 
 const STATUS_STYLES = {
-  'disponible': { label: 'En stock', color: '#16a34a', bg: '#dcfce7' },
+  'disponible': { label: 'Disponible — à confirmer', color: '#16a34a', bg: '#dcfce7' },
   'sur-devis': { label: 'Sur devis', color: '#ea580c', bg: '#fff7ed' },
   'a-confirmer': { label: 'À confirmer', color: '#92400e', bg: '#fef3c7' },
 };
@@ -52,17 +52,18 @@ export function ProductDetailPage() {
 
     try {
       if (!hasSupabaseConfig || !supabase) {
-        setOrderError('Le service de commande n’est pas encore configuré. Utilisez WhatsApp pour finaliser votre demande.');
+        const fallback = `Bonjour IKABAY, je souhaite demander ${product.nameFr} (réf. ${product.id}), quantité ${Math.max(1, parseInt(orderForm.quantity, 10) || 1)}. Nom : ${orderForm.name}. Téléphone : ${orderForm.telephone}. Mode souhaité : ${orderForm.deliveryMode}.`;
+        window.location.assign(waMessage(fallback));
         return;
       }
 
       const quantity = Math.max(1, parseInt(orderForm.quantity, 10) || 1);
-      const orderNumberLocal = `CMD-${Date.now().toString(36).toUpperCase()}`;
+      const orderNumberLocal = `DEM-${Date.now().toString(36).toUpperCase()}`;
       const leadPayload = {
         full_name: orderForm.name.trim(),
         phone: orderForm.telephone.trim(),
-        subject: `Demande de commande — ${product.nameFr}`,
-        message: `Référence : ${product.id}\nQuantité : ${quantity}\nPrix indicatif : ${product.price || 0} €\nMode souhaité : ${orderForm.deliveryMode}`,
+        subject: `Demande produit — ${product.nameFr}`,
+        message: `Référence : ${product.id}\nQuantité : ${quantity}\nPrix affiché indicatif : ${product.price || 0} €\nMode souhaité : ${orderForm.deliveryMode}\nÀ confirmer avant toute commande ou paiement.`,
         source: 'catalogue-web',
         privacy_consent: true,
         metadata: { product_id: product.id, quantity, delivery_mode: orderForm.deliveryMode },
@@ -97,8 +98,9 @@ export function ProductDetailPage() {
         navigate(`/commande-confirmee?id=${num}&product=${encodeURIComponent(product.nameFr)}&qty=${quantity}&price=${product.price || 0}`);
       }, 2000);
     } catch (err) {
-      setOrderError('Erreur réseau. Veuillez réessayer ou nous contacter sur WhatsApp.');
       console.error(err);
+      const fallback = `Bonjour IKABAY, je souhaite demander ${product.nameFr} (réf. ${product.id}), quantité ${Math.max(1, parseInt(orderForm.quantity, 10) || 1)}. Nom : ${orderForm.name}. Téléphone : ${orderForm.telephone}. Mode souhaité : ${orderForm.deliveryMode}.`;
+      window.location.assign(waMessage(fallback));
     } finally {
       setOrderSubmitting(false);
     }
@@ -119,7 +121,7 @@ export function ProductDetailPage() {
   const category = categories.find(c => c.id === product.category);
 
   const handleWhatsAppOrder = (supplier) => {
-    const msg = `Bonjour ${supplier.name},\n\nJe suis Ikabay Sourcing. Je souhaite commander :\n\n*${product.nameFr}*\nRéf: ${product.id}\nQuantité: ${product.unit}\nPrix: ${supplier.price}\n\nMerci de confirmer disponibilité et délai.\n\nIkabay Sourcing`;
+    const msg = `Bonjour ${supplier.name},\n\nJe suis IKABAY. Je souhaite vérifier disponibilité et conditions pour :\n\n*${product.nameFr}*\nRéf: ${product.id}\nQuantité: ${product.unit}\nPrix: ${supplier.price}\n\nMerci de confirmer disponibilité et délai.\n\nIkabay Sourcing`;
     window.location.assign(waMessage(msg));
   };
 
@@ -208,7 +210,7 @@ export function ProductDetailPage() {
             background: 'linear-gradient(135deg, #0a4a5c, #0f766e)',
             borderRadius: 16, padding: '20px 24px', color: 'white'
           }}>
-            <div style={{ fontSize: 13, opacity: 0.85, fontWeight: 600 }}>Prix à partir de</div>
+            <div style={{ fontSize: 13, opacity: 0.85, fontWeight: 600 }}>Prix indicatif à partir de</div>
             <div style={{ fontSize: 36, fontWeight: 900, margin: '4px 0' }}>
               {product.price > 0 ? `${product.price} €` : 'Sur devis'}
             </div>
@@ -248,7 +250,7 @@ export function ProductDetailPage() {
                 padding: '12px 24px', fontWeight: 800, fontSize: 15, cursor: 'pointer',
                 textDecoration: 'none', boxShadow: '0 8px 24px rgba(234,88,12,0.3)'
               }}>
-              <Send size={18} /> Commander maintenant
+              <Send size={18} /> Demander maintenant
             </button>
             <a href={waMessage(`Bonjour Ikabay, je suis intéressé par ${product.nameFr} (${product.id}).`)}
               target="_blank" rel="noreferrer"
@@ -320,7 +322,7 @@ export function ProductDetailPage() {
                     border: 0, borderRadius: 12,
                     padding: '10px', fontWeight: 700, fontSize: 13, cursor: 'pointer'
                   }}>
-                  <MessageCircle size={15} /> Commander via WhatsApp
+                  <MessageCircle size={15} /> Demander via WhatsApp
                 </button>
               </div>
             );
@@ -375,10 +377,10 @@ export function ProductDetailPage() {
                   <Check size={32} color="#16a34a" />
                 </div>
                 <h3 style={{ margin: '0 0 8px', color: '#16a34a', fontSize: 22 }}>
-                  Demande enregistrée !
+                  Demande transmise !
                 </h3>
                 <p style={{ color: '#435956', fontSize: 15, margin: '0 0 6px' }}>
-                  Nous vous confirmons sous 24h.
+                  Nous vous recontactons pour confirmer disponibilité, prix, transport et conditions.
                 </p>
                 <p style={{ color: '#60716f', fontSize: 13, margin: '0 0 20px' }}>
                   Réf: <strong>{orderNumber}</strong>
@@ -391,14 +393,14 @@ export function ProductDetailPage() {
                     padding: '12px 24px', fontWeight: 800, fontSize: 15, cursor: 'pointer',
                     textDecoration: 'none'
                   }}>
-                  <MessageCircle size={18} /> Suivi WhatsApp
+                  <MessageCircle size={18} /> Continuer sur WhatsApp
                 </a>
               </div>
             ) : (
               /* ─── FORM STATE ─── */
               <>
                 <h3 style={{ margin: '0 0 4px', color: '#0a4a5c', fontSize: 22 }}>
-                  Commander
+                  Demander ce produit
                 </h3>
                 <p style={{ color: '#60716f', fontSize: 14, margin: '0 0 20px' }}>
                   {product.nameFr} — {product.price > 0 ? `${product.price} €` : 'Sur devis'}
