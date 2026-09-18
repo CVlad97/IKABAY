@@ -1,37 +1,37 @@
 import { useState } from 'react';
 import {
   Mail, MessageCircle, Phone, MapPin, Clock,
-  ChevronDown, ChevronUp, Send, ArrowRight, CheckCircle, AlertCircle
+  ChevronDown, ChevronUp, Send, ArrowRight, CheckCircle, AlertCircle, HelpCircle
 } from 'lucide-react';
 import { WHATSAPP_URL, APP_NAME, APP_EMAIL, waMessage } from '../utils/constants';
 import { supabase, hasSupabaseConfig } from '../lib/supabase';
 
 const faqs = [
   {
-    q: 'Comment fonctionne le sourcing Ikabay ?',
-    a: 'Vous nous décrivez votre besoin via le formulaire ou WhatsApp. Notre équipe mobilise son réseau de fournisseurs vérifiés pour trouver le produit idéal. Vous recevez jusqu\'à 3 devis comparés sous 48 à 72h ouvrées.',
+    q: 'Comment fonctionne le sourcing IKABAY ?',
+    a: 'Vous décrivez votre besoin par le formulaire ou WhatsApp. IKABAY qualifie la demande, recherche des fournisseurs adaptés et vous transmet les options disponibles avec les conditions connues au moment du devis.',
   },
   {
     q: 'Quels types de produits pouvez-vous sourcer ?',
-    a: 'Équipement nautique, pièces détachées bateau, matériel électrique/plomberie marine, accastillage inox, électronique embarquée, et tout équipement industriel ou technique pour les professionnels de la Caraïbe.',
+    a: 'Le catalogue actuel est orienté nautisme, pièces et équipements techniques. D’autres familles de produits peuvent être étudiées au cas par cas selon la disponibilité des fournisseurs.',
   },
   {
     q: 'Quels sont les délais de traitement ?',
-    a: 'Une demande standard est qualifiée sous 24h. Les premiers devis arrivent sous 48-72h ouvrées. Pour les urgences, notre option "Sourcing express" garantit une réponse en 24h.',
+    a: 'Le délai dépend du produit, du fournisseur, du transport et de la destination. Un délai estimatif est communiqué avec chaque proposition lorsqu’il est disponible.',
   },
   {
-    q: 'Y a-t-il des frais pour une demande de sourcing ?',
-    a: 'La demande de sourcing et les devis sont totalement gratuits. Vous ne payez qu\'au moment de valider votre commande. Aucun engagement, aucun frais caché.',
+    q: 'La demande de devis engage-t-elle un paiement ?',
+    a: 'Non. Une demande de devis ou de sourcing n’entraîne pas automatiquement un paiement. Les conditions commerciales sont confirmées avant toute validation de commande.',
   },
   {
     q: 'Livrez-vous dans toute la Caraïbe ?',
-    a: 'Oui ! Nous couvrons la Martinique, la Guadeloupe, la Guyane, Saint-Martin, Saint-Barthélemy et les autres îles de la Caraïbe. Transport maritime, aérien ou point relais selon votre besoin.',
+    a: 'IKABAY est basé en Martinique. Les possibilités de livraison vers d’autres territoires de la Caraïbe sont étudiées selon le produit, le transporteur et les contraintes douanières applicables.',
   },
   {
-    q: 'Puis-je suivre l\'avancement de ma demande ?',
-    a: 'Absolument. Chaque dossier reçoit un identifiant unique et vous pouvez suivre son évolution à tout moment via votre espace dédié ou directement par WhatsApp avec votre chargé de suivi.',
+    q: 'Comment suivre une demande ?',
+    a: 'Le suivi commercial se fait actuellement principalement par WhatsApp et email. Les espaces automatisés de suivi ne sont pas présentés comme disponibles tant qu’ils ne sont pas activés.',
   },
-];
+]
 
 export function ContactPage() {
   const [openFaq, setOpenFaq] = useState(null);
@@ -69,7 +69,7 @@ export function ContactPage() {
       }
 
       // WhatsApp notification
-      const msg = `*NOUVEAU MESSAGE CONTACT*\\n\\n` +
+      const msg = `*NOUVEAU MESSAGE CONTACT*\n\n` +
         `👤 ${form.name}\\n📧 ${form.email}\\n📞 ${form.telephone}\\n📝 ${form.subject}\\n${form.message}`;
       window.location.assign(waMessage(msg));
 
@@ -89,7 +89,7 @@ export function ContactPage() {
       <div style={{ marginBottom: 32 }}>
         <div className="badge" style={{ marginBottom: 12 }}>Contact</div>
         <h1>Contactez-nous</h1>
-        <p>Une question, un projet ? Notre équipe vous répond sous 24h ouvrées.</p>
+        <p>Une question, un projet ? Contactez IKABAY par WhatsApp ou email pour qualifier votre besoin.</p>
       </div>
 
       <div style={{
@@ -127,7 +127,7 @@ export function ContactPage() {
               </a>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                 <Clock size={18} color="#0f766e" />
-                <span style={{ fontWeight: 600, fontSize: 14 }}>Lun-Ven 8h-18h | Sam 9h-13h (AST)</span>
+                <span style={{ fontWeight: 600, fontSize: 14 }}>Canaux principaux : WhatsApp et email</span>
               </div>
             </div>
 
@@ -217,7 +217,7 @@ export function ContactPage() {
                   fontWeight: 700, fontSize: 14
                 }}>
                   <CheckCircle size={20} />
-                  Message envoyé ! Nous vous répondrons sous 24h.
+                  WhatsApp est ouvert avec votre message préparé. Envoyez-le pour finaliser la prise de contact.
                 </div>
               )}
               {error && (
@@ -259,14 +259,14 @@ export function ContactPage() {
             <MapPin size={48} color="#0f766e" style={{ marginBottom: 12 }} />
             <h3 style={{ margin: '0 0 4px', color: '#0a4a5c', fontSize: 20 }}>Martinique, Caraïbe</h3>
             <p style={{ color: '#516866', fontSize: 14, margin: 0, maxWidth: 280 }}>
-              Ikabay Sourcing — Antilles françaises<br />
-              Couverture : Martinique, Guadeloupe, Guyane, Saint-Martin
+              IKABAY — basé en Martinique<br />
+              Livraison Caraïbe étudiée selon produit et destination
             </p>
             <div style={{
               marginTop: 16, padding: '8px 16px', background: 'rgba(255,255,255,0.7)',
               borderRadius: 12, fontSize: 13, color: '#60716f', fontWeight: 600
             }}>
-              🗺️ Carte interactive à intégrer
+              Zone de livraison confirmée au devis
             </div>
           </div>
 
