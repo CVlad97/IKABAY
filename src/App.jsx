@@ -8,22 +8,14 @@ import './styles.css';
 const HomePage = React.lazy(() => import('./pages/HomePage'));
 const DestockagePage = React.lazy(() => import('./pages/DestockagePage'));
 const SourcingPage = React.lazy(() => import('./pages/SourcingPage'));
-const DossierJoelPage = React.lazy(() => import('./pages/DossierJoelPage'));
-const FournisseursPage = React.lazy(() => import('./pages/FournisseursPage'));
 const DevisPage = React.lazy(() => import('./pages/DevisPage'));
-const RfqPage = React.lazy(() => import('./pages/RfqPage'));
 const TransportPage = React.lazy(() => import('./pages/TransportPage'));
-const DropshippingPage = React.lazy(() => import('./pages/DropshippingPage'));
-const WhatsAppPage = React.lazy(() => import('./pages/WhatsAppPage'));
-const SuiviFournisseursPage = React.lazy(() => import('./pages/SuiviFournisseursPage'));
-const AdminPage = React.lazy(() => import('./pages/AdminPage'));
 const ContactPage = React.lazy(() => import('./pages/ContactPage'));
 const PartnersPage = React.lazy(() => import('./pages/PartnersPage'));
 const CataloguePage = React.lazy(() => import('./pages/CataloguePage'));
 const ProductDetailPage = React.lazy(() => import('./pages/ProductDetailPage'));
 const OrderConfirmPage = React.lazy(() => import('./pages/OrderConfirmPage'));
 const LegalPage = React.lazy(() => import('./pages/LegalPage'));
-const PresentationPage = React.lazy(() => import('./pages/PresentationPage'));
 
 function Layout({ children }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -141,7 +133,6 @@ export { Layout };
 
 export default function App() {
   const basename = import.meta.env.BASE_URL && import.meta.env.BASE_URL !== '/' ? import.meta.env.BASE_URL : undefined;
-  const internalPagesEnabled = import.meta.env.VITE_ENABLE_INTERNAL_PAGES === 'true';
   return (
     <BrowserRouter basename={basename}>
       <Layout>
@@ -153,20 +144,11 @@ export default function App() {
             <Route path="/commande-confirmee" element={<OrderConfirmPage />} />
             <Route path="/destockage" element={<DestockagePage />} />
             <Route path="/sourcing" element={<SourcingPage />} />
-            {internalPagesEnabled && (<Route path="/dossier-joel-dufeal" element={<DossierJoelPage />} />)}
-            {internalPagesEnabled && (<Route path="/dossier-jules-defel" element={<DossierJoelPage />} />)}
-            {internalPagesEnabled && (<Route path="/fournisseurs" element={<FournisseursPage />} />)}
             <Route path="/partenaires" element={<PartnersPage />} />
             <Route path="/devis" element={<DevisPage />} />
-            {internalPagesEnabled && (<Route path="/rfq" element={<RfqPage />} />)}
             <Route path="/transport" element={<TransportPage />} />
-            {internalPagesEnabled && (<Route path="/dropshipping" element={<DropshippingPage />} />)}
-            {internalPagesEnabled && (<Route path="/whatsapp" element={<WhatsAppPage />} />)}
-            {internalPagesEnabled && (<Route path="/suivi-fournisseurs" element={<SuiviFournisseursPage />} />)}
             <Route path="/contact" element={<ContactPage />} />
-            {internalPagesEnabled && (<Route path="/admin" element={<AdminPage />} />)}
             <Route path="/legal" element={<LegalPage />} />
-            {internalPagesEnabled && (<Route path="/presentation" element={<PresentationPage />} />)}
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Suspense>
