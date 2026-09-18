@@ -12,17 +12,9 @@ const staticRoutes = [
   'contact',
   'transport',
   'legal',
-  'presentation',
-  'dossier-joel-dufeal',
-  'dossier-jules-defel',
   'devis',
-  'fournisseurs',
-  'rfq',
   'destockage',
-  'dropshipping',
-  'whatsapp',
-  'suivi-fournisseurs',
-  'admin',
+  'commande-confirmee',
 ];
 
 const productRoutes = products.map(({ id }) => `produit/${id}`);
