@@ -10,7 +10,7 @@ import { supabase, hasSupabaseConfig } from '../lib/supabase';
 
 const methodSteps = [
   { num: '01', icon: Search, label: 'Qualification', desc: 'Analyse précise de votre besoin technique et commercial' },
-  { num: '02', icon: Target, label: 'Recherche', desc: 'Mobilisation de notre réseau fournisseurs vérifiés' },
+  { num: '02', icon: Target, label: 'Recherche', desc: 'Recherche auprès de fournisseurs adaptés au besoin' },
   { num: '03', icon: BarChart3, label: 'Comparaison', desc: 'Tableau comparatif prix / délais / qualité' },
   { num: '04', icon: MessageCircle, label: 'Négociation', desc: 'Optimisation rapport qualité-prix pour vous' },
   { num: '05', icon: FileText, label: 'Devis', desc: 'Jusqu\'à 3 propositions détaillées et personnalisées' },

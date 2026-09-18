@@ -176,7 +176,7 @@ Contact : ${form.nom} - ${form.email} - ${form.telephone}`;
           <strong style={{ color: '#1a2e2b', fontSize: 14 }}>Delai de traitement</strong>
           <p style={{ fontSize: 13, color: '#60716f', margin: '4px 0 0' }}>
             Notre equipe compare les options disponibles et vous transmet les propositions pertinentes selon les retours fournisseurs. 
-            Le sourcing complet prend 48-72h pour les produits standards.
+            Le délai de sourcing dépend du produit, du fournisseur et de la disponibilité des réponses.
           </p>
         </div>
       </div>

@@ -63,7 +63,7 @@ export const VIRAL_FEATURES = {
   // ===== PARTAGE SOCIAL =====
   sharing: {
     message_whatsapp: '🚢 Ikabay Sourcing — Équipement nautique pour la Caraïbe !\n\nJe viens de découvrir IKABAY pour le sourcing nautique : catalogue, demandes de devis et livraison Martinique selon disponibilité.\n\n👉 https://ikabay.store',
-    message_email: "Découvrez Ikabay Sourcing — le sourcing nautique pour la Caraïbe. Prix compétitifs, fournisseurs vérifiés, livraison Martinique.",
+    message_email: "Découvrez Ikabay Sourcing — le sourcing nautique pour la Caraïbe. Demandes de devis, recherche fournisseurs et livraison Martinique selon disponibilité.",
   },
 };
 
