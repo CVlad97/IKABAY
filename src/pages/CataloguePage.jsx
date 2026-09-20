@@ -210,7 +210,7 @@ export function CataloguePage() {
                     <div style={{ fontSize: 12, color: '#8a9b97', marginBottom: 8 }}>{p.nameEn}</div>
                     {p.comment && <div style={{ fontSize: 12, color: '#60716f', marginBottom: 8, fontStyle: 'italic' }}>{p.comment}</div>}
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-                      <span style={{ fontSize: 20, fontWeight: 800, color: '#0f766e' }}>{p.price} EUR</span>
+                      <span style={{ fontSize: 20, fontWeight: 800, color: '#0f766e' }}>Prix à confirmer</span>
                       <span style={{ fontSize: 12, color: '#8a9b97' }}>{p.unit === 'm' ? '/m' : '/pc'}</span>
                     </div>
                     <button onClick={() => buyOnWhatsApp(p)} style={{
