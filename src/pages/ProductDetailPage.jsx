@@ -18,7 +18,7 @@ const CATEGORY_ICONS = {
 };
 
 const STATUS_STYLES = {
-  'disponible': { label: 'En stock', color: '#16a34a', bg: '#dcfce7' },
+  'disponible': { label: 'Disponibilité à confirmer', color: '#92400e', bg: '#fef3c7' },
   'sur-devis': { label: 'Sur devis', color: '#ea580c', bg: '#fff7ed' },
   'a-confirmer': { label: 'À confirmer', color: '#92400e', bg: '#fef3c7' },
 };
@@ -57,7 +57,7 @@ export function ProductDetailPage() {
         full_name: orderForm.name.trim(),
         phone: orderForm.telephone.trim(),
         subject: `Demande de commande — ${product.nameFr}`,
-        message: `Référence : ${product.id}\nQuantité : ${quantity}\nPrix indicatif : ${product.price || 0} €\nMode souhaité : ${orderForm.deliveryMode}`,
+        message: `Référence : ${product.id}\nQuantité : ${quantity}\nPrix et disponibilité à confirmer\nMode souhaité : ${orderForm.deliveryMode}`,
         source: 'catalogue-web',
         privacy_consent: true,
         metadata: { product_id: product.id, quantity, delivery_mode: orderForm.deliveryMode },
@@ -209,9 +209,9 @@ export function ProductDetailPage() {
             background: 'linear-gradient(135deg, #0a4a5c, #0f766e)',
             borderRadius: 16, padding: '20px 24px', color: 'white'
           }}>
-            <div style={{ fontSize: 13, opacity: 0.85, fontWeight: 600 }}>Prix à partir de</div>
+            <div style={{ fontSize: 13, opacity: 0.85, fontWeight: 600 }}>Prix indicatif à reconfirmer</div>
             <div style={{ fontSize: 36, fontWeight: 900, margin: '4px 0' }}>
-              {product.price > 0 ? `${product.price} €` : 'Sur devis'}
+              Prix à confirmer
             </div>
             <div style={{ fontSize: 13, opacity: 0.85 }}>
               par {product.unit} — {statusInfo.label}
@@ -294,7 +294,7 @@ export function ProductDetailPage() {
                 </div>
                 <div style={{ display: 'grid', gap: 8, fontSize: 14 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <span style={{ color: '#60716f' }}>💰 Prix</span>
+                    <span style={{ color: '#60716f' }}>💰 Prix communiqué</span>
                     <span style={{ fontWeight: 800, color: '#0a4a5c' }}>{s.price}</span>
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between' }}>
