@@ -256,3 +256,4 @@ export function CataloguePage() {
     </div>
   );
 }
+export default CataloguePage;

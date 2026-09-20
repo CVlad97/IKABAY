@@ -16,7 +16,7 @@ const DropshippingPage = React.lazy(() => import('./pages/DropshippingPage'));
 const WhatsAppPage = React.lazy(() => import('./pages/WhatsAppPage'));
 const ContactPage = React.lazy(() => import('./pages/ContactPage'));
 const PartnersPage = React.lazy(() => import('./pages/PartnersPage'));
-const CataloguePage = React.lazy(() => import('./pages/CataloguePage'));
+import CataloguePage from './pages/CataloguePage';
 const ProductDetailPage = React.lazy(() => import('./pages/ProductDetailPage'));
 const OrderConfirmPage = React.lazy(() => import('./pages/OrderConfirmPage'));
 const LegalPage = React.lazy(() => import('./pages/LegalPage'));
