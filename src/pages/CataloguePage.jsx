@@ -18,7 +18,7 @@ const CATEGORY_ICONS = {
 };
 
 const STATUS_STYLES = {
-  'disponible': { label: 'En stock', color: '#16a34a', bg: '#dcfce7' },
+  'disponible': { label: 'Disponibilité à confirmer', color: '#92400e', bg: '#fef3c7' },
   'sur-devis': { label: 'Sur devis', color: '#ea580c', bg: '#fff7ed' },
   'a-confirmer': { label: 'A confirmer', color: '#92400e', bg: '#fef3c7' },
 };
@@ -74,7 +74,7 @@ export function CataloguePage() {
   }, [filteredProducts]);
 
   const buyOnWhatsApp = (product) => {
-    window.open(waMessage(`Bonjour IKABAY, je souhaite commander : ${product.nameFr} (ref ${product.id}) au prix de ${product.price} EUR.`));
+    window.open(waMessage(`Bonjour IKABAY, je souhaite commander : ${product.nameFr} (ref ${product.id}) avec prix et disponibilité à confirmer.`));
   };
 
   return (
@@ -89,7 +89,7 @@ export function CataloguePage() {
           <Package size={24} /> Catalogue IKABAY
         </h1>
         <p style={{ color: 'rgba(255,255,255,0.85)', margin: '8px 0 0', fontSize: 15 }}>
-          {products.length} produits disponibles • Prix fournisseurs verifies • Livraison Martinique
+          {products.length} produits disponibles • Prix indicatifs • Vérification avant commande • Livraison Martinique
         </p>
       </div>
 
@@ -178,7 +178,7 @@ export function CataloguePage() {
                       <div style={{ fontSize: 12, color: '#8a9b97' }}>{p.nameEn} • {p.unit === 'm' ? 'prix au metre' : `ref: ${p.id}`}</div>
                       <div style={{ display: 'flex', gap: 12, marginTop: 6, alignItems: 'center' }}>
                         <span className="badge" style={{ background: st.bg, color: st.color, fontSize: 11, padding: '3px 8px' }}>{st.label}</span>
-                        <span style={{ fontSize: 18, fontWeight: 800, color: '#0f766e' }}>{p.price} EUR</span>
+                        <span style={{ fontSize: 18, fontWeight: 800, color: '#0f766e' }} >Prix à confirmer</span>
                       </div>
                     </div>
                     <button onClick={() => buyOnWhatsApp(p)} style={{
