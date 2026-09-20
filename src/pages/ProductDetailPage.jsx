@@ -402,7 +402,7 @@ export function ProductDetailPage() {
                   Demander la commande
                 </h3>
                 <p style={{ color: '#60716f', fontSize: 14, margin: '0 0 20px' }}>
-                  {product.nameFr} — {product.price > 0 ? `${product.price} €` : 'Sur devis'}
+                  {product.nameFr} — Prix à confirmer
                 </p>
 
                 <form onSubmit={handleOrderSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
