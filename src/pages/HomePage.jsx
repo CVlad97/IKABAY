@@ -22,56 +22,56 @@ const suppliers = [
     name: 'SVB Allemagne', country: 'Allemagne', badge: 'TOP',
     products: 'Taquets, eclairage, accastillage, instruments',
     delivery: '10-15j', rating: 5, color: '#0f766e',
-    desc: 'Plus grand catalogue nautique europeen avec 50 000+ references. Offre prix ferme recue.',
+    desc: 'Catalogue nautique international ; références et prix à vérifier avant devis.',
   },
   {
     name: 'Mantus Marine', country: 'USA', badge: 'Premium',
     products: 'Bow rollers, ancres, accastillage securite',
     delivery: '15-20j', rating: 5, color: '#2563eb',
-    desc: 'Reference mondiale pour les ancres et daviers. Prix confirmes : bow roller 439$ / ancre 371$.',
+    desc: 'Équipement nautique premium ; prix et délai à confirmer avant devis.',
   },
   {
     name: 'Osculati', country: 'Italie', badge: 'Catalogue',
     products: 'Liston, hublots, echelles, taquets, accastillage',
     delivery: 'Stock 5-7j', rating: 4, color: '#7c3aed',
-    desc: 'Plus grand catalogue nautique italien. Contact B2B etabli: sales@osculati.it.',
+    desc: 'Catalogue nautique italien ; disponibilité et contact à vérifier avant devis.',
   },
   {
     name: 'Quick Italy', country: 'Italie', badge: 'Reference',
     products: 'Daviers ancre, guindeaux, accastillage',
     delivery: 'Stock 72h', rating: 5, color: '#0891b2',
-    desc: 'Reference italienne pour les daviers et equipements d ancrage. Contact direct quick@quickitaly.com.',
+    desc: 'Fabricant italien d’équipements d’ancrage ; offre à confirmer.',
   },
   {
     name: 'Besenzoni', country: 'Italie', badge: 'Luxe',
     products: 'Echelles, sieges pilote, accastillage haut de gamme',
     delivery: '3-4 sem', rating: 4, color: '#ea580c',
-    desc: 'Fabricant italien haut de gamme. Echelles et sieges sur-mesure. Contact info@besenzoni.it.',
+    desc: 'Fabricant italien haut de gamme ; caractéristiques, prix et délai à confirmer.',
   },
   {
     name: 'Lewmar', country: 'Royaume-Uni', badge: 'Premium',
     products: 'Daviers, guindeaux, accastillage marine',
     delivery: '2-3 sem', rating: 5, color: '#16a34a',
-    desc: 'Leader mondial de l accastillage marine. Contact etabli: info@lewmar.com.',
+    desc: 'Fabricant d’accastillage marin ; références et conditions à vérifier avant devis.',
   },
 ];
 
 const categories = [
-  { icon: Anchor, name: 'Accastillage inox', count: 45, color: '#0f766e', img: '/photos/hardware.jpg' },
-  { icon: ShieldCheck, name: 'Securite marine', count: 28, color: '#2563eb', img: '/photos/navigation.jpg' },
-  { icon: Truck, name: 'Transport & logistique', count: 12, color: '#7c3aed', img: '/photos/cargo.jpg' },
-  { icon: Package, name: 'Equipement bateau', count: 35, color: '#0891b2', img: '/photos/seat.jpg' },
-  { icon: Ship, name: 'Navigation & pilotage', count: 22, color: '#ea580c', img: '/photos/compass.jpg' },
-  { icon: Sparkles, name: 'Sellerie & confort', count: 18, color: '#16a34a', img: '/photos/seat.jpg' },
+  { icon: Anchor, name: 'Accastillage inox', count: 'Sélection', color: '#0f766e', img: '/photos/hardware.jpg' },
+  { icon: ShieldCheck, name: 'Securite marine', count: 'Sélection', color: '#2563eb', img: '/photos/navigation.jpg' },
+  { icon: Truck, name: 'Transport & logistique', count: 'Sélection', color: '#7c3aed', img: '/photos/cargo.jpg' },
+  { icon: Package, name: 'Equipement bateau', count: 'Sélection', color: '#0891b2', img: '/photos/seat.jpg' },
+  { icon: Ship, name: 'Navigation & pilotage', count: 'Sélection', color: '#ea580c', img: '/photos/compass.jpg' },
+  { icon: Sparkles, name: 'Sellerie & confort', count: 'Sélection', color: '#16a34a', img: '/photos/seat.jpg' },
 ];
 
 const featuredProducts = [
-  { name: 'Compas Plastimo 150mm', price: '186 EUR', supplier: 'SVB', img: '/photos/compass.jpg' },
-  { name: 'Taquet inox 316 200mm', price: '32,73 EUR', supplier: 'SVB', img: '/photos/hardware.jpg' },
-  { name: 'Bow roller BR1', price: '439 $', supplier: 'Mantus', img: '/photos/anchor.jpg' },
-  { name: 'Ancre M1 17lbs', price: '371 $', supplier: 'Mantus', img: '/photos/anchor.jpg' },
+  { name: 'Compas Plastimo 150mm', price: 'Sur devis', supplier: 'SVB', img: '/photos/compass.jpg' },
+  { name: 'Taquet inox 316 200mm', price: 'Sur devis', supplier: 'SVB', img: '/photos/hardware.jpg' },
+  { name: 'Bow roller BR1', price: 'Sur devis', supplier: 'Mantus', img: '/photos/anchor.jpg' },
+  { name: 'Ancre M1 17lbs', price: 'Sur devis', supplier: 'Mantus', img: '/photos/anchor.jpg' },
   { name: 'Siege pilote double', price: 'Sur devis', supplier: 'Ullman', img: '/photos/seat.jpg' },
-  { name: 'Echelle inox 4 marches', price: '125 EUR', supplier: 'Osculati', img: '/photos/ladder.jpg' },
+  { name: 'Echelle inox 4 marches', price: 'Sur devis', supplier: 'Osculati', img: '/photos/ladder.jpg' },
 ];
 
 export function HomePage() {
@@ -271,7 +271,7 @@ export function HomePage() {
                   <Icon size={18} />
                 </div>
                 <div style={{ fontWeight: 700, color: 'white', fontSize: 14 }}>{cat.name}</div>
-                <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.8)' }}>{cat.count} produits</div>
+                <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.8)' }}>{cat.count === 'Sélection' ? 'Sélection à vérifier' : `${cat.count} produits`}</div>
               </div>
             </Link>
           );
@@ -301,7 +301,7 @@ export function HomePage() {
           </div>
         ))}
         <Link to="/fournisseurs" style={{ textAlign: 'center', padding: 12, color: '#0f766e', fontWeight: 700, fontSize: 14 }}>
-          + 3 autres fournisseurs (Voir tout) →
+          Voir tous les fournisseurs référencés →
         </Link>
       </div>
 
@@ -332,7 +332,7 @@ export function HomePage() {
       </div>
 
       {/* ─── SHARE / VIRAL ─── */}
-      <div style={{ background: 'white', borderRadius: 20, padding: 28, marginBottom: 32, boxShadow: '0 4px 24px rgba(0,0,0,0.06)' }}>
+      {(VIRAL_FEATURES.referral.enabled || VIRAL_FEATURES.loyalty.enabled) && (<div style={{ background: 'white', borderRadius: 20, padding: 28, marginBottom: 32, boxShadow: '0 4px 24px rgba(0,0,0,0.06)' }}>
         <h2 style={{ margin: '0 0 16px', display: 'flex', alignItems: 'center', gap: 8 }}>
           <Share2 size={20} color="#0f766e" /> Partagez et gagnez
         </h2>
@@ -372,7 +372,7 @@ export function HomePage() {
             </button>
           </div>
         </div>
-      </div>
+      </div>)}
 
       {/* ─── PROCESS ─── */}
       <div style={{ background: 'white', borderRadius: 20, padding: 28, marginBottom: 32, boxShadow: '0 4px 24px rgba(0,0,0,0.06)' }}>
@@ -380,9 +380,9 @@ export function HomePage() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 16 }}>
           {[
             { icon: Search, step: '1', title: 'Besoin', desc: 'Decrivez votre besoin' },
-            { icon: Globe2, step: '2', title: 'Sourcing', desc: '8 fournisseurs consultes' },
+            { icon: Globe2, step: '2', title: 'Sourcing', desc: 'Fournisseurs consultés selon le besoin' },
             { icon: BarChart3, step: '3', title: 'Comparaison', desc: 'Tableau prix / delais' },
-            { icon: ClipboardCheck, step: '4', title: 'Devis', desc: '3 propositions detailles' },
+            { icon: ClipboardCheck, step: '4', title: 'Devis', desc: 'Comparaison des offres reçues' },
             { icon: Truck, step: '5', title: 'Livraison', desc: 'Fret maritime Martinique' },
           ].map((item, i) => {
             const Icon = item.icon;
