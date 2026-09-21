@@ -434,8 +434,8 @@ export function HomePage() {
         <Link to="/legal" className="btn btnSecondary" style={{ padding: '10px 20px', borderRadius: 12, fontWeight: 800, fontSize: 13 }}>
           <Calculator size={16} /> Prix DOM
         </Link>
-        <Link to="/dropshipping" className="btn btnSecondary" style={{ padding: '10px 20px', borderRadius: 12, fontWeight: 800, fontSize: 13 }}>
-          <TrendingUp size={16} /> Dropshipping
+        <Link to="/marketplace" className="btn btnSecondary" style={{ padding: '10px 20px', borderRadius: 12, fontWeight: 800, fontSize: 13 }}>
+          <TrendingUp size={16} /> Marketplace
         </Link>
       </div>
 

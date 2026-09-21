@@ -17,6 +17,7 @@ const staticRoutes = [
   'rfq',
   'destockage',
   'dropshipping',
+  'marketplace',
   'whatsapp',
 ];
 

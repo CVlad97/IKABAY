@@ -27,6 +27,7 @@ function Layout({ children }) {
   const navLinks = [
     { to: '/', label: 'Accueil' },
     { to: '/catalogue', label: 'Catalogue' },
+    { to: '/marketplace', label: 'Marketplace' },
     { to: '/sourcing', label: 'Sourcing' },
     { to: '/devis', label: 'Devis' },
     { to: '/transport', label: 'Transport' },
@@ -152,6 +153,7 @@ export default function App() {
             <Route path="/rfq" element={<RfqPage />} />
             <Route path="/transport" element={<TransportPage />} />
             <Route path="/dropshipping" element={<DropshippingPage />} />
+            <Route path="/marketplace" element={<DropshippingPage />} />
             <Route path="/whatsapp" element={<WhatsAppPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/legal" element={<LegalPage />} />
