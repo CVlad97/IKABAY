@@ -62,19 +62,29 @@ export default function DropshippingPage() {
     setSearching(true);
     setError('');
     try {
-      const data = await searchProviderProducts('cj', { query: keyword, size: 24 });
+      const primaryProvider = cj?.status === 'configured' ? 'cj' : 'printful';
+      const data = await searchProviderProducts(primaryProvider, { query: keyword, size: 24 });
       setProducts(data.items || []);
-      if (!(data.items || []).length) setError('Aucun produit CJ trouvé pour cette recherche.');
-    } catch (e) {
-      try {
-        const printful = await searchProviderProducts('printful', { query: keyword, size: 24 });
-        setProducts(printful.items || []);
-        if ((printful.items || []).length) {
-          setError(e.status === 503 ? 'CJ attend encore sa clé API : résultats Printful affichés en attendant.' : '');
-        } else {
-          setError('Aucun résultat fournisseur pour cette recherche. Essaie une autre catégorie ou le sourcing WhatsApp.');
+      if ((data.items || []).length) {
+        setError(primaryProvider === 'printful'
+          ? 'CJ attend encore sa clé API : résultats Printful affichés en attendant.'
+          : '');
+      } else {
+        setError('Aucun résultat fournisseur pour cette recherche. Essaie une autre catégorie ou le sourcing WhatsApp.');
+      }
+    } catch {
+      if (cj?.status === 'configured') {
+        try {
+          const printful = await searchProviderProducts('printful', { query: keyword, size: 24 });
+          setProducts(printful.items || []);
+          setError((printful.items || []).length
+            ? 'CJ est momentanément indisponible : résultats Printful affichés.'
+            : 'Aucun résultat fournisseur pour cette recherche.');
+        } catch {
+          setProducts([]);
+          setError('La recherche fournisseur est momentanément indisponible. Le sourcing WhatsApp reste opérationnel.');
         }
-      } catch {
+      } else {
         setProducts([]);
         setError('La recherche fournisseur est momentanément indisponible. Le sourcing WhatsApp reste opérationnel.');
       }
