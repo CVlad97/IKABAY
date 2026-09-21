@@ -66,10 +66,16 @@ export default function DropshippingPage() {
       setProducts(data.items || []);
       if (!(data.items || []).length) setError('Aucun produit CJ trouvé pour cette recherche.');
     } catch (e) {
-      setProducts([]);
-      if (e.status === 503) {
-        setError('Le moteur CJ est prêt mais attend encore ta clé API CJ. Les exemples locaux restent visibles ci-dessous.');
-      } else {
+      try {
+        const printful = await searchProviderProducts('printful', { query: keyword, size: 24 });
+        setProducts(printful.items || []);
+        if ((printful.items || []).length) {
+          setError(e.status === 503 ? 'CJ attend encore sa clé API : résultats Printful affichés en attendant.' : '');
+        } else {
+          setError('Aucun résultat fournisseur pour cette recherche. Essaie une autre catégorie ou le sourcing WhatsApp.');
+        }
+      } catch {
+        setProducts([]);
         setError('La recherche fournisseur est momentanément indisponible. Le sourcing WhatsApp reste opérationnel.');
       }
     } finally {
