@@ -1,10 +1,13 @@
 import { useEffect, useMemo, useState } from 'react';
 import {
   AlertCircle, CheckCircle, ExternalLink, Globe2, Loader2, Package,
-  Search, Server, ShoppingBag, Store, Wifi, WifiOff
+  Search, Server, ShoppingBag, Store, Wifi, WifiOff, Truck, Boxes, X
 } from 'lucide-react';
 import { DROPSHIPPING_PRODUCTS } from '../data/dropshipping';
-import { getProviderStatus, searchProviderProducts } from '../services/dropshippingApi';
+import {
+  getProviderStatus, getProviderCategories, searchProviderProducts,
+  getProviderProduct, getProviderStock, getProviderFreight
+} from '../services/dropshippingApi';
 import { waMessage } from '../utils/constants';
 
 const CATEGORIES = [
@@ -22,11 +25,17 @@ const STATUS = {
   disabled_cost: { label: 'Payant — désactivé', bg: '#f3f4f6', color: '#4b5563' }
 };
 
+const IKABAY_MARGIN_RATE = 0.20;
+
 function money(value) {
   if (value === '' || value === null || value === undefined) return 'Sur devis';
   if (typeof value === 'string' && value.includes('-')) return `${value} USD`;
   const n = Number(value);
   return Number.isFinite(n) ? `${n.toFixed(2)} USD` : String(value);
+}
+
+function totalStock(rows) {
+  return (rows || []).reduce((sum, row) => sum + Number(row.quantity || 0), 0);
 }
 
 export default function DropshippingPage() {
@@ -37,14 +46,30 @@ export default function DropshippingPage() {
   const [products, setProducts] = useState([]);
   const [searching, setSearching] = useState(false);
   const [error, setError] = useState('');
+  const [cjCategories, setCjCategories] = useState([]);
+  const [detailProduct, setDetailProduct] = useState(null);
+  const [selectedVariant, setSelectedVariant] = useState(null);
+  const [stock, setStock] = useState([]);
+  const [freight, setFreight] = useState([]);
+  const [detailLoading, setDetailLoading] = useState(false);
+  const [availabilityLoading, setAvailabilityLoading] = useState(false);
+  const [detailError, setDetailError] = useState('');
 
   useEffect(() => {
     let mounted = true;
     getProviderStatus()
       .then((data) => {
         if (!mounted) return;
-        setProviders(data.providers || []);
+        const list = data.providers || [];
+        setProviders(list);
         setBackendOk(true);
+        if (list.find((p) => p.id === 'cj' && p.status === 'configured')) {
+          getProviderCategories('cj')
+            .then((categories) => {
+              if (mounted) setCjCategories(Array.isArray(categories.data) ? categories.data : []);
+            })
+            .catch(() => {});
+        }
       })
       .catch(() => {
         if (!mounted) return;
@@ -55,6 +80,12 @@ export default function DropshippingPage() {
 
   const cj = useMemo(() => providers.find((p) => p.id === 'cj'), [providers]);
   const fallbackProducts = useMemo(() => DROPSHIPPING_PRODUCTS.slice(0, 6), []);
+  const categoryNames = useMemo(
+    () => cjCategories.length
+      ? cjCategories.map((c) => c.categoryFirstName).filter(Boolean)
+      : CATEGORIES,
+    [cjCategories]
+  );
 
   const runSearch = async (term = query) => {
     const keyword = String(term || '').trim();
@@ -98,6 +129,102 @@ export default function DropshippingPage() {
     runSearch(name);
   };
 
+  const loadVariantAvailability = async (variant) => {
+    setAvailabilityLoading(true);
+    setDetailError('');
+    setSelectedVariant(variant);
+    setStock([]);
+    setFreight([]);
+    try {
+      const stockData = await getProviderStock('cj', variant.vid);
+      const stockRows = stockData.stock || [];
+      setStock(stockRows);
+      if (totalStock(stockRows) <= 0) {
+        setDetailError('Stock non confirmé pour cette variante.');
+        return { stockRows, freightOptions: [] };
+      }
+      try {
+        const freightData = await getProviderFreight('cj', {
+          vid: variant.vid,
+          quantity: 1,
+          destinationCode: 'MQ',
+          originCode: 'CN'
+        });
+        const freightOptions = freightData.options || [];
+        setFreight(freightOptions);
+        if (!freightOptions.length) {
+          setDetailError('Aucune route logistique CJ vers la Martinique n’a été retournée pour cette variante.');
+        }
+        return { stockRows, freightOptions };
+      } catch {
+        setDetailError('Stock confirmé, mais le transport Martinique doit être reconfirmé.');
+        return { stockRows, freightOptions: [] };
+      }
+    } catch {
+      setDetailError('Cette variante n’est pas disponible dans le stock CJ.');
+      return { stockRows: [], freightOptions: [] };
+    } finally {
+      setAvailabilityLoading(false);
+    }
+  };
+
+  const openDetails = async (product) => {
+    if (!product?.id || product.provider !== 'cj') return;
+    setDetailLoading(true);
+    setDetailError('');
+    setDetailProduct(null);
+    setSelectedVariant(null);
+    setStock([]);
+    setFreight([]);
+    try {
+      const data = await getProviderProduct('cj', product.id);
+      const detail = data.product;
+      setDetailProduct(detail);
+      const variants = detail?.variants || [];
+      let picked = null;
+
+      for (const variant of variants.slice(0, 5)) {
+        try {
+          const stockData = await getProviderStock('cj', variant.vid);
+          const rows = stockData.stock || [];
+          if (totalStock(rows) > 0) {
+            picked = variant;
+            setSelectedVariant(variant);
+            setStock(rows);
+            try {
+              const freightData = await getProviderFreight('cj', {
+                vid: variant.vid,
+                quantity: 1,
+                destinationCode: 'MQ',
+                originCode: 'CN'
+              });
+              setFreight(freightData.options || []);
+            } catch {
+              setDetailError('Produit en stock ; transport Martinique à reconfirmer.');
+            }
+            break;
+          }
+        } catch {
+          // CJ peut retourner des variantes présentes dans la fiche mais absentes du stock.
+        }
+      }
+
+      if (!picked && variants[0]) {
+        setSelectedVariant(variants[0]);
+        setDetailError('Aucune variante avec stock confirmé n’a été trouvée automatiquement.');
+      }
+    } catch {
+      setDetailError('Impossible de charger la fiche CJ pour le moment.');
+    } finally {
+      setDetailLoading(false);
+    }
+  };
+
+  const cheapestFreight = freight[0] || null;
+  const selectedPrice = Number(selectedVariant?.price ?? detailProduct?.price ?? 0);
+  const serviceMargin = selectedPrice * IKABAY_MARGIN_RATE;
+  const estimatedTotal = selectedPrice + serviceMargin + Number(cheapestFreight?.price || 0);
+
   return (
     <section className="pageSection">
       <div className="hero" style={{ marginBottom: 28 }}>
@@ -133,7 +260,7 @@ export default function DropshippingPage() {
           </div>
         </div>
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 16 }}>
-          {CATEGORIES.map((name) => (
+          {categoryNames.map((name) => (
             <button
               key={name}
               onClick={() => chooseCategory(name)}
@@ -153,6 +280,121 @@ export default function DropshippingPage() {
       {error && (
         <div style={{ background: '#fff7ed', color: '#9a3412', border: '1px solid #fed7aa', borderRadius: 14, padding: 14, marginBottom: 22, display: 'flex', gap: 9 }}>
           <AlertCircle size={19} /> <span>{error}</span>
+        </div>
+      )}
+
+      {detailLoading && (
+        <div className="card" style={{ padding: 22, marginBottom: 26, display: 'flex', gap: 10, alignItems: 'center' }}>
+          <Loader2 size={20} /> Chargement de la fiche CJ, du stock et du transport Martinique…
+        </div>
+      )}
+
+      {detailProduct && (
+        <div className="card" style={{ padding: 22, marginBottom: 28, border: '1px solid #cfe4df' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', gap: 16, alignItems: 'start', marginBottom: 18 }}>
+            <div>
+              <div style={{ fontSize: 12, color: '#0f766e', fontWeight: 800 }}>FICHE CJ EN DIRECT</div>
+              <h2 style={{ margin: '5px 0 4px' }}>{detailProduct.name}</h2>
+              <div style={{ color: '#60716f', fontSize: 13 }}>{detailProduct.categoryName}</div>
+            </div>
+            <button
+              onClick={() => setDetailProduct(null)}
+              aria-label="Fermer la fiche produit"
+              style={{ border: 0, background: '#eef5f3', borderRadius: 999, width: 36, height: 36, cursor: 'pointer' }}
+            >
+              <X size={18} />
+            </button>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24 }}>
+            <div>
+              <img
+                src={selectedVariant?.image || detailProduct.image}
+                alt=""
+                style={{ width: '100%', maxHeight: 340, objectFit: 'contain', background: '#f6f8f7', borderRadius: 14 }}
+              />
+              <div style={{ marginTop: 10, fontSize: 12, color: '#60716f' }}>
+                SKU : {selectedVariant?.sku || detailProduct.sku}
+              </div>
+            </div>
+
+            <div>
+              <div style={{ display: 'grid', gap: 14 }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: 12, fontWeight: 800, marginBottom: 6 }}>Variante</label>
+                  <select
+                    className="input"
+                    value={selectedVariant?.vid || ''}
+                    onChange={(e) => {
+                      const variant = (detailProduct.variants || []).find((v) => v.vid === e.target.value);
+                      if (variant) loadVariantAvailability(variant);
+                    }}
+                  >
+                    {(detailProduct.variants || []).map((variant) => (
+                      <option key={variant.vid} value={variant.vid}>
+                        {variant.key || variant.name} — {money(variant.price)}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+                  <span className="badge"><Boxes size={14} /> Stock confirmé : {totalStock(stock)}</span>
+                  <span className="badge"><Truck size={14} /> Destination : Martinique</span>
+                </div>
+
+                {availabilityLoading && (
+                  <div style={{ color: '#60716f', fontSize: 13 }}>Vérification stock et transport…</div>
+                )}
+
+                {detailError && (
+                  <div style={{ background: '#fff7ed', color: '#9a3412', padding: 10, borderRadius: 10, fontSize: 13 }}>
+                    {detailError}
+                  </div>
+                )}
+
+                <div style={{ background: '#f6f8f7', borderRadius: 14, padding: 16 }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 8, fontSize: 14 }}>
+                    <span>Produit CJ</span><strong>{money(selectedPrice)}</strong>
+                    <span>Marge service IKABAY (20 %)</span><strong>{money(serviceMargin)}</strong>
+                    <span>Transport le moins cher</span><strong>{cheapestFreight ? money(cheapestFreight.price) : 'À confirmer'}</strong>
+                    <span style={{ borderTop: '1px solid #dce6e3', paddingTop: 8 }}>Estimation IKABAY</span>
+                    <strong style={{ borderTop: '1px solid #dce6e3', paddingTop: 8, color: '#0f766e' }}>
+                      {cheapestFreight ? money(estimatedTotal) : 'Sur devis'}
+                    </strong>
+                  </div>
+                  <div style={{ marginTop: 10, fontSize: 11, color: '#73837f' }}>
+                    Estimation en USD hors éventuels droits, TVA/octroi de mer et variation de change. Prix final confirmé avant paiement.
+                  </div>
+                </div>
+
+                {freight.length > 0 && (
+                  <div>
+                    <div style={{ fontWeight: 800, marginBottom: 8 }}>Options transport CJ</div>
+                    {freight.slice(0, 4).map((option) => (
+                      <div key={option.name} style={{ display: 'flex', justifyContent: 'space-between', gap: 12, padding: '7px 0', borderBottom: '1px solid #eef2f1', fontSize: 13 }}>
+                        <span>{option.name} · {option.estimatedDays || 'délai à confirmer'} j</span>
+                        <strong>{money(option.price)}</strong>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                <a
+                  className="btn btnPrimary"
+                  href={waMessage(`Bonjour IKABAY, je souhaite confirmer ce produit CJ : ${detailProduct.name}, variante ${selectedVariant?.key || selectedVariant?.name || ''}, SKU ${selectedVariant?.sku || detailProduct.sku}. Produit ${money(selectedPrice)}, transport estimé ${cheapestFreight ? money(cheapestFreight.price) : 'à confirmer'}, estimation IKABAY ${cheapestFreight ? money(estimatedTotal) : 'sur devis'}. Merci de confirmer le prix final rendu Martinique.`)}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <ShoppingBag size={17} /> Demander la confirmation finale
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {detailProduct.description && (
+            <p style={{ marginTop: 20, color: '#516866', lineHeight: 1.6 }}>{detailProduct.description}</p>
+          )}
         </div>
       )}
 
@@ -180,6 +422,15 @@ export default function DropshippingPage() {
                 <div style={{ fontSize: 12, color: '#60716f', marginBottom: 5 }}>{live ? 'CJdropshipping' : 'Catalogue IKABAY'}</div>
                 <h3 style={{ fontSize: 17, margin: '0 0 8px' }}>{name}</h3>
                 <div style={{ color: '#0f766e', fontWeight: 800, marginBottom: 12 }}>{price}</div>
+                {live && p.provider === 'cj' && (
+                  <button
+                    className="btn btnSecondary"
+                    style={{ marginRight: 8, marginBottom: 8 }}
+                    onClick={() => openDetails(p)}
+                  >
+                    Voir détails, stock & transport
+                  </button>
+                )}
                 <a
                   className="btn btnPrimary"
                   href={waMessage(`Bonjour IKABAY, je souhaite un devis pour : ${name} (réf. ${id}). Merci de confirmer prix final, livraison Martinique et délai.`)}
