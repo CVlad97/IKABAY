@@ -1,8 +1,9 @@
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import React, { Suspense, useState } from 'react';
-import { Ship, MessageCircle, Menu, X, Mail, Phone, FileText, ClipboardList, LayoutDashboard, Truck } from 'lucide-react';
+import { Ship, MessageCircle, Menu, X, Mail } from 'lucide-react';
 import { WHATSAPP_URL, APP_NAME, APP_EMAIL } from './utils/constants';
 import './styles.css';
+import './styles/creative-studio.css';
 
 // React.lazy page imports
 const HomePage = React.lazy(() => import('./pages/HomePage'));
@@ -16,6 +17,7 @@ const DropshippingPage = React.lazy(() => import('./pages/DropshippingPage'));
 const WhatsAppPage = React.lazy(() => import('./pages/WhatsAppPage'));
 const ContactPage = React.lazy(() => import('./pages/ContactPage'));
 const PartnersPage = React.lazy(() => import('./pages/PartnersPage'));
+const CreativeStudioPage = React.lazy(() => import('./pages/CreativeStudioPage'));
 import CataloguePage from './pages/CataloguePage';
 const ProductDetailPage = React.lazy(() => import('./pages/ProductDetailPage'));
 const OrderConfirmPage = React.lazy(() => import('./pages/OrderConfirmPage'));
@@ -29,6 +31,7 @@ function Layout({ children }) {
     { to: '/catalogue', label: 'Catalogue' },
     { to: '/marketplace', label: 'Marketplace' },
     { to: '/sourcing', label: 'Sourcing' },
+    { to: '/studio-creatif', label: 'Studio créatif' },
     { to: '/devis', label: 'Devis' },
     { to: '/transport', label: 'Transport' },
     { to: '/partenaires', label: 'Partenaires' },
@@ -149,6 +152,7 @@ export default function App() {
             <Route path="/sourcing" element={<SourcingPage />} />
             <Route path="/fournisseurs" element={<FournisseursPage />} />
             <Route path="/partenaires" element={<PartnersPage />} />
+            <Route path="/studio-creatif" element={<CreativeStudioPage />} />
             <Route path="/devis" element={<DevisPage />} />
             <Route path="/rfq" element={<RfqPage />} />
             <Route path="/transport" element={<TransportPage />} />
