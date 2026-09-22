@@ -19,6 +19,7 @@ const staticRoutes = [
   'dropshipping',
   'marketplace',
   'whatsapp',
+  'studio-creatif',
 ];
 
 const productRoutes = products.map(({ id }) => `produit/${id}`);
