@@ -3,6 +3,7 @@ import React, { Suspense, useState } from 'react';
 import { Ship, MessageCircle, Menu, X, Mail } from 'lucide-react';
 import { WHATSAPP_URL, APP_NAME, APP_EMAIL } from './utils/constants';
 import './styles.css';
+import './styles/creative-studio.css';
 
 // React.lazy page imports
 const HomePage = React.lazy(() => import('./pages/HomePage'));
