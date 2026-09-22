@@ -1,6 +1,6 @@
 // Passerelle publique vers le backend dropshipping IKABAY.
 // Les clés fournisseurs restent côté VPS et ne sont jamais exposées au navigateur.
-const DEFAULT_API_URL = 'https://ikabay-api.2-24-15-8.sslip.io';
+const DEFAULT_API_URL = 'https://api.ikabay.store';
 const API_URL = (import.meta.env.VITE_DROPSHIPPING_API_URL || DEFAULT_API_URL).replace(/\/$/, '');
 
 export const dropshippingApiConfigured = Boolean(API_URL);
