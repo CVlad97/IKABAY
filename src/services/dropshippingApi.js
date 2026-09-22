@@ -29,6 +29,11 @@ export const searchProviderProducts = (provider, { query = '', page = 1, size = 
   return request(`/providers/${encodeURIComponent(provider)}/products?${params.toString()}`);
 };
 export const getProviderProduct = (provider, id) => request(`/providers/${encodeURIComponent(provider)}/product/${encodeURIComponent(id)}`);
+export const getProviderStock = (provider, vid) => request(`/providers/${encodeURIComponent(provider)}/variant/${encodeURIComponent(vid)}/stock`);
+export const getProviderFreight = (provider, { vid, quantity = 1, destinationCode = 'MQ', originCode = 'CN' }) => request(`/providers/${encodeURIComponent(provider)}/freight`, {
+  method: 'POST',
+  body: JSON.stringify({ vid, quantity, destinationCode, originCode })
+});
 export const createFulfillmentOrder = payload => request('/orders', {
   method: 'POST',
   body: JSON.stringify(payload)
