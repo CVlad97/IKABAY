@@ -64,7 +64,7 @@ function buildBrief(product, selectedCommand, customNote) {
   const suppliers = (product.suppliers || [])
     .filter((supplier) => supplier.link)
     .map((supplier) => `- ${supplier.name}: ${supplier.link}`)
-    .join('\\n');
+    .join('\n');
 
   return [
     `Commande: ${selectedCommand.command}`,
@@ -82,8 +82,8 @@ function buildBrief(product, selectedCommand, customNote) {
     '- Marquer clairement toute vue conceptuelle ou générée.',
     customNote.trim() ? `- Note complémentaire: ${customNote.trim()}` : '',
     '',
-    suppliers ? `Liens fournisseurs disponibles:\\n${suppliers}` : 'Liens fournisseurs: aucun lien produit enregistré pour cette référence.',
-  ].filter(Boolean).join('\\n');
+    suppliers ? `Liens fournisseurs disponibles:\n${suppliers}` : 'Liens fournisseurs: aucun lien produit enregistré pour cette référence.',
+  ].filter(Boolean).join('\n');
 }
 
 export function CreativeStudioPage() {
@@ -107,7 +107,20 @@ export function CreativeStudioPage() {
 
   const copyBrief = async () => {
     try {
-      await navigator.clipboard.writeText(brief);
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(brief);
+      } else {
+        const textarea = document.createElement('textarea');
+        textarea.value = brief;
+        textarea.setAttribute('readonly', '');
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.select();
+        const copiedByFallback = document.execCommand('copy');
+        document.body.removeChild(textarea);
+        if (!copiedByFallback) throw new Error('copy_failed');
+      }
       setCopied(true);
       window.setTimeout(() => setCopied(false), 1800);
     } catch {
