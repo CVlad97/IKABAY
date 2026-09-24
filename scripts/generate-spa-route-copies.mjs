@@ -19,6 +19,7 @@ const staticRoutes = [
   'dropshipping',
   'marketplace',
   'marine',
+  'showroom',
   'whatsapp',
   'studio-creatif',
 ];

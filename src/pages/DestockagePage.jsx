@@ -49,14 +49,14 @@ export function DestockagePage() {
   };
 
   const waReserveMsg = (p, qty) =>
-    waMessage(`Bonjour Ikabay, je souhaite réserver :\n- ${p.nameFr} (${formatPrice(p.price)})\nQuantité : ${qty || 1}\nMerci de me confirmer la disponibilité.`);
+    waMessage(`Bonjour Ikabay, je souhaite réserver :\n- ${p.nameFr} (${formatPrice(p.price)})\nQuantité : ${qty || 1}\nMerci de confirmer disponibilité réelle, état, prix final et livraison avant réservation.`);
 
   return (
     <section className="pageSection">
       <div className="badge" style={{ marginBottom: 12 }}>Inventaire</div>
-      <h1>Déstockage nautique</h1>
+      <h1>Bons plans & opportunités nautiques</h1>
       <p style={{ marginBottom: 24 }}>
-        Consultez les lots disponibles à prix coûtant. {filtered.length} produit{filtered.length !== 1 ? 's' : ''} trouvé{filtered.length !== 1 ? 's' : ''}.
+        Consultez les références susceptibles d’être proposées en déstockage, fin de série ou offre négociée. {filtered.length} produit{filtered.length !== 1 ? 's' : ''} trouvé{filtered.length !== 1 ? 's' : ''}.
       </p>
       <p style={{ fontSize: 13, color: '#60716f', marginBottom: 24 }}>
         Contact : <a href="mailto:sourcing@ikabay.store" style={{ color: '#0f766e', fontWeight: 600, textDecoration: 'none' }}>sourcing@ikabay.store</a>

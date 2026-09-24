@@ -14,6 +14,7 @@ const DevisPage = React.lazy(() => import('./pages/DevisPage'));
 const RfqPage = React.lazy(() => import('./pages/RfqPage'));
 const TransportPage = React.lazy(() => import('./pages/TransportPage'));
 const MarinePage = React.lazy(() => import('./pages/MarinePage'));
+const ShowroomPage = React.lazy(() => import('./pages/ShowroomPage'));
 const DropshippingPage = React.lazy(() => import('./pages/DropshippingPage'));
 const WhatsAppPage = React.lazy(() => import('./pages/WhatsAppPage'));
 const ContactPage = React.lazy(() => import('./pages/ContactPage'));
@@ -32,6 +33,7 @@ function Layout({ children }) {
     { to: '/catalogue', label: 'Catalogue' },
     { to: '/marketplace', label: 'Marketplace' },
     { to: '/marine', label: 'Marine' },
+    { to: '/showroom', label: 'Showroom' },
     { to: '/sourcing', label: 'Sourcing' },
     { to: '/studio-creatif', label: 'Studio créatif' },
     { to: '/devis', label: 'Devis' },
@@ -159,6 +161,7 @@ export default function App() {
             <Route path="/rfq" element={<RfqPage />} />
             <Route path="/transport" element={<TransportPage />} />
             <Route path="/marine" element={<MarinePage />} />
+            <Route path="/showroom" element={<ShowroomPage />} />
             <Route path="/dropshipping" element={<DropshippingPage />} />
             <Route path="/marketplace" element={<DropshippingPage />} />
             <Route path="/whatsapp" element={<WhatsAppPage />} />

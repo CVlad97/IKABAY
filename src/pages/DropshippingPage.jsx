@@ -518,7 +518,7 @@ export default function DropshippingPage() {
 
       <div className="sectionTitle">
         <h2>{products.length ? 'Résultats fournisseur en direct' : 'Aperçu catalogue'}</h2>
-        <p>{products.length ? 'Données reçues depuis CJ via le VPS IKABAY.' : 'Exemples locaux affichés tant que la clé CJ n’est pas encore ajoutée.'}</p>
+        <p>{products.length ? 'Données reçues depuis CJ via le VPS IKABAY.' : 'Aperçu IKABAY affiché tant qu’aucune recherche fournisseur n’est lancée. Les disponibilités sont reconfirmées avant commande.'}</p>
       </div>
 
       <div className="cardGrid" style={{ marginBottom: 34 }}>
