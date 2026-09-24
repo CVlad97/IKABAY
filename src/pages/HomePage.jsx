@@ -10,6 +10,21 @@ import { WHATSAPP_URL, APP_NAME, waMessage } from '../utils/constants';
 import { Link } from 'react-router-dom';
 import { VIRAL_FEATURES, calculatePoints, pointsToEUR, getLoyaltyTier } from '../data/viral';
 
+const MARKET_CATEGORIES = [
+  { name: 'Téléphone', emoji: '📱' },
+  { name: 'Maison', emoji: '🏠' },
+  { name: 'Cuisine', emoji: '🍳' },
+  { name: 'Beauté', emoji: '✨' },
+  { name: 'Sport', emoji: '🏋️' },
+  { name: 'Auto Moto', emoji: '🚗' },
+  { name: 'Jardin', emoji: '🌴' },
+  { name: 'Voyage', emoji: '🧳' },
+  { name: 'Animaux', emoji: '🐾' },
+  { name: 'Bébé', emoji: '👶' },
+  { name: 'Marine', emoji: '⚓' },
+  { name: 'Bureau', emoji: '💻' },
+];
+
 const stats = [
   { icon: Store, value: 'Multi-source', label: 'Fournisseurs référencés', detail: 'Europe + international' },
   { icon: Package, value: 'Catalogue', label: 'Produits référencés', detail: 'Fiches consultables' },
@@ -98,6 +113,51 @@ export function HomePage() {
   return (
     <section className="pageSection">
 
+      <section style={{
+        background: 'linear-gradient(135deg,#082f49 0%,#0f766e 55%,#f59e0b 130%)',
+        borderRadius: 28,
+        padding: 'clamp(28px,5vw,54px)',
+        color: 'white',
+        marginBottom: 24,
+        overflow: 'hidden',
+        position: 'relative'
+      }}>
+        <div style={{ maxWidth: 850, position: 'relative', zIndex: 1 }}>
+          <div className="badge" style={{ background: 'rgba(255,255,255,.16)', color: 'white', border: '1px solid rgba(255,255,255,.25)' }}>
+            🛒 IKABAY MARKET — marketplace locale multi-catégories
+          </div>
+          <h1 style={{ color: 'white', fontSize: 'clamp(34px,6vw,64px)', lineHeight: 1.02, margin: '16px 0 14px', maxWidth: 760 }}>
+            Tout ce qu’il vous faut, pensé pour la Martinique & la Caraïbe
+          </h1>
+          <p style={{ color: 'rgba(255,255,255,.9)', fontSize: 17, lineHeight: 1.65, maxWidth: 760 }}>
+            Produits multi-catégories sélectionnés depuis nos fournisseurs connectés. Prix, stock et livraison vers la Martinique sont revérifiés avant commande pour éviter les mauvaises surprises.
+          </p>
+          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginTop: 22 }}>
+            <Link to="/marketplace" className="btn" style={{ background: '#fff', color: '#0a4a5c', fontWeight: 900, padding: '13px 20px' }}>
+              Voir la marketplace <ShoppingCart size={18} />
+            </Link>
+            <Link to="/transport" className="btn" style={{ background: 'rgba(255,255,255,.12)', color: '#fff', border: '1px solid rgba(255,255,255,.25)', fontWeight: 900, padding: '13px 20px' }}>
+              Calculer la livraison <Truck size={18} />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section style={{ marginBottom: 30 }}>
+        <div className="sectionTitle" style={{ marginBottom: 14 }}>
+          <h2>Toutes les catégories essentielles</h2>
+          <p>Une sélection courte et utile plutôt qu’un catalogue rempli de produits non vérifiés.</p>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(145px,1fr))', gap: 10 }}>
+          {MARKET_CATEGORIES.map((category) => (
+            <Link key={category.name} to="/marketplace" className="card" style={{ textDecoration: 'none', color: 'inherit', padding: 16, display: 'flex', alignItems: 'center', gap: 10 }}>
+              <span style={{ fontSize: 28 }}>{category.emoji}</span>
+              <span style={{ fontWeight: 900, fontSize: 14 }}>{category.name}</span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
       {/* ─── DOM-TOM COMMERCIAL BANNER ─── */}
       <div style={{ background: 'linear-gradient(90deg, #0b2b3c 0%, #1a7a7d 60%, #e8774e 100%)', color: '#fff', padding: '10px 20px', textAlign: 'center', fontSize: 13, fontWeight: 700, letterSpacing: 0.4, borderRadius: 12, marginBottom: 18, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, flexWrap: 'wrap' }}>
         <span>📍 Martinique — Livraison sur devis</span>
@@ -147,10 +207,10 @@ export function HomePage() {
             padding: '8px 16px', borderRadius: 20, fontSize: 13, fontWeight: 700, marginBottom: 16,
             color: 'white', border: '1px solid rgba(255,255,255,0.2)'
           }}>
-            <Sparkles size={14} /> Sourcing multi-fournisseurs • Livraison Martinique sur devis • Frais clarifiés
+            <Sparkles size={14} /> Univers spécialisé — nautisme & sourcing professionnel
           </div>
           <h1 style={{ color: 'white', fontSize: 42, fontWeight: 900, margin: '0 0 12px', lineHeight: 1.1 }}>
-            Sourcing nautique<br />pour la Caraibe
+            Sourcing spécialisé<br />nautisme & professionnels
           </h1>
           <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: 16, lineHeight: 1.6, marginBottom: 24, maxWidth: 500 }}>
             Trouvez, comparez et commandez vos equipements nautiques avec un prix étudié et transparent. 
