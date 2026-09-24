@@ -1,13 +1,13 @@
 import { useMemo, useState } from 'react';
-import { AlertTriangle, Anchor, Calculator, CheckCircle2, Package, Plane, Route, Ship, Truck, Warehouse } from 'lucide-react';
+import { AlertTriangle, Anchor, Calculator, CheckCircle2, Package, Plane, Route, Ship, Truck, Warehouse, ExternalLink, Mail, MapPin } from 'lucide-react';
 import { computeLandedCost, logisticsScenarios, sentRfqs, martiniqueCostDefaults } from '../data/sourcingOperations';
 
 const relayPoints = ['Fort-de-France', 'Ducos', 'Le Lamentin', 'Rivière-Pilote', 'Sainte-Luce', 'Le Marin'];
 
 const operationalShipments = [
-  { supplier: 'Osculati', origin: 'Italie / Europe', mode: 'Maritime LCL Europe', carrier: 'GEODIS / CMA CGM à confirmer', cbm: '1.0–2.0', status: 'Réponse RFQ attendue', eta: 'À calculer après devis', risk: 'Faible' },
-  { supplier: 'Comptoir Nautique', origin: 'France', mode: 'Colis / groupage Europe', carrier: 'GEODIS ou transporteur fournisseur', cbm: '0.1–0.3', status: 'Réponse RFQ attendue', eta: 'À calculer après devis', risk: 'Faible' },
-  { supplier: 'Quick Group', origin: 'Italie', mode: 'Maritime / route + groupage', carrier: 'GEODIS / forwarder EU', cbm: '0.2–0.5', status: 'Réponse RFQ attendue', eta: 'À calculer après devis', risk: 'Faible' },
+  { supplier: 'Osculati', origin: 'Italie / Europe', mode: 'Maritime LCL Europe', carrier: 'Meridian Affret à coter / alternative à comparer', cbm: '1.0–2.0', status: 'Réponse RFQ attendue', eta: 'À calculer après devis', risk: 'Faible' },
+  { supplier: 'Comptoir Nautique', origin: 'France', mode: 'Colis / groupage Europe', carrier: 'Meridian Affret — enlèvement fournisseur à coter', cbm: '0.1–0.3', status: 'Réponse RFQ attendue', eta: 'À calculer après devis', risk: 'Faible' },
+  { supplier: 'Quick Group', origin: 'Italie', mode: 'Maritime / route + groupage', carrier: 'Meridian Affret / forwarder EU à comparer', cbm: '0.2–0.5', status: 'Réponse RFQ attendue', eta: 'À calculer après devis', risk: 'Faible' },
   { supplier: 'Alastin Marine', origin: 'Chine / Qingdao', mode: 'LCL maritime', carrier: 'GEODIS Chine → FDF', cbm: '2 CBM minimum', status: 'MOQ + CBM attendus', eta: '35–65 jours', risk: 'Moyen' },
   { supplier: 'Wudi Xinxiangju', origin: 'Chine / Wudi', mode: 'Consolidation Shandong', carrier: 'Alastin ou forwarder Qingdao', cbm: 'À confirmer', status: 'MOQ + CBM attendus', eta: '35–65 jours', risk: 'Moyen' },
   { supplier: 'Mantus Marine', origin: 'USA', mode: 'Miami forwarder / air partiel', carrier: 'À confirmer', cbm: '0.2–0.5', status: 'Transport USA à chiffrer', eta: '7–21 jours', risk: 'Moyen' },
@@ -40,7 +40,7 @@ export default function TransportPage() {
     <section className="pageSection" style={{ paddingTop: 44 }}>
       <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 14 }}>
         <span className="badge"><Ship size={15} /> Logistique Martinique</span>
-        <span className="badge" style={{ background: '#dcfce7', color: '#166534' }}><CheckCircle2 size={15} /> GEODIS prioritaire</span>
+        <span className="badge" style={{ background: '#dcfce7', color: '#166534' }}><CheckCircle2 size={15} /> Meridian Affret identifié</span>
         <span className="badge" style={{ background: '#fff7ed', color: '#9a3412' }}><AlertTriangle size={15} /> MOQ Chine inclus</span>
       </div>
 
@@ -48,6 +48,31 @@ export default function TransportPage() {
       <p style={{ maxWidth: 920, color: '#516866', lineHeight: 1.6 }}>
         Calcule le vrai coût rendu : achat HT/FOB, MOQ, volume CBM, transport, assurance, frais dossier, taxes import et marge. Le prix facial fournisseur ne suffit jamais.
       </p>
+
+      <div className="card" style={{ padding: 20, marginTop: 22, marginBottom: 30, border: '1px solid #b7dfd1', background: 'linear-gradient(135deg,#f3fbf7,#ffffff)' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap' }}>
+          <div style={{ maxWidth: 760 }}>
+            <span className="badge" style={{ background: '#dcfce7', color: '#166534' }}>Prestataire identifié — à contractualiser</span>
+            <h2 style={{ margin: '10px 0 6px', color: '#0a4a5c' }}>Meridian Affret — France, Europe & Caraïbes</h2>
+            <p style={{ color: '#516866', lineHeight: 1.6, margin: 0 }}>
+              Commissionnaire de transport avec enlèvement en France/Europe, collecte directement chez le fournisseur, fret aérien ou maritime, formalités de transport/douane et suivi d’expédition. IKABAY peut l’utiliser comme option de cotation pour calculer un coût rendu plus réaliste.
+            </p>
+          </div>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'flex-start' }}>
+            <a className="btn btnPrimary" href="https://meridianaffret.com/demande-cotation" target="_blank" rel="noreferrer">Cotation Meridian <ExternalLink size={15} /></a>
+            <a className="btn" href="mailto:info@meridianaffret.com"><Mail size={15} /> Email</a>
+          </div>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: 12, marginTop: 16 }}>
+          <div style={{ background: '#fff', borderRadius: 14, padding: 14 }}><Truck size={18} /><strong> Enlèvement fournisseur</strong><p style={{ margin: '6px 0 0', color: '#60716f', fontSize: 13 }}>Collecte possible directement chez le fournisseur en France/Europe.</p></div>
+          <div style={{ background: '#fff', borderRadius: 14, padding: 14 }}><Plane size={18} /><strong> Aérien</strong><p style={{ margin: '6px 0 0', color: '#60716f', fontSize: 13 }}>Petits volumes ou flux urgents, sous réserve du devis.</p></div>
+          <div style={{ background: '#fff', borderRadius: 14, padding: 14 }}><Ship size={18} /><strong> Maritime</strong><p style={{ margin: '6px 0 0', color: '#60716f', fontSize: 13 }}>Groupage et gros volumes selon étude spécifique.</p></div>
+          <div style={{ background: '#fff', borderRadius: 14, padding: 14 }}><MapPin size={18} /><strong> Dépôt communiqué</strong><p style={{ margin: '6px 0 0', color: '#60716f', fontSize: 13 }}>6A rue Henri François, Lot 41, 77330 Ozoir-la-Ferrière, chez AJM — à utiliser après confirmation.</p></div>
+        </div>
+        <p style={{ margin: '14px 0 0', fontSize: 12, color: '#7c5b18' }}>
+          Les délais 2–6 jours, modalités de dépôt/aéroport et 3–4 semaines maritime proviennent du message opérationnel transmis par le contact. Ils doivent être confirmés sur chaque devis avant promesse client.
+        </p>
+      </div>
 
       <div className="sectionTitle" style={{ marginTop: 30 }}>
         <h2><Route size={24} /> Scénarios logistiques</h2>
