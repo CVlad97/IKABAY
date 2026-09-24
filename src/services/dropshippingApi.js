@@ -38,3 +38,5 @@ export const createFulfillmentOrder = payload => request('/orders', {
   method: 'POST',
   body: JSON.stringify(payload)
 });
+
+export const getOrderTrace = (id, contact) => request(`/orders/${encodeURIComponent(id)}?contact=${encodeURIComponent(contact)}`);
