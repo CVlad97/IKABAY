@@ -20,6 +20,7 @@ const staticRoutes = [
   'marketplace',
   'marine',
   'showroom',
+  'suivi',
   'whatsapp',
   'studio-creatif',
 ];
