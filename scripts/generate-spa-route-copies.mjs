@@ -18,6 +18,7 @@ const staticRoutes = [
   'destockage',
   'dropshipping',
   'marketplace',
+  'marine',
   'whatsapp',
   'studio-creatif',
 ];
