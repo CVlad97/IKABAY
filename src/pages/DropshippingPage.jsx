@@ -6,7 +6,8 @@ import {
 } from '../services/dropshippingApi';
 import { waMessage } from '../utils/constants';
 
-const PUBLIC_MARGIN = 1.20;
+const IKABAY_SERVICE_RATE = 0.12;
+const IKABAY_MIN_SERVICE_USD = 3;
 const CATEGORY_QUERIES = [
   ['Maison', 'home'], ['Cuisine', 'kitchen'], ['Téléphone', 'phone'], ['Informatique', 'computer'],
   ['Mode', 'fashion'], ['Beauté', 'beauty'], ['Sport', 'sport'], ['Auto / Moto', 'car'],
@@ -118,10 +119,15 @@ export default function DropshippingPage() {
     }
   };
   const cheapestFreight = freight[0] || null;
-  const estimatedPublicPrice = useMemo(() => {
+  const priceBreakdown = useMemo(() => {
     if (!variant || !cheapestFreight) return null;
-    return (Number(variant.price || 0) + Number(cheapestFreight.price || 0)) * PUBLIC_MARGIN;
+    const supplier = Number(variant.price || 0);
+    const freightCost = Number(cheapestFreight.price || 0);
+    const subtotal = supplier + freightCost;
+    const service = Math.max(IKABAY_MIN_SERVICE_USD, subtotal * IKABAY_SERVICE_RATE);
+    return { supplier, freight: freightCost, service, total: subtotal + service };
   }, [variant, cheapestFreight]);
+  const estimatedPublicPrice = priceBreakdown?.total || null;
 
   const addCurrentToCart = () => {
     if (!detail || !variant || !estimatedPublicPrice) return;
@@ -230,12 +236,17 @@ export default function DropshippingPage() {
               </div>
               {detailMessage && <div style={{ marginTop: 12, padding: 10, borderRadius: 10, background: '#fff7ed', color: '#9a3412', fontSize: 13 }}>{detailMessage}</div>}
               <div style={{ background: '#f6f8f7', borderRadius: 14, padding: 16, marginTop: 14 }}>
-                <div style={{ fontSize: 12, color: '#60716f' }}>Estimation livrée en Martinique</div>
+                <div style={{ fontSize: 12, color: '#60716f' }}>Estimation avant taxes locales éventuelles</div>
                 <div style={{ fontSize: 26, fontWeight: 900, color: '#0a4a5c', marginTop: 3 }}>
                   {estimatedPublicPrice ? usd(estimatedPublicPrice) : 'À confirmer'}
                 </div>
-                {cheapestFreight && <div style={{ fontSize: 12, color: '#60716f', marginTop: 4 }}>Délai indicatif : {cheapestFreight.estimatedDays || 'à confirmer'} jours</div>}
-                <div style={{ fontSize: 11, color: '#73837f', marginTop: 8 }}>Prix final confirmé avant paiement, selon disponibilité, transport et taxes locales applicables.</div>
+                {priceBreakdown && <div style={{ display: 'grid', gap: 4, marginTop: 10, fontSize: 12, color: '#60716f' }}>
+                  <div>Produit fournisseur : <strong>{usd(priceBreakdown.supplier)}</strong></div>
+                  <div>Transport fournisseur : <strong>{usd(priceBreakdown.freight)}</strong></div>
+                  <div>Service IKABAY : <strong>{usd(priceBreakdown.service)}</strong> (12 %, minimum 3 USD)</div>
+                </div>}
+                {cheapestFreight && <div style={{ fontSize: 12, color: '#60716f', marginTop: 6 }}>Délai indicatif : {cheapestFreight.estimatedDays || 'à confirmer'} jours</div>}
+                <div style={{ fontSize: 11, color: '#73837f', marginTop: 8 }}>Le prix final en EUR, les taxes locales et autres frais éventuels sont confirmés avant paiement. Aucun débit automatique n’est déclenché à ce stade.</div>
               </div>
               <button className="btn btnPrimary" style={{ marginTop: 14 }} onClick={addCurrentToCart} disabled={!estimatedPublicPrice || totalStock(stock) <= 0}>
                 <ShoppingCart size={16} /> Ajouter à ma commande

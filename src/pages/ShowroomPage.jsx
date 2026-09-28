@@ -36,7 +36,7 @@ export default function ShowroomPage() {
 
     <section className="card" style={{ padding: 24, background: '#f8fafc' }}>
       <h2 style={{ marginTop: 0 }}>Traçabilité</h2>
-      <p style={{ color: '#516866', lineHeight: 1.6 }}>Le backend sait enregistrer une demande et le fournisseur sait retourner stock/fret. Le suivi public d’une commande n’est pas encore exposé par une route sécurisée : il reste donc “à confirmer” tant que cette fonction n’est pas ajoutée.</p>
+      <p style={{ color: '#516866', lineHeight: 1.6 }}>Le backend sait enregistrer une demande, vérifier le fournisseur et retourner stock/fret. Le suivi public sécurisé est maintenant disponible avec la référence IKABAY et le contact utilisé lors de la demande.</p><Link to="/suivi" className="btn btnPrimary">Suivre une demande</Link>
     </section>
   </section>;
 }
