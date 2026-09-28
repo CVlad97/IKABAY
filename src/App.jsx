@@ -1,46 +1,22 @@
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link, Navigate } from 'react-router-dom';
 import React, { Suspense, useState } from 'react';
 import { Ship, MessageCircle, Menu, X, Mail } from 'lucide-react';
 import { WHATSAPP_URL, APP_NAME, APP_EMAIL } from './utils/constants';
 import './styles.css';
-import './styles/creative-studio.css';
 
-// React.lazy page imports
 const HomePage = React.lazy(() => import('./pages/HomePage'));
 const DestockagePage = React.lazy(() => import('./pages/DestockagePage'));
-const SourcingPage = React.lazy(() => import('./pages/SourcingPage'));
-const FournisseursPage = React.lazy(() => import('./pages/FournisseursPage'));
-const DevisPage = React.lazy(() => import('./pages/DevisPage'));
-const RfqPage = React.lazy(() => import('./pages/RfqPage'));
-const TransportPage = React.lazy(() => import('./pages/TransportPage'));
-const MarinePage = React.lazy(() => import('./pages/MarinePage'));
-const ShowroomPage = React.lazy(() => import('./pages/ShowroomPage'));
-const TrackingPage = React.lazy(() => import('./pages/TrackingPage'));
 const DropshippingPage = React.lazy(() => import('./pages/DropshippingPage'));
-const WhatsAppPage = React.lazy(() => import('./pages/WhatsAppPage'));
 const ContactPage = React.lazy(() => import('./pages/ContactPage'));
-const PartnersPage = React.lazy(() => import('./pages/PartnersPage'));
-const CreativeStudioPage = React.lazy(() => import('./pages/CreativeStudioPage'));
-import CataloguePage from './pages/CataloguePage';
-const ProductDetailPage = React.lazy(() => import('./pages/ProductDetailPage'));
 const OrderConfirmPage = React.lazy(() => import('./pages/OrderConfirmPage'));
 const LegalPage = React.lazy(() => import('./pages/LegalPage'));
 
 function Layout({ children }) {
   const [menuOpen, setMenuOpen] = useState(false);
-
   const navLinks = [
     { to: '/', label: 'Accueil' },
-    { to: '/catalogue', label: 'Catalogue' },
-    { to: '/marketplace', label: 'Marketplace' },
-    { to: '/marine', label: 'Marine' },
-    { to: '/showroom', label: 'Showroom' },
-    { to: '/suivi', label: 'Suivi' },
-    { to: '/sourcing', label: 'Sourcing' },
-    { to: '/studio-creatif', label: 'Studio créatif' },
-    { to: '/devis', label: 'Devis' },
-    { to: '/transport', label: 'Transport' },
-    { to: '/partenaires', label: 'Partenaires' },
+    { to: '/destockage', label: 'Stock local' },
+    { to: '/marketplace', label: 'Boutique' },
     { to: '/contact', label: 'Contact' },
   ];
 
@@ -49,70 +25,38 @@ function Layout({ children }) {
       <nav className="navbar">
         <div className="navInner">
           <Link to="/" className="logo" onClick={() => setMenuOpen(false)}>
-            <Ship size={28} />
-            <span>Ikabay Sourcing</span>
+            <Ship size={28} /><span>IKABAY</span>
           </Link>
-
           <button
             className="hamburger"
-            onClick={() => setMenuOpen((prev) => !prev)}
+            onClick={() => setMenuOpen((open) => !open)}
             aria-label={menuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
             aria-expanded={menuOpen}
           >
             {menuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
-
           <div className={`navLinks${menuOpen ? ' open' : ''}`}>
             {navLinks.map((link) => (
-              <Link
-                key={link.to}
-                to={link.to}
-                className="navLink"
-                onClick={() => setMenuOpen(false)}
-              >
+              <Link key={link.to} to={link.to} className="navLink" onClick={() => setMenuOpen(false)}>
                 {link.label}
               </Link>
             ))}
           </div>
         </div>
       </nav>
-
-      <main className="appMain">
-        {children}
-      </main>
-
+      <main className="appMain">{children}</main>
       <footer className="footer">
         <div className="footerInner">
-          <div className="footerBrand">
-            <Ship size={20} />
-            <span>{APP_NAME}</span>
-          </div>
+          <div className="footerBrand"><Ship size={20} /><span>{APP_NAME}</span></div>
           <div className="footerLinks">
-            <a href={`mailto:${APP_EMAIL}`} className="footerLink">
-              <Mail size={16} /> {APP_EMAIL}
-            </a>
-            <a
-              href={WHATSAPP_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="footerLink"
-            >
-              <MessageCircle size={16} /> WhatsApp
-            </a>
+            <a href={`mailto:${APP_EMAIL}`} className="footerLink"><Mail size={16} /> {APP_EMAIL}</a>
+            <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="footerLink"><MessageCircle size={16} /> WhatsApp</a>
+            <Link to="/legal" className="footerLink">Mentions légales</Link>
           </div>
-          <p className="footerCopy">
-            &copy; {new Date().getFullYear()} {APP_NAME}. Tous droits réservés.
-          </p>
+          <p className="footerCopy">&copy; {new Date().getFullYear()} {APP_NAME}. Tous droits réservés.</p>
         </div>
       </footer>
-
-      <a
-        href={WHATSAPP_URL}
-        target="_blank"
-        rel="noreferrer"
-        className="waFloating"
-        aria-label="Contactez-nous sur WhatsApp"
-      >
+      <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="waFloating" aria-label="Contactez-nous sur WhatsApp">
         <MessageCircle size={28} />
       </a>
     </>
@@ -120,27 +64,19 @@ function Layout({ children }) {
 }
 
 function LoadingFallback() {
-  return (
-    <div className="loading">
-      <Ship size={32} className="loadingSpin" />
-      <p>Chargement…</p>
-    </div>
-  );
+  return <div className="loading"><Ship size={32} className="loadingSpin" /><p>Chargement…</p></div>;
 }
 
 function NotFoundPage() {
   return (
     <section className="pageSection" style={{ textAlign: 'center', paddingTop: 80, paddingBottom: 100 }}>
       <div className="badge" style={{ marginBottom: 14 }}>Page introuvable</div>
-      <h1>Cette page n’existe pas encore</h1>
-      <p style={{ color: '#516866', maxWidth: 620, margin: '0 auto 22px' }}>
-        Retournez à l’accueil Ikabay Sourcing ou utilisez le menu pour accéder au déstockage, RFQ, devis et suivi transport.
-      </p>
+      <h1>Cette page n’est pas disponible</h1>
+      <p style={{ color: '#516866', maxWidth: 620, margin: '0 auto 22px' }}>Utilisez le menu pour revenir à la boutique IKABAY.</p>
       <Link to="/" className="btn btnPrimary">Retour accueil</Link>
     </section>
   );
 }
-
 export { Layout };
 
 export default function App() {
@@ -151,24 +87,12 @@ export default function App() {
         <Suspense fallback={<LoadingFallback />}>
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/catalogue" element={<CataloguePage />} />
-            <Route path="/produit/:id" element={<ProductDetailPage />} />
-            <Route path="/commande-confirmee" element={<OrderConfirmPage />} />
             <Route path="/destockage" element={<DestockagePage />} />
-            <Route path="/sourcing" element={<SourcingPage />} />
-            <Route path="/fournisseurs" element={<FournisseursPage />} />
-            <Route path="/partenaires" element={<PartnersPage />} />
-            <Route path="/studio-creatif" element={<CreativeStudioPage />} />
-            <Route path="/devis" element={<DevisPage />} />
-            <Route path="/rfq" element={<RfqPage />} />
-            <Route path="/transport" element={<TransportPage />} />
-            <Route path="/marine" element={<MarinePage />} />
-            <Route path="/showroom" element={<ShowroomPage />} />
-            <Route path="/suivi" element={<TrackingPage />} />
-            <Route path="/dropshipping" element={<DropshippingPage />} />
             <Route path="/marketplace" element={<DropshippingPage />} />
-            <Route path="/whatsapp" element={<WhatsAppPage />} />
+            <Route path="/catalogue" element={<Navigate to="/marketplace" replace />} />
+            <Route path="/dropshipping" element={<Navigate to="/marketplace" replace />} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route path="/commande-confirmee" element={<OrderConfirmPage />} />
             <Route path="/legal" element={<LegalPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
