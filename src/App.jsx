@@ -8,6 +8,10 @@ const HomePage = React.lazy(() => import('./pages/HomePage'));
 const DestockagePage = React.lazy(() => import('./pages/DestockagePage'));
 const DropshippingPage = React.lazy(() => import('./pages/DropshippingPage'));
 const ContactPage = React.lazy(() => import('./pages/ContactPage'));
+const MarinePage = React.lazy(() => import('./pages/MarinePage'));
+const ShowroomPage = React.lazy(() => import('./pages/ShowroomPage'));
+const TrackingPage = React.lazy(() => import('./pages/TrackingPage'));
+const TransportPage = React.lazy(() => import('./pages/TransportPage'));
 const OrderConfirmPage = React.lazy(() => import('./pages/OrderConfirmPage'));
 const LegalPage = React.lazy(() => import('./pages/LegalPage'));
 
@@ -17,6 +21,9 @@ function Layout({ children }) {
     { to: '/', label: 'Accueil' },
     { to: '/destockage', label: 'Stock local' },
     { to: '/marketplace', label: 'Boutique' },
+    { to: '/showroom', label: 'Showroom' },
+    { to: '/marine', label: 'Marine' },
+    { to: '/suivi', label: 'Suivi' },
     { to: '/contact', label: 'Contact' },
   ];
 
@@ -91,6 +98,10 @@ export default function App() {
             <Route path="/marketplace" element={<DropshippingPage />} />
             <Route path="/catalogue" element={<Navigate to="/marketplace" replace />} />
             <Route path="/dropshipping" element={<Navigate to="/marketplace" replace />} />
+            <Route path="/showroom" element={<ShowroomPage />} />
+            <Route path="/marine" element={<MarinePage />} />
+            <Route path="/suivi" element={<TrackingPage />} />
+            <Route path="/transport" element={<TransportPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/commande-confirmee" element={<OrderConfirmPage />} />
             <Route path="/legal" element={<LegalPage />} />
