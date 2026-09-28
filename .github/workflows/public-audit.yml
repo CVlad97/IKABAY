@@ -1,0 +1,35 @@
+name: IKABAY public auto-audit
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 10 * * *'
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Audit public routes
+        run: |
+          set -euo pipefail
+          base='https://ikabay.store'
+          for route in / /marketplace /destockage /showroom /marine /suivi /transport /contact; do
+            code="$(curl --silent --show-error --location --retry 3 --retry-all-errors -o /tmp/page -w '%{http_code}' "$base$route")"
+            echo "$route -> $code"
+            test "$code" = '200'
+            grep -q 'id="root"' /tmp/page
+          done
+      - name: Audit backend health
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error https://api.ikabay.store/health | tee /tmp/health.json
+          grep -q '"ok":true' /tmp/health.json
+      - name: Audit supplier bridge
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error https://api.ikabay.store/providers | tee /tmp/providers.json
+          grep -q '"id":"cj"' /tmp/providers.json
+          grep -q '"status":"configured"' /tmp/providers.json
