@@ -3,6 +3,10 @@ import { Anchor, CheckCircle, Globe2, MessageCircle, Package, Search, ShoppingCa
 import { localStockProducts } from '../data/localStock';
 import { waMessage } from '../utils/constants';
 
+const HOME_CATEGORIES = [
+  ['📱','Téléphone'], ['🏠','Maison'], ['🍳','Cuisine'], ['✨','Beauté'], ['🏋️','Sport'], ['🚗','Auto / Moto'], ['🌴','Jardin'], ['🧳','Voyage'], ['🐾','Animaux'], ['👶','Bébé'], ['⚓','Marine'], ['💻','Bureau'],
+];
+
 const euro = (value) => new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(value);
 
 export default function HomePage() {
@@ -12,16 +16,32 @@ export default function HomePage() {
     <>
       <section className="hero">
         <div className="badge"><Anchor size={14} /> IKABAY Martinique</div>
-        <h1>Produits disponibles localement<br />ou commandés à l’international</h1>
+        <h1>Votre marketplace Martinique & Caraïbes<br />du stock local au sourcing international</h1>
         <p style={{ maxWidth: 760 }}>
-          Achetez dans notre stock nautique local ou recherchez un produit dans notre boutique internationale.
-          Disponibilité, livraison et prix final sont confirmés avant paiement.
+          Recherchez parmi plusieurs univers : maison, téléphone, cuisine, beauté, sport, auto, voyage, marine et plus encore. Le stock local, le catalogue fournisseur, le reconditionné et le sourcing sont clairement séparés. Disponibilité, livraison et prix final sont confirmés avant paiement.
         </p>
         <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 20 }}>
           <Link className="btn btnPrimary" to="/destockage"><Package size={17} /> Voir le stock local</Link>
           <Link className="btn btnSecondary" to="/marketplace"><Search size={17} /> Rechercher un produit</Link>
         </div>
       </section>
+
+      <section className="pageSection" style={{ paddingTop: 16 }}>
+        <div className="sectionTitle"><h2>Explorer les univers IKABAY</h2><p>Un point d’entrée multi-catégories ; les références fournisseur sont vérifiées avant commande.</p></div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(135px, 1fr))', gap: 10 }}>
+          {HOME_CATEGORIES.map(([emoji, label]) => (
+            <Link key={label} to="/marketplace" className="card" style={{ textDecoration: 'none', color: 'inherit', padding: 14, display: 'flex', alignItems: 'center', gap: 9 }}>
+              <span style={{ fontSize: 25 }}>{emoji}</span><strong style={{ fontSize: 13 }}>{label}</strong>
+            </Link>
+          ))}
+        </div>
+        <div style={{ display: 'flex', gap: 9, flexWrap: 'wrap', marginTop: 14 }}>
+          <Link className="btn btnSecondary" to="/showroom">Showroom & reconditionné</Link>
+          <Link className="btn btnSecondary" to="/marine">IKABAY Marine</Link>
+          <Link className="btn btnSecondary" to="/suivi">Suivre une demande</Link>
+        </div>
+      </section>
+
       <section className="pageSection">
         <div className="sectionTitle">
           <h2>Disponible en Martinique</h2>
