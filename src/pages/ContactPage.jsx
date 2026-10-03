@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import {
   Mail, MessageCircle, Phone, MapPin, Clock,
-  ChevronDown, ChevronUp, Send, ArrowRight, CheckCircle, AlertCircle
+  ChevronDown, ChevronUp, Send, ArrowRight, CheckCircle, AlertCircle, HelpCircle
 } from 'lucide-react';
 import { WHATSAPP_URL, APP_NAME, APP_EMAIL, waMessage } from '../utils/constants';
 import { supabase, hasSupabaseConfig } from '../lib/supabase';
