@@ -14,6 +14,7 @@ const TrackingPage = React.lazy(() => import('./pages/TrackingPage'));
 const TransportPage = React.lazy(() => import('./pages/TransportPage'));
 const OrderConfirmPage = React.lazy(() => import('./pages/OrderConfirmPage'));
 const LegalPage = React.lazy(() => import('./pages/LegalPage'));
+const PartnershipPage = React.lazy(() => import('./pages/PartnershipPage'));
 
 function Layout({ children }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -59,6 +60,7 @@ function Layout({ children }) {
             <a href={`mailto:${APP_EMAIL}`} className="footerLink"><Mail size={16} /> {APP_EMAIL}</a>
             <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="footerLink"><MessageCircle size={16} /> WhatsApp</a>
             <Link to="/legal" className="footerLink">Mentions légales</Link>
+            <Link to="/partenariat" className="footerLink">Partenariat</Link>
           </div>
           <p className="footerCopy">&copy; {new Date().getFullYear()} {APP_NAME}. Tous droits réservés.</p>
         </div>
@@ -105,6 +107,7 @@ export default function App() {
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/commande-confirmee" element={<OrderConfirmPage />} />
             <Route path="/legal" element={<LegalPage />} />
+            <Route path="/partenariat" element={<PartnershipPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Suspense>

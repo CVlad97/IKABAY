@@ -15,6 +15,7 @@ const routes = [
   'marine',
   'contact',
   'legal',
+  'partenariat',
   'commande-confirmee',
 ];
 
