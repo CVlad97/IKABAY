@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "project": "IKABAY",
+  "description": "Approved discovery list only. Providers disabled until policy, credentials, cost and data checks are confirmed.",
+  "providers": [
+    {
+      "id": "shopify",
+      "status": "candidate_unverified",
+      "enabled": false,
+      "data_policy": "no_customer_data",
+      "use_case": "Sourcing et catalogue e-commerce à connecter sous validation marchand",
+      "docs": "https://shopify.dev/docs/api"
+    },
+    {
+      "id": "frankfurter",
+      "status": "candidate_unverified",
+      "enabled": false,
+      "data_policy": "no_customer_data",
+      "use_case": "Conversion indicative de devises pour devis de sourcing",
+      "docs": "https://www.frankfurter.app/docs/"
+    },
+    {
+      "id": "github",
+      "status": "candidate_unverified",
+      "enabled": false,
+      "data_policy": "no_customer_data",
+      "use_case": "Veille des évolutions des projets open source",
+      "docs": "https://docs.github.com/en/rest"
+    }
+  ]
+}

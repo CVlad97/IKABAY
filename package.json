@@ -8,7 +8,10 @@
     "dev": "vite",
     "build": "vite build && node scripts/generate-spa-route-copies.mjs && touch dist/.nojekyll",
     "preview": "vite preview",
-    "vercel-build": "npm run build"
+    "vercel-build": "npm run build",
+    "api:catalog": "node scripts/public-api-bridge.mjs list",
+    "api:audit": "node scripts/public-api-bridge.mjs audit",
+    "api:test": "node --test tests/public-api-bridge.test.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "latest",

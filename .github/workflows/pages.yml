@@ -29,6 +29,9 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Public API catalog security audit
+        run: npm run api:audit && npm run api:test
+
       - name: Build
         run: npm run build
         env:
